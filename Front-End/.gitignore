@@ -1,5 +1,5 @@
 # aux
-.zip
+*.zip
 
 # compiled sources
-.beam
+*.beam
