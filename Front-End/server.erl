@@ -150,7 +150,7 @@ handle_login(CS, LM) ->
     {logged_in, LM} ->
       %%SS = connect_to_back_end(),
       gen_tcp:send(CS, "Welcome.\r\n"),
-      client_autenticated(CS, dummy)
+      client_autenticated(CS, dummy, LM)
   end.
 
 %%
@@ -165,7 +165,7 @@ handle_create(CS, LM) ->
     {user_created, LM} ->
       gen_tcp:send(CS, "Welcome.\r\n"),
       %%SS = connect_to_back_end(),
-      client_autenticated(CS, dummy)
+      client_autenticated(CS, dummy, LM)
   end.
 
 %%
@@ -196,18 +196,48 @@ read(Socket) ->
   end.
 
 %%
-%% funcao que codifica o comportamente de um client ligado
+%% Mantida para ja, para testes.
 %%
-%% ideia basica, depois de validado o ator simplesmente 
-%% receve pedidos do client e envia para o back end para 
-%% ser processado, com isto, precisa de 2 sockets.
-%% Um para o client que faz pedidos e um para a ligacao ao 
-%% backend para enviar informacao. 
-%%
-client_autenticated(CS, SS) ->
+client_autenticated(CS, SS, LM) ->
   gen_tcp:send(CS, "You are autenticated\r\n"),
-  true.
+  client_loop(CS, SS, LM).
 
+
+%%
+%% loop basico de um client ligado
+%% recebe pedidos que sao enviados 
+%% ao back end server
+%%
+%% CS - Client Socket
+%% SS - Server Socket
+%% LM - Login Manager
+%% (LM mantido para ja caso queira manter opcao
+%% de diconnect)
+%%
+client_loop(CS, SS, LM) ->
+  case read(CS) of
+    closed -> 
+      io:format("[Client] Closed~n", [ ]),
+      closed;
+    error ->
+      io:format("[Client] Error~n", [ ]),
+      error;
+    Request ->
+      io:format("[Client] Request Sent~n", [ ]),
+      gen_tcp:send(SS, Request),
+      case read(SS) of
+        closed ->
+          io:format("[Client] Closed~n", [ ]),
+          closed;
+        error ->
+          io:format("[Client] Error~n", [ ]),
+          error;
+        Reply ->
+          io:format("[Client] Reply Received~n", [ ]),
+          gen_tcp:send(CS, Reply),
+          client_loop(CS, SS, LM)
+      end
+  end.
 
 
 
