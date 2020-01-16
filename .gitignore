@@ -4,6 +4,9 @@
 # compiled sources
 *.beam
 
+# erlang dump files
+*.dump
+
 # vim swap files
 *.swp
 *~
