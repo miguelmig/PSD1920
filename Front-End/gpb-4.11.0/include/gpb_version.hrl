@@ -1,10 +1,10 @@
 -ifndef(gpb_version_hrl).
 -define(gpb_version_hrl, true).
 
-%% The version below is expected to be substituted
+%% DO NOT EDIT -- generated from gpb_version.hrl.in
+%% The version below was substituted
 %% at build-time, see the rebar.config or the Makefile
-%% NB: The build/mk_version_hrl depends on the exact wording
 
--define(gpb_version, "@vsn@").
+-define(gpb_version, "4.11.0").
 
 -endif. %% gpb_version_hrl
