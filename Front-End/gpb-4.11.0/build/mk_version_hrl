@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+# This script was turned into a no-op during extraction from
+# the gpb git repo by export-from-git
+
+cat
