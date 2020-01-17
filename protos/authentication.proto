@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ authentication.proto
+*/
+
+package authentication;
+
+option java_package = "protos.authentication";
+
+
+enum ClientType {
+    IMPORTER = 0;
+    MANUFACTURER = 1;
+}
+
+enum AuthenticationRequestType {
+    REGISTER = 0;
+    LOGIN = 1;
+    LOGOUT = 2;
+}
+
+
+message AuthenticationRequest {
+    required AuthenticationRequestType authType = 1;
+
+    required ClientType clientType = 2;
+    required string username = 3;
+    required string password = 4;
+}
