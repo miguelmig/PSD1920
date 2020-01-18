@@ -24,7 +24,6 @@ enum AuthenticationRequestType {
 
 message AuthenticationRequest {
     required AuthenticationRequestType authType = 1;
-
     required ClientType clientType = 2;
     required string username = 3;
     required string password = 4;
