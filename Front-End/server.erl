@@ -72,7 +72,6 @@ login_manager(M) ->
       case maps:is_key(Login, M) of 
         true ->
           io:format("[Front-end] Unsucessfull creation, user already exists~n", []),
-          io:format("Sending response~n", []),
           From ! {user_exists, self()},
           login_manager(M);
         false ->
@@ -137,12 +136,6 @@ atempt(CS, Mode, CType, Login, PW, LM) ->
       handle_create(CS, CType, Login, PW, LM)
   end.
 
-
-%%
-%% Definir mensagens de resposta
-%% 
-
-
 %%
 %% funcao que lida com as mensagens de resposta do LM
 %% quando se tentar autenticar um utlizador
@@ -155,16 +148,16 @@ handle_login(CS, CType, Login, PW, LM) ->
   receive
     {user_not_exist, LM} ->
       Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_NOT_EXISTS'}),
-      gen_tcp:send(CS, Msg),
+      gen_tcp:send(CS, msg_creation(Msg)),
       client_non_autenticated(CS, LM);
     {wrong_wp, LM} ->
       Msg = autresponse:encode_msg(#'AutResponse'{autResType='WRONG_PW'}),
-      gen_tcp:send(CS, Msg),
+      gen_tcp:send(CS, msg_creation(Msg)),
       client_non_autenticated(CS, LM);
     {logged_in, LM} ->
       Msg = autresponse:encode_msg(#'AutResponse'{autResType='LOGGED_IN'}),
+      gen_tcp:send(CS, msg_creation(Msg)),
       %%SS = connect_to_back_end(),
-      gen_tcp:send(CS, Msg),
       client_autenticated(CS, dummy, LM)
   end.
 
@@ -177,22 +170,25 @@ handle_create(CS, CType, Login, PW, LM) ->
   receive
     {user_exists, LM} ->
       Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_EXISTS'}),
-      gen_tcp:send(CS, Msg),
+      gen_tcp:send(CS, msg_creation(Msg)),
       client_non_autenticated(CS, LM);
     {user_created, LM} ->
       Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_CREATED'}),
-      gen_tcp:send(CS, Msg),
-      %%SS = connect_to_back_end(),
+      gen_tcp:send(CS, msg_creation(Msg)),
+      %%SS = connect_to_back_end(Type),
       client_autenticated(CS, dummy, LM)
   end.
 
-
 %%
-%% definir estrategia para determinar logout
+%% funcao utilitaria para apender a mensagem o necessario 
+%% para enviar ao  cliente
 %%
-handle_logout() ->
-  true.
-
+%% Mgs - a mensagem a ser enviada
+%%
+msg_creation(Msg) ->
+  Len = erlang:byte_size(Msg),
+  LenBin = <<Len:32/little>>,
+  [LenBin | Msg].
 
 %%
 %% funcao para ligar um ator aos servidores de back end
@@ -209,7 +205,8 @@ connect_to_back_end(Host, Port) ->
   SS.
 
 connect_to_back_end(Type) ->
-  true.
+  {ok, SS} = gen_tcp:connecT(?HOST, ?PORT, ),
+  SS.
 
 
 
@@ -230,7 +227,6 @@ read(Socket) ->
 %% Mantida para ja, para testes.
 %%
 client_autenticated(CS, SS, LM) ->
-  gen_tcp:send(CS, "You are autenticated\r\n"),
   client_loop(CS, SS, LM).
 
 

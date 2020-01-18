@@ -31,7 +31,7 @@ public class Client {
             return;
         }
 
-        Socket socket = new Socket("localhost", 13000);
+        Socket socket = new Socket("localhost", 13001);
 
         cis = CodedInputStream.newInstance(socket.getInputStream());
         cos = CodedOutputStream.newInstance(socket.getOutputStream());
@@ -80,8 +80,9 @@ public class Client {
     public static AuthenticationReply.AutResponse readAuthenticationReply()
             throws IOException {
 
-        //System.out.println(Arrays.toString(cis.readByteArray()));
-        return AuthenticationReply.AutResponse.parseFrom(cis.readByteArray());
+        int len = cis.readRawLittleEndian32();
+        return AuthenticationReply.AutResponse.parseFrom(cis.readRawBytes(len));
+
     }
 
     public static Authentication.ClientType getClientType() {

@@ -24,29 +24,29 @@ public final class AuthenticationReply {
      * referentes a login
      * </pre>
      *
-     * <code>USER_NOT_EXISTS = 1;</code>
+     * <code>USER_NOT_EXISTS = 0;</code>
      */
-    USER_NOT_EXISTS(1),
+    USER_NOT_EXISTS(0),
     /**
-     * <code>WRONG_PW = 2;</code>
+     * <code>WRONG_PW = 1;</code>
      */
-    WRONG_PW(2),
+    WRONG_PW(1),
     /**
-     * <code>LOGGED_IN = 3;</code>
+     * <code>LOGGED_IN = 2;</code>
      */
-    LOGGED_IN(3),
+    LOGGED_IN(2),
     /**
      * <pre>
      * referentes a criacao de conta
      * </pre>
      *
-     * <code>USER_EXISTS = 4;</code>
+     * <code>USER_EXISTS = 3;</code>
      */
-    USER_EXISTS(4),
+    USER_EXISTS(3),
     /**
-     * <code>USER_CREATED = 5;</code>
+     * <code>USER_CREATED = 4;</code>
      */
-    USER_CREATED(5),
+    USER_CREATED(4),
     ;
 
     /**
@@ -54,29 +54,29 @@ public final class AuthenticationReply {
      * referentes a login
      * </pre>
      *
-     * <code>USER_NOT_EXISTS = 1;</code>
+     * <code>USER_NOT_EXISTS = 0;</code>
      */
-    public static final int USER_NOT_EXISTS_VALUE = 1;
+    public static final int USER_NOT_EXISTS_VALUE = 0;
     /**
-     * <code>WRONG_PW = 2;</code>
+     * <code>WRONG_PW = 1;</code>
      */
-    public static final int WRONG_PW_VALUE = 2;
+    public static final int WRONG_PW_VALUE = 1;
     /**
-     * <code>LOGGED_IN = 3;</code>
+     * <code>LOGGED_IN = 2;</code>
      */
-    public static final int LOGGED_IN_VALUE = 3;
+    public static final int LOGGED_IN_VALUE = 2;
     /**
      * <pre>
      * referentes a criacao de conta
      * </pre>
      *
-     * <code>USER_EXISTS = 4;</code>
+     * <code>USER_EXISTS = 3;</code>
      */
-    public static final int USER_EXISTS_VALUE = 4;
+    public static final int USER_EXISTS_VALUE = 3;
     /**
-     * <code>USER_CREATED = 5;</code>
+     * <code>USER_CREATED = 4;</code>
      */
-    public static final int USER_CREATED_VALUE = 5;
+    public static final int USER_CREATED_VALUE = 4;
 
 
     public final int getNumber() {
@@ -99,11 +99,11 @@ public final class AuthenticationReply {
      */
     public static AutResponseType forNumber(int value) {
       switch (value) {
-        case 1: return USER_NOT_EXISTS;
-        case 2: return WRONG_PW;
-        case 3: return LOGGED_IN;
-        case 4: return USER_EXISTS;
-        case 5: return USER_CREATED;
+        case 0: return USER_NOT_EXISTS;
+        case 1: return WRONG_PW;
+        case 2: return LOGGED_IN;
+        case 3: return USER_EXISTS;
+        case 4: return USER_CREATED;
         default: return null;
       }
     }
@@ -181,7 +181,7 @@ public final class AuthenticationReply {
       super(builder);
     }
     private AutResponse() {
-      autResType_ = 1;
+      autResType_ = 0;
     }
 
     @java.lang.Override
@@ -480,7 +480,7 @@ public final class AuthenticationReply {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        autResType_ = 1;
+        autResType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -599,7 +599,7 @@ public final class AuthenticationReply {
       }
       private int bitField0_;
 
-      private int autResType_ = 1;
+      private int autResType_ = 0;
       /**
        * <code>required .authentication.AutResponseType autResType = 1;</code>
        * @return Whether the autResType field is set.
@@ -636,7 +636,7 @@ public final class AuthenticationReply {
        */
       public Builder clearAutResType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        autResType_ = 1;
+        autResType_ = 0;
         onChanged();
         return this;
       }
@@ -710,9 +710,9 @@ public final class AuthenticationReply {
       "\n\021autresponse.proto\022\016authentication\"B\n\013A" +
       "utResponse\0223\n\nautResType\030\001 \002(\0162\037.authent" +
       "ication.AutResponseType*f\n\017AutResponseTy" +
-      "pe\022\023\n\017USER_NOT_EXISTS\020\001\022\014\n\010WRONG_PW\020\002\022\r\n" +
-      "\tLOGGED_IN\020\003\022\017\n\013USER_EXISTS\020\004\022\020\n\014USER_CR" +
-      "EATED\020\005B,\n\025protos.authenticationB\023Authen" +
+      "pe\022\023\n\017USER_NOT_EXISTS\020\000\022\014\n\010WRONG_PW\020\001\022\r\n" +
+      "\tLOGGED_IN\020\002\022\017\n\013USER_EXISTS\020\003\022\020\n\014USER_CR" +
+      "EATED\020\004B,\n\025protos.authenticationB\023Authen" +
       "ticationReply"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor

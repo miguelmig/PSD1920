@@ -95,17 +95,17 @@ encode_msg_AutResponse(#'AutResponse'{autResType = F1},
 
 e_enum_AutResponseType('USER_NOT_EXISTS', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 1>>;
+    <<Bin/binary, 0>>;
 e_enum_AutResponseType('WRONG_PW', Bin, _TrUserData) ->
-    <<Bin/binary, 2>>;
+    <<Bin/binary, 1>>;
 e_enum_AutResponseType('LOGGED_IN', Bin, _TrUserData) ->
-    <<Bin/binary, 3>>;
+    <<Bin/binary, 2>>;
 e_enum_AutResponseType('USER_EXISTS', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 4>>;
+    <<Bin/binary, 3>>;
 e_enum_AutResponseType('USER_CREATED', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 5>>;
+    <<Bin/binary, 4>>;
 e_enum_AutResponseType(V, Bin, _TrUserData) ->
     e_varint(V, Bin).
 
@@ -330,11 +330,11 @@ skip_64_AutResponse(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
     dfp_read_field_def_AutResponse(Rest, Z1, Z2, F@_1,
 				   TrUserData).
 
-d_enum_AutResponseType(1) -> 'USER_NOT_EXISTS';
-d_enum_AutResponseType(2) -> 'WRONG_PW';
-d_enum_AutResponseType(3) -> 'LOGGED_IN';
-d_enum_AutResponseType(4) -> 'USER_EXISTS';
-d_enum_AutResponseType(5) -> 'USER_CREATED';
+d_enum_AutResponseType(0) -> 'USER_NOT_EXISTS';
+d_enum_AutResponseType(1) -> 'WRONG_PW';
+d_enum_AutResponseType(2) -> 'LOGGED_IN';
+d_enum_AutResponseType(3) -> 'USER_EXISTS';
+d_enum_AutResponseType(4) -> 'USER_CREATED';
 d_enum_AutResponseType(V) -> V.
 
 read_group(Bin, FieldNum) ->
@@ -530,9 +530,9 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 
 get_msg_defs() ->
     [{{enum, 'AutResponseType'},
-      [{'USER_NOT_EXISTS', 1}, {'WRONG_PW', 2},
-       {'LOGGED_IN', 3}, {'USER_EXISTS', 4},
-       {'USER_CREATED', 5}]},
+      [{'USER_NOT_EXISTS', 0}, {'WRONG_PW', 1},
+       {'LOGGED_IN', 2}, {'USER_EXISTS', 3},
+       {'USER_CREATED', 4}]},
      {{msg, 'AutResponse'},
       [#field{name = autResType, fnum = 1, rnum = 2,
 	      type = {enum, 'AutResponseType'}, occurrence = required,
@@ -573,9 +573,9 @@ find_msg_def(_) -> error.
 
 
 find_enum_def('AutResponseType') ->
-    [{'USER_NOT_EXISTS', 1}, {'WRONG_PW', 2},
-     {'LOGGED_IN', 3}, {'USER_EXISTS', 4},
-     {'USER_CREATED', 5}];
+    [{'USER_NOT_EXISTS', 0}, {'WRONG_PW', 1},
+     {'LOGGED_IN', 2}, {'USER_EXISTS', 3},
+     {'USER_CREATED', 4}];
 find_enum_def(_) -> error.
 
 
@@ -587,24 +587,24 @@ enum_value_by_symbol('AutResponseType', Sym) ->
     enum_value_by_symbol_AutResponseType(Sym).
 
 
-enum_symbol_by_value_AutResponseType(1) ->
+enum_symbol_by_value_AutResponseType(0) ->
     'USER_NOT_EXISTS';
-enum_symbol_by_value_AutResponseType(2) -> 'WRONG_PW';
-enum_symbol_by_value_AutResponseType(3) -> 'LOGGED_IN';
-enum_symbol_by_value_AutResponseType(4) ->
+enum_symbol_by_value_AutResponseType(1) -> 'WRONG_PW';
+enum_symbol_by_value_AutResponseType(2) -> 'LOGGED_IN';
+enum_symbol_by_value_AutResponseType(3) ->
     'USER_EXISTS';
-enum_symbol_by_value_AutResponseType(5) ->
+enum_symbol_by_value_AutResponseType(4) ->
     'USER_CREATED'.
 
 
 enum_value_by_symbol_AutResponseType('USER_NOT_EXISTS') ->
-    1;
-enum_value_by_symbol_AutResponseType('WRONG_PW') -> 2;
-enum_value_by_symbol_AutResponseType('LOGGED_IN') -> 3;
+    0;
+enum_value_by_symbol_AutResponseType('WRONG_PW') -> 1;
+enum_value_by_symbol_AutResponseType('LOGGED_IN') -> 2;
 enum_value_by_symbol_AutResponseType('USER_EXISTS') ->
-    4;
+    3;
 enum_value_by_symbol_AutResponseType('USER_CREATED') ->
-    5.
+    4.
 
 
 get_service_names() -> [].
