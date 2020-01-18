@@ -10,7 +10,7 @@
 -ifndef('AUTHENTICATIONREQUEST_PB_H').
 -define('AUTHENTICATIONREQUEST_PB_H', true).
 -record('AuthenticationRequest',
-        {authType               :: 'REGISTER' | 'LOGIN' | 'LOGOUT' | integer(), % = 1, enum AuthenticationRequestType
+        {authType               :: 'REGISTER' | 'LOGIN' | integer(), % = 1, enum AuthenticationRequestType
          clientType             :: 'IMPORTER' | 'MANUFACTURER' | integer(), % = 2, enum ClientType
          username               :: iodata(),        % = 3
          password               :: iodata()         % = 4

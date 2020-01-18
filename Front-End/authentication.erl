@@ -51,7 +51,7 @@
 
 %% enumerated types
 -type 'ClientType'() :: 'IMPORTER' | 'MANUFACTURER'.
--type 'AuthenticationRequestType'() :: 'REGISTER' | 'LOGIN' | 'LOGOUT'.
+-type 'AuthenticationRequestType'() :: 'REGISTER' | 'LOGIN'.
 -export_type(['ClientType'/0, 'AuthenticationRequestType'/0]).
 
 %% message types
@@ -125,9 +125,6 @@ e_enum_AuthenticationRequestType('REGISTER', Bin,
 e_enum_AuthenticationRequestType('LOGIN', Bin,
 				 _TrUserData) ->
     <<Bin/binary, 1>>;
-e_enum_AuthenticationRequestType('LOGOUT', Bin,
-				 _TrUserData) ->
-    <<Bin/binary, 2>>;
 e_enum_AuthenticationRequestType(V, Bin, _TrUserData) ->
     e_varint(V, Bin).
 
@@ -503,7 +500,6 @@ d_enum_ClientType(V) -> V.
 
 d_enum_AuthenticationRequestType(0) -> 'REGISTER';
 d_enum_AuthenticationRequestType(1) -> 'LOGIN';
-d_enum_AuthenticationRequestType(2) -> 'LOGOUT';
 d_enum_AuthenticationRequestType(V) -> V.
 
 read_group(Bin, FieldNum) ->
@@ -653,9 +649,6 @@ v_enum_AuthenticationRequestType('REGISTER', _Path,
 v_enum_AuthenticationRequestType('LOGIN', _Path,
 				 _TrUserData) ->
     ok;
-v_enum_AuthenticationRequestType('LOGOUT', _Path,
-				 _TrUserData) ->
-    ok;
 v_enum_AuthenticationRequestType(V, Path, TrUserData)
     when is_integer(V) ->
     v_type_sint32(V, Path, TrUserData);
@@ -738,7 +731,7 @@ get_msg_defs() ->
     [{{enum, 'ClientType'},
       [{'IMPORTER', 0}, {'MANUFACTURER', 1}]},
      {{enum, 'AuthenticationRequestType'},
-      [{'REGISTER', 0}, {'LOGIN', 1}, {'LOGOUT', 2}]},
+      [{'REGISTER', 0}, {'LOGIN', 1}]},
      {{msg, 'AuthenticationRequest'},
       [#field{name = authType, fnum = 1, rnum = 2,
 	      type = {enum, 'AuthenticationRequestType'},
@@ -796,7 +789,7 @@ find_msg_def(_) -> error.
 find_enum_def('ClientType') ->
     [{'IMPORTER', 0}, {'MANUFACTURER', 1}];
 find_enum_def('AuthenticationRequestType') ->
-    [{'REGISTER', 0}, {'LOGIN', 1}, {'LOGOUT', 2}];
+    [{'REGISTER', 0}, {'LOGIN', 1}];
 find_enum_def(_) -> error.
 
 
@@ -824,17 +817,13 @@ enum_value_by_symbol_ClientType('MANUFACTURER') -> 1.
 enum_symbol_by_value_AuthenticationRequestType(0) ->
     'REGISTER';
 enum_symbol_by_value_AuthenticationRequestType(1) ->
-    'LOGIN';
-enum_symbol_by_value_AuthenticationRequestType(2) ->
-    'LOGOUT'.
+    'LOGIN'.
 
 
 enum_value_by_symbol_AuthenticationRequestType('REGISTER') ->
     0;
 enum_value_by_symbol_AuthenticationRequestType('LOGIN') ->
-    1;
-enum_value_by_symbol_AuthenticationRequestType('LOGOUT') ->
-    2.
+    1.
 
 
 get_service_names() -> [].

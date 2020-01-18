@@ -60,5 +60,6 @@ public class Client {
         request.setPassword(password);
 
         request.build().writeTo(cos);
+        cos.flush();
     }
 }
