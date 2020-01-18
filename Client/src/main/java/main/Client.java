@@ -2,6 +2,8 @@ package main;
 
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.CodedOutputStream;
+import menus.Menu;
+import menus.StartMenu;
 import models.Importer;
 import models.Manufacturer;
 import models.User;
@@ -15,33 +17,41 @@ import java.nio.channels.SocketChannel;
 
 public class Client {
 
-    private static User user;
+    public static User user;
     private static CodedInputStream cis;
     private static CodedOutputStream cos;
 
     public static void main(String[] args) throws IOException {
 
-        //if (args.length != 1) {
-        //    System.err.println("Error: Invalid number of arguments.");
-        //    System.err.println("Must be: /client client-type");
-        //}
+        if (args.length != 1) {
+            System.err.println("Error: Invalid number of arguments.");
+            System.err.println("Must be: /client client-type");
+            return;
+        }
 
         Socket socket = new Socket("localhost", 13000);
 
         cis = CodedInputStream.newInstance(socket.getInputStream());
         cos = CodedOutputStream.newInstance(socket.getOutputStream());
 
-        Authentication.AuthenticationRequestType authType =
-                Authentication.AuthenticationRequestType.REGISTER;
+        System.out.println("Successful connection!");
 
-        Authentication.ClientType clientType =
-                Authentication.ClientType.IMPORTER;
+        switch (args[0]) {
+            case "importer":
+                user = new Importer();
+                break;
 
-        String username = "pedro";
-        String password = "pedro";
+            case "manufacturer":
+                user = new Manufacturer();
+                break;
 
-        sendAuthenticationRequest(authType, clientType, username, password);
-        while (true) {}
+            default:
+                System.err.println("Error: Invalid client type.");
+                return;
+        }
+
+        Menu menu = new StartMenu();
+        menu.run();
     }
 
 
@@ -61,5 +71,14 @@ public class Client {
 
         request.build().writeTo(cos);
         cos.flush();
+    }
+
+    public static Authentication.ClientType getClientType() {
+
+        if (user instanceof Importer) {
+            return Authentication.ClientType.IMPORTER;
+        } else {
+            return Authentication.ClientType.MANUFACTURER;
+        }
     }
 }

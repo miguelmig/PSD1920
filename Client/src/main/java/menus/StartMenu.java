@@ -1,9 +1,9 @@
 package menus;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class StartMenu extends Menu {
-
 
     @Override
     public void display() {
@@ -13,7 +13,7 @@ public class StartMenu extends Menu {
     }
 
     @Override
-    public void handleEvents() {
+    public void handleEvents() throws IOException {
         Scanner s = new Scanner(System.in);
 
         int choice = s.nextInt();
