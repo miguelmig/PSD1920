@@ -80,9 +80,14 @@ public class Client {
     public static AuthenticationReply.AutResponse readAuthenticationReply()
             throws IOException {
 
+<<<<<<< HEAD
         int len = cis.readRawLittleEndian32();
         return AuthenticationReply.AutResponse.parseFrom(cis.readRawBytes(len));
 
+=======
+        //System.out.println(Arrays.toString(cis.readByteArray()));
+        return AuthenticationReply.AutResponse.parseFrom(cis);
+>>>>>>> 2cdbd3494216f92c881d70bdc06911c1a8f5a7a8
     }
 
     public static Authentication.ClientType getClientType() {
