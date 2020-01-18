@@ -1,14 +1,23 @@
 syntax = "proto2";
 
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ autresponse.proto
+*/
+
+package authentication;
+
+option java_package = "protos.authentication";
+option java_outer_classname = "AuthenticationReply";
 
 enum AutResponseType {
   // referentes a login
-  USER_NOT_EXISTS = 0;
-  WRONG_PW = 1;
-  LOGGED_IN = 2;
+  USER_NOT_EXISTS = 1;
+  WRONG_PW = 2;
+  LOGGED_IN = 3;
   // referentes a criacao de conta
-  USER_EXISTS = 3;
-  USER_CREATED = 4;
+  USER_EXISTS = 4;
+  USER_CREATED = 5;
 }
 
 message AutResponse {

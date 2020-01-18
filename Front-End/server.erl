@@ -18,7 +18,7 @@
 %% Port - porta a usar
 %%
 start(Port) ->
-  {ok, Listen} = gen_tcp:listen(Port, [binary]),
+  {ok, Listen} = gen_tcp:listen(Port, [binary, {active, true}]),
   PID = spawn(fun() -> login_manager(#{}) end),
   aceptor(Listen, PID).
 
@@ -72,6 +72,7 @@ login_manager(M) ->
       case maps:is_key(Login, M) of 
         true ->
           io:format("[Front-end] Unsucessfull creation, user already exists~n", []),
+          io:format("Sending response~n", []),
           From ! {user_exists, self()},
           login_manager(M);
         false ->

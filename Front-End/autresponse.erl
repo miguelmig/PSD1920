@@ -95,17 +95,17 @@ encode_msg_AutResponse(#'AutResponse'{autResType = F1},
 
 e_enum_AutResponseType('USER_NOT_EXISTS', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 0>>;
-e_enum_AutResponseType('WRONG_PW', Bin, _TrUserData) ->
     <<Bin/binary, 1>>;
-e_enum_AutResponseType('LOGGED_IN', Bin, _TrUserData) ->
+e_enum_AutResponseType('WRONG_PW', Bin, _TrUserData) ->
     <<Bin/binary, 2>>;
+e_enum_AutResponseType('LOGGED_IN', Bin, _TrUserData) ->
+    <<Bin/binary, 3>>;
 e_enum_AutResponseType('USER_EXISTS', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 3>>;
+    <<Bin/binary, 4>>;
 e_enum_AutResponseType('USER_CREATED', Bin,
 		       _TrUserData) ->
-    <<Bin/binary, 4>>;
+    <<Bin/binary, 5>>;
 e_enum_AutResponseType(V, Bin, _TrUserData) ->
     e_varint(V, Bin).
 
@@ -330,11 +330,11 @@ skip_64_AutResponse(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
     dfp_read_field_def_AutResponse(Rest, Z1, Z2, F@_1,
 				   TrUserData).
 
-d_enum_AutResponseType(0) -> 'USER_NOT_EXISTS';
-d_enum_AutResponseType(1) -> 'WRONG_PW';
-d_enum_AutResponseType(2) -> 'LOGGED_IN';
-d_enum_AutResponseType(3) -> 'USER_EXISTS';
-d_enum_AutResponseType(4) -> 'USER_CREATED';
+d_enum_AutResponseType(1) -> 'USER_NOT_EXISTS';
+d_enum_AutResponseType(2) -> 'WRONG_PW';
+d_enum_AutResponseType(3) -> 'LOGGED_IN';
+d_enum_AutResponseType(4) -> 'USER_EXISTS';
+d_enum_AutResponseType(5) -> 'USER_CREATED';
 d_enum_AutResponseType(V) -> V.
 
 read_group(Bin, FieldNum) ->
@@ -530,9 +530,9 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 
 get_msg_defs() ->
     [{{enum, 'AutResponseType'},
-      [{'USER_NOT_EXISTS', 0}, {'WRONG_PW', 1},
-       {'LOGGED_IN', 2}, {'USER_EXISTS', 3},
-       {'USER_CREATED', 4}]},
+      [{'USER_NOT_EXISTS', 1}, {'WRONG_PW', 2},
+       {'LOGGED_IN', 3}, {'USER_EXISTS', 4},
+       {'USER_CREATED', 5}]},
      {{msg, 'AutResponse'},
       [#field{name = autResType, fnum = 1, rnum = 2,
 	      type = {enum, 'AutResponseType'}, occurrence = required,
@@ -573,9 +573,9 @@ find_msg_def(_) -> error.
 
 
 find_enum_def('AutResponseType') ->
-    [{'USER_NOT_EXISTS', 0}, {'WRONG_PW', 1},
-     {'LOGGED_IN', 2}, {'USER_EXISTS', 3},
-     {'USER_CREATED', 4}];
+    [{'USER_NOT_EXISTS', 1}, {'WRONG_PW', 2},
+     {'LOGGED_IN', 3}, {'USER_EXISTS', 4},
+     {'USER_CREATED', 5}];
 find_enum_def(_) -> error.
 
 
@@ -587,24 +587,24 @@ enum_value_by_symbol('AutResponseType', Sym) ->
     enum_value_by_symbol_AutResponseType(Sym).
 
 
-enum_symbol_by_value_AutResponseType(0) ->
+enum_symbol_by_value_AutResponseType(1) ->
     'USER_NOT_EXISTS';
-enum_symbol_by_value_AutResponseType(1) -> 'WRONG_PW';
-enum_symbol_by_value_AutResponseType(2) -> 'LOGGED_IN';
-enum_symbol_by_value_AutResponseType(3) ->
-    'USER_EXISTS';
+enum_symbol_by_value_AutResponseType(2) -> 'WRONG_PW';
+enum_symbol_by_value_AutResponseType(3) -> 'LOGGED_IN';
 enum_symbol_by_value_AutResponseType(4) ->
+    'USER_EXISTS';
+enum_symbol_by_value_AutResponseType(5) ->
     'USER_CREATED'.
 
 
 enum_value_by_symbol_AutResponseType('USER_NOT_EXISTS') ->
-    0;
-enum_value_by_symbol_AutResponseType('WRONG_PW') -> 1;
-enum_value_by_symbol_AutResponseType('LOGGED_IN') -> 2;
+    1;
+enum_value_by_symbol_AutResponseType('WRONG_PW') -> 2;
+enum_value_by_symbol_AutResponseType('LOGGED_IN') -> 3;
 enum_value_by_symbol_AutResponseType('USER_EXISTS') ->
-    3;
+    4;
 enum_value_by_symbol_AutResponseType('USER_CREATED') ->
-    4.
+    5.
 
 
 get_service_names() -> [].
@@ -655,25 +655,25 @@ service_and_rpc_name_to_fqbins(S, R) ->
     error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"AutResponse">>) -> 'AutResponse';
+fqbin_to_msg_name(<<"authentication.AutResponse">>) -> 'AutResponse';
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin('AutResponse') -> <<"AutResponse">>;
+msg_name_to_fqbin('AutResponse') -> <<"authentication.AutResponse">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
-fqbin_to_enum_name(<<"AutResponseType">>) -> 'AutResponseType';
+fqbin_to_enum_name(<<"authentication.AutResponseType">>) -> 'AutResponseType';
 fqbin_to_enum_name(E) ->
     error({gpb_error, {badenum, E}}).
 
 
-enum_name_to_fqbin('AutResponseType') -> <<"AutResponseType">>;
+enum_name_to_fqbin('AutResponseType') -> <<"authentication.AutResponseType">>;
 enum_name_to_fqbin(E) ->
     error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> authentication.
 
 
 %% Whether or not the message names
@@ -726,7 +726,7 @@ get_enum_containment(P) ->
     error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"AutResponse">>) ->
+get_proto_by_msg_name_as_fqbin(<<"authentication.AutResponse">>) ->
     "autresponse";
 get_proto_by_msg_name_as_fqbin(E) ->
     error({gpb_error, {badmsg, E}}).
@@ -737,7 +737,7 @@ get_proto_by_service_name_as_fqbin(E) ->
     error({gpb_error, {badservice, E}}).
 
 
-get_proto_by_enum_name_as_fqbin(<<"AutResponseType">>) ->
+get_proto_by_enum_name_as_fqbin(<<"authentication.AutResponseType">>) ->
     "autresponse";
 get_proto_by_enum_name_as_fqbin(E) ->
     error({gpb_error, {badenum, E}}).
