@@ -18,7 +18,6 @@ enum ClientType {
 enum AuthenticationRequestType {
     REGISTER = 0;
     LOGIN = 1;
-    LOGOUT = 2;
 }
 
 

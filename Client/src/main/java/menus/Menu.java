@@ -10,8 +10,4 @@ public abstract class Menu {
         this.display();
         this.handleEvents();
     }
-
-    public void clear() {
-
-    }
 }

@@ -123,10 +123,6 @@ public final class Authentication {
      * <code>LOGIN = 1;</code>
      */
     LOGIN(1),
-    /**
-     * <code>LOGOUT = 2;</code>
-     */
-    LOGOUT(2),
     ;
 
     /**
@@ -137,10 +133,6 @@ public final class Authentication {
      * <code>LOGIN = 1;</code>
      */
     public static final int LOGIN_VALUE = 1;
-    /**
-     * <code>LOGOUT = 2;</code>
-     */
-    public static final int LOGOUT_VALUE = 2;
 
 
     public final int getNumber() {
@@ -165,7 +157,6 @@ public final class Authentication {
       switch (value) {
         case 0: return REGISTER;
         case 1: return LOGIN;
-        case 2: return LOGOUT;
         default: return null;
       }
     }
@@ -1263,9 +1254,9 @@ public final class Authentication {
       "tType\022.\n\nclientType\030\002 \002(\0162\032.authenticati" +
       "on.ClientType\022\020\n\010username\030\003 \002(\t\022\020\n\010passw" +
       "ord\030\004 \002(\t*,\n\nClientType\022\014\n\010IMPORTER\020\000\022\020\n" +
-      "\014MANUFACTURER\020\001*@\n\031AuthenticationRequest" +
-      "Type\022\014\n\010REGISTER\020\000\022\t\n\005LOGIN\020\001\022\n\n\006LOGOUT\020" +
-      "\002B\027\n\025protos.authentication"
+      "\014MANUFACTURER\020\001*4\n\031AuthenticationRequest" +
+      "Type\022\014\n\010REGISTER\020\000\022\t\n\005LOGIN\020\001B\027\n\025protos." +
+      "authentication"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
