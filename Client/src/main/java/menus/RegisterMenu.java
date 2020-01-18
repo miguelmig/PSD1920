@@ -32,7 +32,6 @@ public class RegisterMenu extends Menu {
         );
 
         AuthenticationReply.AutResponse reply = Client.readAuthenticationReply();
-        System.out.println("reading done!");
         AuthenticationReply.AutResponseType replyType = reply.getAutResType();
         switch (replyType) {
             case USER_EXISTS:

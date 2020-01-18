@@ -81,7 +81,7 @@ public class Client {
             throws IOException {
 
         //System.out.println(Arrays.toString(cis.readByteArray()));
-        return AuthenticationReply.AutResponse.parseFrom(cis.readByteArray());
+        return AuthenticationReply.AutResponse.parseFrom(cis);
     }
 
     public static Authentication.ClientType getClientType() {
