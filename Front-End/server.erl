@@ -1,6 +1,9 @@
 -module(server).
 -export([start/1, parse_accounts/1]).
 
+-include("authentication.hrl").
+-include("server.hrl").
+
 -define(SHOST, "localhost").
 -define(SPORT, 13000).
 
@@ -14,7 +17,7 @@
 %% Port - porta a usar
 %%
 start(Port) ->
-  {ok, Listen} = gen_tcp:listen(Port, [binary, {packet, line}]),
+  {ok, Listen} = gen_tcp:listen(Port, [binary]),
   PID = spawn(fun() -> login_manager(#{}) end),
   aceptor(Listen, PID).
 
@@ -86,15 +89,16 @@ login_manager(M) ->
 client_non_autenticated(CS, LM) ->
   case read(CS) of 
     closed ->
-      io:format("[Front-end] Client closed connection.~n", []),
+      io:format("[Client] Client closed connection.~n", []),
       closed;
     error -> 
-      io:format("[Front-end] Client closed via error.~n", []),
+      io:format("[Client] Client closed via error.~n", []),
       error;
     Msg ->
-      [Mode, Login, PW] = string:split(string:trim(
-                                         binary:bin_to_list(Msg)), " ", all),
-      atempt(CS, Mode, Login, PW, LM)
+      AutReq = authentication:decode_msg(Msg, 'AuthenticationRequest'),
+      #'AuthenticationRequest'{authType=Mode, clientType=CType,
+                              username=Login, password=PW} = AutReq,
+      atempt(CS, Mode, CType, Login, PW, LM)
   end.
 
 
@@ -105,11 +109,13 @@ client_non_autenticated(CS, LM) ->
 %% Mode - represntacao textual do modo
 %%
 parse_mode(Mode) ->
-  case lists:nth(1, Mode) of
-    $c ->
+  case Mode of
+    'REGISTER' ->
       create;
-    $l ->
-      login
+    'LOGIN' ->
+      login;
+    'LOGOUT' ->
+      logout
   end.
 
 %%
@@ -121,16 +127,23 @@ parse_mode(Mode) ->
 %% PW - password do utiizador
 %% LM - PID do Login Manager
 %%
-atempt(CS, Mode, Login, PW, LM) ->
-  io:format("[Front-End]Mode: ~p Login: ~p PW: ~p~n", [Mode, Login, PW]),
+atempt(CS, Mode, CType, Login, PW, LM) ->
+  io:format("[Client]Mode: ~p Type:~p Login: ~p PW: ~p~n", [Mode, CType, Login, PW]),
   _M = parse_mode(Mode),
-  LM ! {_M, Login, PW, self()},
   case _M of 
     login ->
-      handle_login(CS, LM);
+      handle_login(CS, CType, Login, PW, LM);
     create ->
-      handle_create(CS, LM)
+      handle_create(CS, CType, Login, PW, LM);
+    logout ->
+      client_non_autenticated(CS, LM)
   end.
+
+
+%%
+%% Definir mensagens de resposta
+%% 
+
 
 %%
 %% funcao que lida com as mensagens de resposta do LM
@@ -139,7 +152,8 @@ atempt(CS, Mode, Login, PW, LM) ->
 %% CS - Client Sockets
 %% LM - PID do login Manager
 %%
-handle_login(CS, LM) ->
+handle_login(CS, CType, Login, PW, LM) ->
+  LM ! {login, Login, PW, self()},
   receive
     {user_not_exist, LM} ->
       gen_tcp:send(CS, "User already Exists\r\n"),
@@ -157,7 +171,8 @@ handle_login(CS, LM) ->
 %% Semelhante a handle_login mas para o caso de 
 %% criacao de conta
 %%
-handle_create(CS, LM) ->
+handle_create(CS, CType, Login, PW, LM) ->
+  LM ! {create, Login, PW, self()},
   receive
     {user_exists, LM} ->
       gen_tcp:send(CS, "Cannot create, user exists\r\n"),
@@ -167,6 +182,14 @@ handle_create(CS, LM) ->
       %%SS = connect_to_back_end(),
       client_autenticated(CS, dummy, LM)
   end.
+
+
+%%
+%% definir estrategia para determinar logout
+%%
+handle_logout() ->
+  true.
+
 
 %%
 %% funcao para ligar um ator aos servidores de back end
@@ -181,6 +204,11 @@ connect_to_back_end() ->
 connect_to_back_end(Host, Port) ->
   {ok, SS} = gen_tcp:connect(Host, Port),
   SS.
+
+connect_to_back_end(Type) ->
+  true.
+
+
 
 %%
 %% funcao utilitaria para ler de um socket
