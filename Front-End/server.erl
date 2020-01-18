@@ -205,8 +205,9 @@ connect_to_back_end(Host, Port) ->
   SS.
 
 connect_to_back_end(Type) ->
-  {ok, SS} = gen_tcp:connecT(?HOST, ?PORT, ),
-  SS.
+  %%{ok, SS} = gen_tcp:connecT(?HOST, ?PORT, ),
+  %%SS
+  true.
 
 
 
