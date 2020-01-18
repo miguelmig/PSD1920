@@ -3,6 +3,7 @@
 
 -include("authentication.hrl").
 -include("server.hrl").
+-include("autresponse.hrl").
 
 -define(SHOST, "localhost").
 -define(SPORT, 13000).
@@ -113,9 +114,7 @@ parse_mode(Mode) ->
     'REGISTER' ->
       create;
     'LOGIN' ->
-      login;
-    'LOGOUT' ->
-      logout
+      login
   end.
 
 %%
@@ -134,9 +133,7 @@ atempt(CS, Mode, CType, Login, PW, LM) ->
     login ->
       handle_login(CS, CType, Login, PW, LM);
     create ->
-      handle_create(CS, CType, Login, PW, LM);
-    logout ->
-      client_non_autenticated(CS, LM)
+      handle_create(CS, CType, Login, PW, LM)
   end.
 
 
@@ -156,14 +153,17 @@ handle_login(CS, CType, Login, PW, LM) ->
   LM ! {login, Login, PW, self()},
   receive
     {user_not_exist, LM} ->
-      gen_tcp:send(CS, "User already Exists\r\n"),
+      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_NOT_EXISTS'}),
+      gen_tcp:send(CS, Msg),
       client_non_autenticated(CS, LM);
     {wrong_wp, LM} ->
-      gen_tcp:send(CS, "Wrong Password\r\n"),
+      Msg = autresponse:encode_msg(#'AutResponse'{autResType='WRONG_PW'}),
+      gen_tcp:send(CS, Msg),
       client_non_autenticated(CS, LM);
     {logged_in, LM} ->
+      Msg = autresponse:encode_msg(#'AutResponse'{autResType='LOGGED_IN'}),
       %%SS = connect_to_back_end(),
-      gen_tcp:send(CS, "Welcome.\r\n"),
+      gen_tcp:send(CS, Msg),
       client_autenticated(CS, dummy, LM)
   end.
 
@@ -175,10 +175,12 @@ handle_create(CS, CType, Login, PW, LM) ->
   LM ! {create, Login, PW, self()},
   receive
     {user_exists, LM} ->
-      gen_tcp:send(CS, "Cannot create, user exists\r\n"),
+      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_EXISTS'}),
+      gen_tcp:send(CS, Msg),
       client_non_autenticated(CS, LM);
     {user_created, LM} ->
-      gen_tcp:send(CS, "Welcome.\r\n"),
+      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_CREATED'}),
+      gen_tcp:send(CS, Msg),
       %%SS = connect_to_back_end(),
       client_autenticated(CS, dummy, LM)
   end.

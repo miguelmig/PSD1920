@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+
+enum AutResponseType {
+  // referentes a login
+  USER_NOT_EXISTS = 0;
+  WRONG_PW = 1;
+  LOGGED_IN = 2;
+  // referentes a criacao de conta
+  USER_EXISTS = 3;
+  USER_CREATED = 4;
+}
+
+message AutResponse {
+  required AutResponseType autResType = 1;
+}
