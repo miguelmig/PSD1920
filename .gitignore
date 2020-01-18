@@ -2,7 +2,6 @@
 *.zip
 
 # compiled sources
-*.beam
 
 # erlang dump files
 *.dump
