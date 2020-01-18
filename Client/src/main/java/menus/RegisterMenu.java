@@ -24,7 +24,7 @@ public class RegisterMenu extends Menu {
         String password = s.nextLine();
 
         Client.sendAuthenticationRequest(
-                Authentication.AuthenticationRequestType.LOGIN,
+                Authentication.AuthenticationRequestType.REGISTER,
                 Client.getClientType(),
                 username,
                 password

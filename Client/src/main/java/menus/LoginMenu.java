@@ -32,6 +32,6 @@ public class LoginMenu extends Menu {
 
         // TODO wait from reply from server
 
-        
+
     }
 }
