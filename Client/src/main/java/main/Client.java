@@ -8,12 +8,14 @@ import models.Importer;
 import models.Manufacturer;
 import models.User;
 import protos.authentication.Authentication;
+import protos.authentication.AuthenticationReply;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 
 public class Client {
 
@@ -71,6 +73,15 @@ public class Client {
 
         request.build().writeTo(cos);
         cos.flush();
+
+        //System.out.println(Arrays.toString(cis.readByteArray()));
+    }
+
+    public static AuthenticationReply.AutResponse readAuthenticationReply()
+            throws IOException {
+
+        //System.out.println(Arrays.toString(cis.readByteArray()));
+        return AuthenticationReply.AutResponse.parseFrom(cis.readByteArray());
     }
 
     public static Authentication.ClientType getClientType() {
@@ -81,4 +92,6 @@ public class Client {
             return Authentication.ClientType.MANUFACTURER;
         }
     }
+
+
 }

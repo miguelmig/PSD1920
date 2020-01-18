@@ -2,6 +2,7 @@ package menus;
 
 import main.Client;
 import protos.authentication.Authentication;
+import protos.authentication.AuthenticationReply;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,7 +31,28 @@ public class RegisterMenu extends Menu {
                 password
         );
 
-        Client.user.setUsername(username);
-        Client.user.setPassword(password);
+        AuthenticationReply.AutResponse reply = Client.readAuthenticationReply();
+        System.out.println("reading done!");
+        AuthenticationReply.AutResponseType replyType = reply.getAutResType();
+        switch (replyType) {
+            case USER_EXISTS:
+                System.out.println("Error: User already exists.");
+                Menu registerMenu = new RegisterMenu();
+                registerMenu.run();
+                break;
+
+            case USER_CREATED:
+                System.out.println("Successfully registered!");
+
+                Client.user.setUsername(username);
+                Client.user.setPassword(password);
+
+                Menu startMenu = new StartMenu();
+                startMenu.run();
+                break;
+
+            default:
+                break;
+        }
     }
 }
