@@ -10,5 +10,6 @@
 *.swp
 *~
 
-.idea/
+**/.idea/
 **/target/
+**/.idea/*.xml
