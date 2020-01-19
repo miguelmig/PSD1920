@@ -39,12 +39,11 @@ public class Subscriber extends Thread {
         this.subscriptions = topics;
     }
 
-    public void addSubscription(String topic) {
-        subscriptions.add(topic);
-        socket.subscribe(topic);
-    }
-
     public void run() {
+
+        for (String topic : subscriptions) {
+            socket.subscribe(topic);
+        }
 
         while (true) {
             byte[] b = socket.recv();
