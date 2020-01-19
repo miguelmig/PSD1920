@@ -145,7 +145,7 @@ handle_login(CS, Area, CType, Login, PW, LM) ->
     {logged_in, LM} ->
       gen_tcp:send(CS, msg_creation('LOGGED_IN')),
       SS = connect_to_back_end(Area),
-      client_autenticated(CS, SS, LM)
+      client_autenticated(CS, SS)
   end.
 
 %%
@@ -161,7 +161,7 @@ handle_create(CS, Area, CType, Login, PW, LM) ->
     {user_created, LM} ->
       gen_tcp:send(CS, msg_creation('USER_CREATED')),
       SS = connect_to_back_end(Area),
-      client_autenticated(CS, SS, LM)
+      client_autenticated(CS, SS)
   end.
 
 %%
@@ -208,8 +208,8 @@ read(Socket) ->
 %%
 %% Mantida para ja, para testes.
 %%
-client_autenticated(CS, SS, LM) ->
-  client_loop(CS, SS, LM).
+client_autenticated(CS, SS) ->
+  client_loop(CS, SS).
 
 
 %%
@@ -219,11 +219,8 @@ client_autenticated(CS, SS, LM) ->
 %%
 %% CS - Client Socket
 %% SS - Server Socket
-%% LM - Login Manager
-%% (LM mantido para ja caso queira manter opcao
-%% de diconnect)
 %%
-client_loop(CS, SS, LM) ->
+client_loop(CS, SS) ->
   case read(CS) of
     closed -> 
       io:format("[Client] Closed~n", [ ]),
@@ -234,16 +231,5 @@ client_loop(CS, SS, LM) ->
     Request ->
       io:format("[Client] Request Sent~n", [ ]),
       gen_tcp:send(SS, add_length(Request)),
-      case read(SS) of
-        closed ->
-          io:format("[Client] Closed~n", [ ]),
-          closed;
-        error ->
-          io:format("[Client] Error~n", [ ]),
-          error;
-        Reply ->
-          io:format("[Client] Reply Received~n", [ ]),
-          gen_tcp:send(CS, add_length(Reply)),
-          client_loop(CS, SS, LM)
-      end
+      client_loop(CS, SS)
   end.
