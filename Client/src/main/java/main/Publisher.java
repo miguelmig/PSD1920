@@ -31,8 +31,6 @@ public class Publisher {
             default:
                 break;
         }
-
-        socket.connect("tcp://localhost:12345");
     }
 
     public void sendMessage(String topic, String msg) {

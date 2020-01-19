@@ -2,7 +2,7 @@ package catalogo.resources;
 
 import catalogo.CatalogoApp;
 import catalogo.representations.Fabricante;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,6 @@ import javax.validation.constraints.Past;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.catalog.Catalog;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,17 @@ public class FabricanteResource {
 
     @GET
     public List<Fabricante> getFabricante(@QueryParam("name") Optional<String> name) {
-        return app.getFabricante(name);
+        String nome = null;
+        if(name.isPresent())
+        {
+            nome = name.get();
+        }
+
+        return app.getFabricante(nome);
     }
 
     @PUT
-    @Path("/")
+    @Path("/update")
     public Response put(@NotNull @Valid Fabricante input) {
         boolean changed = this.app.updateFabricante(input);
         if(changed)

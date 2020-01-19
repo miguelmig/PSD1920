@@ -7,6 +7,5 @@ public class CatalogoConfiguration extends Configuration {
     @NotEmpty
     public String template;
 
-    public String defaultName = "Stranger";
 }
 

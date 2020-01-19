@@ -46,9 +46,11 @@
   </component>
   <component name="RunManager">
     <configuration name="Catalogo" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="catalogo.CatalogoApp" />
       <module name="Catalogo" />
-      <option name="PROGRAM_PARAMETERS" value="server Catalogo.yml" />
+      <option name="PROGRAM_PARAMETERS" value="server catalogo.yml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
