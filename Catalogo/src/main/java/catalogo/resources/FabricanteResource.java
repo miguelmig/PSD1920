@@ -25,11 +25,9 @@ public class FabricanteResource {
     @GET
     public List<Fabricante> getFabricante(@QueryParam("name") Optional<String> name) {
         String nome = null;
-        if(name.isPresent())
-        {
+        if(name.isPresent()) {
             nome = name.get();
         }
-
         return app.getFabricante(nome);
     }
 

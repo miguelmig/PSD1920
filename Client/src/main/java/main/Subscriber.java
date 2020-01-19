@@ -41,6 +41,7 @@ public class Subscriber extends Thread {
 
     public void run() {
 
+        System.out.println("Subscriber running");
         for (String topic : subscriptions) {
             socket.subscribe(topic);
         }

@@ -1,5 +1,6 @@
 package rest.representation;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,10 @@ public class OrdemCompra
     private int quantidade;
     private int preco_unitario;
 
-    public OrdemCompra(String id_cliente, int quantidade, int preco_unitario)
+    @JsonCreator
+    public OrdemCompra(@JsonProperty("nome_importador") String id_cliente,
+                       @JsonProperty("quantidade") int quantidade,
+                       @JsonProperty("preco_unitario") int preco_unitario)
     {
         this.nome_importador = id_cliente;
         this.quantidade = quantidade;

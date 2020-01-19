@@ -12,7 +12,8 @@ public class Fabricante {
 
     private List<Artigo> artigos;
 
-    public Fabricante(String nome, List<Artigo> artigos) {
+    @JsonCreator
+    public Fabricante(@JsonProperty("nome") @NotNull String nome, @JsonProperty("artigos") List<Artigo> artigos) {
         this.nome = nome;
         this.artigos = new ArrayList<>(artigos);
     }

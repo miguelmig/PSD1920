@@ -15,14 +15,15 @@ public class NotificationBroker {
         this.pubs = context.socket(SocketType.XSUB);
         this.subs = context.socket(SocketType.XPUB);
 
-        pubs.bind("tcp://*:" + port + 1);
-        subs.bind("tcp://*:" + port + 2);
+        pubs.bind("tcp://*:" + (port + 1));
+        subs.bind("tcp://*:" + (port + 2));
 
         this.items = context.poller(2);
         this.items.register(pubs, ZMQ.Poller.POLLIN);
         this.items.register(subs, ZMQ.Poller.POLLIN);
 
         System.out.println("Broker is running!");
+
 
     }
 

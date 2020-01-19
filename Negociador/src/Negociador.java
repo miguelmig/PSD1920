@@ -16,7 +16,7 @@ public class Negociador {
         new Thread(() -> {
             net.NotificationBroker notification_broker = new NotificationBroker(port);
             notification_broker.poll();
-        });
+        }).start();
 
         System.out.println("[*] Starting REST Client...");
         RESTClient rest = new RESTClient();
