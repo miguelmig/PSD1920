@@ -3,6 +3,7 @@ package menus;
 import main.Client;
 import models.Importer;
 import protos.authentication.AuthenticationReply;
+import protos.message.Message;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class LoginMenu extends Menu {
         String password = s.nextLine();
 
         Client.sendAuthenticationRequest(
-                Authentication.AuthenticationRequestType.LOGIN,
+                Message.AuthenticationRequestType.LOGIN,
                 Client.getClientType(),
                 username,
                 password
