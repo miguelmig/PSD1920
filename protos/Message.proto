@@ -1,8 +1,12 @@
 syntax = "proto2";
 
-package data;
-option java_package = "data";
-option java_outer_classname = "Message";
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ message.proto
+*/
+
+package message;
+option java_package = "protos.message";
 
 
 message GenericMessage {
@@ -22,12 +26,25 @@ message GenericMessage {
 
 message AddArtigoMessage
 {
-    required string name = 1;
-    required string content = 2;
+    required string manufacturer_name = 1;
+    required string product_name = 2;
+    required int32 minimum_quantity = 3;
+    required int32 maximum_quantity = 4;
+    required int32 unitary_price = 5;
+    required int32 negotiation_time = 6;
 }
 
 message AddEncomendaMessage
 {
-    required string room = 1;
-    required string name = 2;
+    required string manufacturer = 1;
+    required string product = 2;
+    required int32 quantity = 3;
+    required int32 willing_price = 4;
 }
+
+
+
+
+
+
+

@@ -9,6 +9,7 @@ import models.Manufacturer;
 import models.User;
 import protos.authentication.Authentication;
 import protos.authentication.AuthenticationReply;
+import protos.message.Message;
 import protos.order.Order;
 import protos.product.Product;
 
@@ -106,15 +107,20 @@ public class Client {
             int unitaryPrice,
             int negotiationTime) throws IOException {
 
-        Product.ProductMessage.Builder product = Product.ProductMessage.newBuilder();
 
-        product.setName(name);
+        Message.AddArtigoMessage.Builder product = Message.AddArtigoMessage.newBuilder();
+        product.setManufacturerName(user.getUsername());
+        product.setProductName(name);
         product.setMinimumQuantity(minimumQuantity);
         product.setMaximumQuantity(maximumQuantity);
         product.setUnitaryPrice(unitaryPrice);
         product.setNegotiationTime(negotiationTime);
 
-        product.build().writeTo(cos);
+        Message.GenericMessage.Builder message = Message.GenericMessage.newBuilder();
+        message.setType(Message.GenericMessage.MessageType.ADD_ARTIGO);
+        message.setArtigo(product);
+
+        message.build().writeTo(cos);
         cos.flush();
     }
 
@@ -125,14 +131,18 @@ public class Client {
             int quantity,
             int willingPrice) throws IOException {
 
-        Order.OrderMessage.Builder order = Order.OrderMessage.newBuilder();
 
+        Message.AddEncomendaMessage.Builder order = Message.AddEncomendaMessage.newBuilder();
         order.setManufacturer(manufacturer);
         order.setProduct(product);
         order.setQuantity(quantity);
         order.setWillingPrice(willingPrice);
 
-        order.build().writeTo(cos);
+        Message.GenericMessage.Builder message = Message.GenericMessage.newBuilder();
+        message.setType(Message.GenericMessage.MessageType.ADD_ENCOMENDA);
+        message.setEncomenda(order);
+
+        message.build().writeTo(cos);
         cos.flush();
     }
 
