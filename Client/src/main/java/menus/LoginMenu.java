@@ -2,6 +2,7 @@ package menus;
 
 import main.Client;
 import protos.authentication.Authentication;
+import protos.authentication.AuthenticationReply;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,10 +31,26 @@ public class LoginMenu extends Menu {
                 password
         );
 
-        // TODO wait from reply from server
+        AuthenticationReply.AutResponse reply = Client.readAuthenticationReply();
+        AuthenticationReply.AutResponseType replyType = reply.getAutResType();
 
-        boolean success = true;
-        if (success) {
+        switch (replyType) {
+            case USER_NOT_EXISTS:
+                System.out.println("Error: User doesn't exist.");
+                Menu loginMenu = new LoginMenu();
+                loginMenu.run();
+                break;
+
+            case WRONG_PW:
+                System.out.println("Error: Incorrect password.");
+                loginMenu = new LoginMenu();
+                loginMenu.run();
+                break;
+
+            case LOGGED_IN:
+                System.out.println("Successful login!");
+            default:
+                break;
         }
     }
 }

@@ -73,8 +73,6 @@ public class Client {
 
         request.build().writeTo(cos);
         cos.flush();
-
-        //System.out.println(Arrays.toString(cis.readByteArray()));
     }
 
     public static AuthenticationReply.AutResponse readAuthenticationReply()
