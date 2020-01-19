@@ -20,23 +20,23 @@ public final class Authentication {
   public enum ClientType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>IMPORTER = 0;</code>
+     * <code>IMPORTER = 1;</code>
      */
-    IMPORTER(0),
+    IMPORTER(1),
     /**
-     * <code>MANUFACTURER = 1;</code>
+     * <code>MANUFACTURER = 2;</code>
      */
-    MANUFACTURER(1),
+    MANUFACTURER(2),
     ;
 
     /**
-     * <code>IMPORTER = 0;</code>
+     * <code>IMPORTER = 1;</code>
      */
-    public static final int IMPORTER_VALUE = 0;
+    public static final int IMPORTER_VALUE = 1;
     /**
-     * <code>MANUFACTURER = 1;</code>
+     * <code>MANUFACTURER = 2;</code>
      */
-    public static final int MANUFACTURER_VALUE = 1;
+    public static final int MANUFACTURER_VALUE = 2;
 
 
     public final int getNumber() {
@@ -59,8 +59,8 @@ public final class Authentication {
      */
     public static ClientType forNumber(int value) {
       switch (value) {
-        case 0: return IMPORTER;
-        case 1: return MANUFACTURER;
+        case 1: return IMPORTER;
+        case 2: return MANUFACTURER;
         default: return null;
       }
     }
@@ -116,23 +116,23 @@ public final class Authentication {
   public enum AuthenticationRequestType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>REGISTER = 0;</code>
+     * <code>REGISTER = 1;</code>
      */
-    REGISTER(0),
+    REGISTER(1),
     /**
-     * <code>LOGIN = 1;</code>
+     * <code>LOGIN = 2;</code>
      */
-    LOGIN(1),
+    LOGIN(2),
     ;
 
     /**
-     * <code>REGISTER = 0;</code>
+     * <code>REGISTER = 1;</code>
      */
-    public static final int REGISTER_VALUE = 0;
+    public static final int REGISTER_VALUE = 1;
     /**
-     * <code>LOGIN = 1;</code>
+     * <code>LOGIN = 2;</code>
      */
-    public static final int LOGIN_VALUE = 1;
+    public static final int LOGIN_VALUE = 2;
 
 
     public final int getNumber() {
@@ -155,8 +155,8 @@ public final class Authentication {
      */
     public static AuthenticationRequestType forNumber(int value) {
       switch (value) {
-        case 0: return REGISTER;
-        case 1: return LOGIN;
+        case 1: return REGISTER;
+        case 2: return LOGIN;
         default: return null;
       }
     }
@@ -206,6 +206,120 @@ public final class Authentication {
     // @@protoc_insertion_point(enum_scope:authentication.AuthenticationRequestType)
   }
 
+  /**
+   * Protobuf enum {@code authentication.Area}
+   */
+  public enum Area
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>TECNOLOGIA = 1;</code>
+     */
+    TECNOLOGIA(1),
+    /**
+     * <code>ALIMENTACAO = 2;</code>
+     */
+    ALIMENTACAO(2),
+    /**
+     * <code>TEXTEIS = 3;</code>
+     */
+    TEXTEIS(3),
+    /**
+     * <code>DIVERSOS = 4;</code>
+     */
+    DIVERSOS(4),
+    ;
+
+    /**
+     * <code>TECNOLOGIA = 1;</code>
+     */
+    public static final int TECNOLOGIA_VALUE = 1;
+    /**
+     * <code>ALIMENTACAO = 2;</code>
+     */
+    public static final int ALIMENTACAO_VALUE = 2;
+    /**
+     * <code>TEXTEIS = 3;</code>
+     */
+    public static final int TEXTEIS_VALUE = 3;
+    /**
+     * <code>DIVERSOS = 4;</code>
+     */
+    public static final int DIVERSOS_VALUE = 4;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static Area valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static Area forNumber(int value) {
+      switch (value) {
+        case 1: return TECNOLOGIA;
+        case 2: return ALIMENTACAO;
+        case 3: return TEXTEIS;
+        case 4: return DIVERSOS;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Area>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        Area> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Area>() {
+            public Area findValueByNumber(int number) {
+              return Area.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return protos.authentication.Authentication.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final Area[] VALUES = values();
+
+    public static Area valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private Area(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:authentication.Area)
+  }
+
   public interface AuthenticationRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:authentication.AuthenticationRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -233,34 +347,45 @@ public final class Authentication {
     protos.authentication.Authentication.ClientType getClientType();
 
     /**
-     * <code>required string username = 3;</code>
+     * <code>required .authentication.Area area = 3;</code>
+     * @return Whether the area field is set.
+     */
+    boolean hasArea();
+    /**
+     * <code>required .authentication.Area area = 3;</code>
+     * @return The area.
+     */
+    protos.authentication.Authentication.Area getArea();
+
+    /**
+     * <code>required string username = 4;</code>
      * @return Whether the username field is set.
      */
     boolean hasUsername();
     /**
-     * <code>required string username = 3;</code>
+     * <code>required string username = 4;</code>
      * @return The username.
      */
     java.lang.String getUsername();
     /**
-     * <code>required string username = 3;</code>
+     * <code>required string username = 4;</code>
      * @return The bytes for username.
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
 
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return Whether the password field is set.
      */
     boolean hasPassword();
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return The password.
      */
     java.lang.String getPassword();
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return The bytes for password.
      */
     com.google.protobuf.ByteString
@@ -279,8 +404,9 @@ public final class Authentication {
       super(builder);
     }
     private AuthenticationRequest() {
-      authType_ = 0;
-      clientType_ = 0;
+      authType_ = 1;
+      clientType_ = 1;
+      area_ = 1;
       username_ = "";
       password_ = "";
     }
@@ -340,15 +466,27 @@ public final class Authentication {
               }
               break;
             }
-            case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000004;
-              username_ = bs;
+            case 24: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protos.authentication.Authentication.Area value = protos.authentication.Authentication.Area.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(3, rawValue);
+              } else {
+                bitField0_ |= 0x00000004;
+                area_ = rawValue;
+              }
               break;
             }
             case 34: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
+              username_ = bs;
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
               password_ = bs;
               break;
             }
@@ -423,17 +561,36 @@ public final class Authentication {
       return result == null ? protos.authentication.Authentication.ClientType.IMPORTER : result;
     }
 
-    public static final int USERNAME_FIELD_NUMBER = 3;
-    private volatile java.lang.Object username_;
+    public static final int AREA_FIELD_NUMBER = 3;
+    private int area_;
     /**
-     * <code>required string username = 3;</code>
-     * @return Whether the username field is set.
+     * <code>required .authentication.Area area = 3;</code>
+     * @return Whether the area field is set.
      */
-    public boolean hasUsername() {
+    public boolean hasArea() {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>required string username = 3;</code>
+     * <code>required .authentication.Area area = 3;</code>
+     * @return The area.
+     */
+    public protos.authentication.Authentication.Area getArea() {
+      @SuppressWarnings("deprecation")
+      protos.authentication.Authentication.Area result = protos.authentication.Authentication.Area.valueOf(area_);
+      return result == null ? protos.authentication.Authentication.Area.TECNOLOGIA : result;
+    }
+
+    public static final int USERNAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object username_;
+    /**
+     * <code>required string username = 4;</code>
+     * @return Whether the username field is set.
+     */
+    public boolean hasUsername() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>required string username = 4;</code>
      * @return The username.
      */
     public java.lang.String getUsername() {
@@ -451,7 +608,7 @@ public final class Authentication {
       }
     }
     /**
-     * <code>required string username = 3;</code>
+     * <code>required string username = 4;</code>
      * @return The bytes for username.
      */
     public com.google.protobuf.ByteString
@@ -468,17 +625,17 @@ public final class Authentication {
       }
     }
 
-    public static final int PASSWORD_FIELD_NUMBER = 4;
+    public static final int PASSWORD_FIELD_NUMBER = 5;
     private volatile java.lang.Object password_;
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return Whether the password field is set.
      */
     public boolean hasPassword() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return The password.
      */
     public java.lang.String getPassword() {
@@ -496,7 +653,7 @@ public final class Authentication {
       }
     }
     /**
-     * <code>required string password = 4;</code>
+     * <code>required string password = 5;</code>
      * @return The bytes for password.
      */
     public com.google.protobuf.ByteString
@@ -528,6 +685,10 @@ public final class Authentication {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasArea()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasUsername()) {
         memoizedIsInitialized = 0;
         return false;
@@ -550,10 +711,13 @@ public final class Authentication {
         output.writeEnum(2, clientType_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, username_);
+        output.writeEnum(3, area_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, password_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, username_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, password_);
       }
       unknownFields.writeTo(output);
     }
@@ -573,10 +737,14 @@ public final class Authentication {
           .computeEnumSize(2, clientType_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, username_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, area_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, password_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, username_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, password_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -600,6 +768,10 @@ public final class Authentication {
       if (hasClientType() != other.hasClientType()) return false;
       if (hasClientType()) {
         if (clientType_ != other.clientType_) return false;
+      }
+      if (hasArea() != other.hasArea()) return false;
+      if (hasArea()) {
+        if (area_ != other.area_) return false;
       }
       if (hasUsername() != other.hasUsername()) return false;
       if (hasUsername()) {
@@ -629,6 +801,10 @@ public final class Authentication {
       if (hasClientType()) {
         hash = (37 * hash) + CLIENTTYPE_FIELD_NUMBER;
         hash = (53 * hash) + clientType_;
+      }
+      if (hasArea()) {
+        hash = (37 * hash) + AREA_FIELD_NUMBER;
+        hash = (53 * hash) + area_;
       }
       if (hasUsername()) {
         hash = (37 * hash) + USERNAME_FIELD_NUMBER;
@@ -771,14 +947,16 @@ public final class Authentication {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        authType_ = 0;
+        authType_ = 1;
         bitField0_ = (bitField0_ & ~0x00000001);
-        clientType_ = 0;
+        clientType_ = 1;
         bitField0_ = (bitField0_ & ~0x00000002);
-        username_ = "";
+        area_ = 1;
         bitField0_ = (bitField0_ & ~0x00000004);
-        password_ = "";
+        username_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        password_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -818,9 +996,13 @@ public final class Authentication {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.username_ = username_;
+        result.area_ = area_;
         if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000008;
+        }
+        result.username_ = username_;
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          to_bitField0_ |= 0x00000010;
         }
         result.password_ = password_;
         result.bitField0_ = to_bitField0_;
@@ -878,13 +1060,16 @@ public final class Authentication {
         if (other.hasClientType()) {
           setClientType(other.getClientType());
         }
+        if (other.hasArea()) {
+          setArea(other.getArea());
+        }
         if (other.hasUsername()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           username_ = other.username_;
           onChanged();
         }
         if (other.hasPassword()) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
           password_ = other.password_;
           onChanged();
         }
@@ -899,6 +1084,9 @@ public final class Authentication {
           return false;
         }
         if (!hasClientType()) {
+          return false;
+        }
+        if (!hasArea()) {
           return false;
         }
         if (!hasUsername()) {
@@ -930,7 +1118,7 @@ public final class Authentication {
       }
       private int bitField0_;
 
-      private int authType_ = 0;
+      private int authType_ = 1;
       /**
        * <code>required .authentication.AuthenticationRequestType authType = 1;</code>
        * @return Whether the authType field is set.
@@ -967,12 +1155,12 @@ public final class Authentication {
        */
       public Builder clearAuthType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        authType_ = 0;
+        authType_ = 1;
         onChanged();
         return this;
       }
 
-      private int clientType_ = 0;
+      private int clientType_ = 1;
       /**
        * <code>required .authentication.ClientType clientType = 2;</code>
        * @return Whether the clientType field is set.
@@ -1009,21 +1197,63 @@ public final class Authentication {
        */
       public Builder clearClientType() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        clientType_ = 0;
+        clientType_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private int area_ = 1;
+      /**
+       * <code>required .authentication.Area area = 3;</code>
+       * @return Whether the area field is set.
+       */
+      public boolean hasArea() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required .authentication.Area area = 3;</code>
+       * @return The area.
+       */
+      public protos.authentication.Authentication.Area getArea() {
+        @SuppressWarnings("deprecation")
+        protos.authentication.Authentication.Area result = protos.authentication.Authentication.Area.valueOf(area_);
+        return result == null ? protos.authentication.Authentication.Area.TECNOLOGIA : result;
+      }
+      /**
+       * <code>required .authentication.Area area = 3;</code>
+       * @param value The area to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArea(protos.authentication.Authentication.Area value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        area_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .authentication.Area area = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArea() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        area_ = 1;
         onChanged();
         return this;
       }
 
       private java.lang.Object username_ = "";
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @return Whether the username field is set.
        */
       public boolean hasUsername() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @return The username.
        */
       public java.lang.String getUsername() {
@@ -1041,7 +1271,7 @@ public final class Authentication {
         }
       }
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @return The bytes for username.
        */
       public com.google.protobuf.ByteString
@@ -1058,7 +1288,7 @@ public final class Authentication {
         }
       }
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @param value The username to set.
        * @return This builder for chaining.
        */
@@ -1067,23 +1297,23 @@ public final class Authentication {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         username_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearUsername() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
       }
       /**
-       * <code>required string username = 3;</code>
+       * <code>required string username = 4;</code>
        * @param value The bytes for username to set.
        * @return This builder for chaining.
        */
@@ -1092,7 +1322,7 @@ public final class Authentication {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         username_ = value;
         onChanged();
         return this;
@@ -1100,14 +1330,14 @@ public final class Authentication {
 
       private java.lang.Object password_ = "";
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @return Whether the password field is set.
        */
       public boolean hasPassword() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @return The password.
        */
       public java.lang.String getPassword() {
@@ -1125,7 +1355,7 @@ public final class Authentication {
         }
       }
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @return The bytes for password.
        */
       public com.google.protobuf.ByteString
@@ -1142,7 +1372,7 @@ public final class Authentication {
         }
       }
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @param value The password to set.
        * @return This builder for chaining.
        */
@@ -1151,23 +1381,23 @@ public final class Authentication {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         password_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearPassword() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         password_ = getDefaultInstance().getPassword();
         onChanged();
         return this;
       }
       /**
-       * <code>required string password = 4;</code>
+       * <code>required string password = 5;</code>
        * @param value The bytes for password to set.
        * @return This builder for chaining.
        */
@@ -1176,7 +1406,7 @@ public final class Authentication {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         password_ = value;
         onChanged();
         return this;
@@ -1248,15 +1478,17 @@ public final class Authentication {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024authentication.proto\022\016authentication\"\250" +
+      "\n\024authentication.proto\022\016authentication\"\314" +
       "\001\n\025AuthenticationRequest\022;\n\010authType\030\001 \002" +
       "(\0162).authentication.AuthenticationReques" +
       "tType\022.\n\nclientType\030\002 \002(\0162\032.authenticati" +
-      "on.ClientType\022\020\n\010username\030\003 \002(\t\022\020\n\010passw" +
-      "ord\030\004 \002(\t*,\n\nClientType\022\014\n\010IMPORTER\020\000\022\020\n" +
-      "\014MANUFACTURER\020\001*4\n\031AuthenticationRequest" +
-      "Type\022\014\n\010REGISTER\020\000\022\t\n\005LOGIN\020\001B\027\n\025protos." +
-      "authentication"
+      "on.ClientType\022\"\n\004area\030\003 \002(\0162\024.authentica" +
+      "tion.Area\022\020\n\010username\030\004 \002(\t\022\020\n\010password\030" +
+      "\005 \002(\t*,\n\nClientType\022\014\n\010IMPORTER\020\001\022\020\n\014MAN" +
+      "UFACTURER\020\002*4\n\031AuthenticationRequestType" +
+      "\022\014\n\010REGISTER\020\001\022\t\n\005LOGIN\020\002*B\n\004Area\022\016\n\nTEC" +
+      "NOLOGIA\020\001\022\017\n\013ALIMENTACAO\020\002\022\013\n\007TEXTEIS\020\003\022" +
+      "\014\n\010DIVERSOS\020\004B\027\n\025protos.authentication"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1267,7 +1499,7 @@ public final class Authentication {
     internal_static_authentication_AuthenticationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_authentication_AuthenticationRequest_descriptor,
-        new java.lang.String[] { "AuthType", "ClientType", "Username", "Password", });
+        new java.lang.String[] { "AuthType", "ClientType", "Area", "Username", "Password", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

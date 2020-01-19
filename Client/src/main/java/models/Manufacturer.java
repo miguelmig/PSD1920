@@ -8,8 +8,8 @@ public class Manufacturer extends User {
     }
 
 
-    public Manufacturer(String username, String password) {
-        super(username, password);
+    public Manufacturer(String username, String password, String area) {
+        super(username, password, area);
     }
 
 

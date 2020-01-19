@@ -2398,57 +2398,74 @@ public final class Message {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string manufacturer = 1;</code>
+     * <code>required string importer_name = 1;</code>
+     * @return Whether the importerName field is set.
+     */
+    boolean hasImporterName();
+    /**
+     * <code>required string importer_name = 1;</code>
+     * @return The importerName.
+     */
+    java.lang.String getImporterName();
+    /**
+     * <code>required string importer_name = 1;</code>
+     * @return The bytes for importerName.
+     */
+    com.google.protobuf.ByteString
+        getImporterNameBytes();
+
+    /**
+     * <code>required string manufacturer = 2;</code>
      * @return Whether the manufacturer field is set.
      */
     boolean hasManufacturer();
     /**
-     * <code>required string manufacturer = 1;</code>
+     * <code>required string manufacturer = 2;</code>
      * @return The manufacturer.
      */
     java.lang.String getManufacturer();
     /**
-     * <code>required string manufacturer = 1;</code>
+     * <code>required string manufacturer = 2;</code>
      * @return The bytes for manufacturer.
      */
     com.google.protobuf.ByteString
         getManufacturerBytes();
 
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return Whether the product field is set.
      */
     boolean hasProduct();
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return The product.
      */
     java.lang.String getProduct();
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return The bytes for product.
      */
     com.google.protobuf.ByteString
         getProductBytes();
 
     /**
-     * <code>required int32 quantity = 3;</code>
+     * <code>required int32 quantity = 4;</code>
      * @return Whether the quantity field is set.
      */
     boolean hasQuantity();
     /**
-     * <code>required int32 quantity = 3;</code>
+     * <code>required int32 quantity = 4;</code>
      * @return The quantity.
      */
     int getQuantity();
 
     /**
-     * <code>required int32 willing_price = 4;</code>
+     * <code>required int32 willing_price = 5;</code>
      * @return Whether the willingPrice field is set.
      */
     boolean hasWillingPrice();
     /**
-     * <code>required int32 willing_price = 4;</code>
+     * <code>required int32 willing_price = 5;</code>
      * @return The willingPrice.
      */
     int getWillingPrice();
@@ -2466,6 +2483,7 @@ public final class Message {
       super(builder);
     }
     private AddEncomendaMessage() {
+      importerName_ = "";
       manufacturer_ = "";
       product_ = "";
     }
@@ -2504,22 +2522,28 @@ public final class Message {
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              manufacturer_ = bs;
+              importerName_ = bs;
               break;
             }
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              product_ = bs;
+              manufacturer_ = bs;
               break;
             }
-            case 24: {
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              quantity_ = input.readInt32();
+              product_ = bs;
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
+              quantity_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
               willingPrice_ = input.readInt32();
               break;
             }
@@ -2556,17 +2580,62 @@ public final class Message {
     }
 
     private int bitField0_;
-    public static final int MANUFACTURER_FIELD_NUMBER = 1;
-    private volatile java.lang.Object manufacturer_;
+    public static final int IMPORTER_NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object importerName_;
     /**
-     * <code>required string manufacturer = 1;</code>
-     * @return Whether the manufacturer field is set.
+     * <code>required string importer_name = 1;</code>
+     * @return Whether the importerName field is set.
      */
-    public boolean hasManufacturer() {
+    public boolean hasImporterName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required string manufacturer = 1;</code>
+     * <code>required string importer_name = 1;</code>
+     * @return The importerName.
+     */
+    public java.lang.String getImporterName() {
+      java.lang.Object ref = importerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          importerName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string importer_name = 1;</code>
+     * @return The bytes for importerName.
+     */
+    public com.google.protobuf.ByteString
+        getImporterNameBytes() {
+      java.lang.Object ref = importerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        importerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MANUFACTURER_FIELD_NUMBER = 2;
+    private volatile java.lang.Object manufacturer_;
+    /**
+     * <code>required string manufacturer = 2;</code>
+     * @return Whether the manufacturer field is set.
+     */
+    public boolean hasManufacturer() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required string manufacturer = 2;</code>
      * @return The manufacturer.
      */
     public java.lang.String getManufacturer() {
@@ -2584,7 +2653,7 @@ public final class Message {
       }
     }
     /**
-     * <code>required string manufacturer = 1;</code>
+     * <code>required string manufacturer = 2;</code>
      * @return The bytes for manufacturer.
      */
     public com.google.protobuf.ByteString
@@ -2601,17 +2670,17 @@ public final class Message {
       }
     }
 
-    public static final int PRODUCT_FIELD_NUMBER = 2;
+    public static final int PRODUCT_FIELD_NUMBER = 3;
     private volatile java.lang.Object product_;
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return Whether the product field is set.
      */
     public boolean hasProduct() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return The product.
      */
     public java.lang.String getProduct() {
@@ -2629,7 +2698,7 @@ public final class Message {
       }
     }
     /**
-     * <code>required string product = 2;</code>
+     * <code>required string product = 3;</code>
      * @return The bytes for product.
      */
     public com.google.protobuf.ByteString
@@ -2646,34 +2715,34 @@ public final class Message {
       }
     }
 
-    public static final int QUANTITY_FIELD_NUMBER = 3;
+    public static final int QUANTITY_FIELD_NUMBER = 4;
     private int quantity_;
     /**
-     * <code>required int32 quantity = 3;</code>
+     * <code>required int32 quantity = 4;</code>
      * @return Whether the quantity field is set.
      */
     public boolean hasQuantity() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>required int32 quantity = 3;</code>
+     * <code>required int32 quantity = 4;</code>
      * @return The quantity.
      */
     public int getQuantity() {
       return quantity_;
     }
 
-    public static final int WILLING_PRICE_FIELD_NUMBER = 4;
+    public static final int WILLING_PRICE_FIELD_NUMBER = 5;
     private int willingPrice_;
     /**
-     * <code>required int32 willing_price = 4;</code>
+     * <code>required int32 willing_price = 5;</code>
      * @return Whether the willingPrice field is set.
      */
     public boolean hasWillingPrice() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
-     * <code>required int32 willing_price = 4;</code>
+     * <code>required int32 willing_price = 5;</code>
      * @return The willingPrice.
      */
     public int getWillingPrice() {
@@ -2687,6 +2756,10 @@ public final class Message {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasImporterName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasManufacturer()) {
         memoizedIsInitialized = 0;
         return false;
@@ -2711,16 +2784,19 @@ public final class Message {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, manufacturer_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, importerName_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, product_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, manufacturer_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeInt32(3, quantity_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, product_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeInt32(4, willingPrice_);
+        output.writeInt32(4, quantity_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeInt32(5, willingPrice_);
       }
       unknownFields.writeTo(output);
     }
@@ -2732,18 +2808,21 @@ public final class Message {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, manufacturer_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, importerName_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, product_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, manufacturer_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, quantity_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, product_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, willingPrice_);
+          .computeInt32Size(4, quantity_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, willingPrice_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2760,6 +2839,11 @@ public final class Message {
       }
       protos.message.Message.AddEncomendaMessage other = (protos.message.Message.AddEncomendaMessage) obj;
 
+      if (hasImporterName() != other.hasImporterName()) return false;
+      if (hasImporterName()) {
+        if (!getImporterName()
+            .equals(other.getImporterName())) return false;
+      }
       if (hasManufacturer() != other.hasManufacturer()) return false;
       if (hasManufacturer()) {
         if (!getManufacturer()
@@ -2791,6 +2875,10 @@ public final class Message {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasImporterName()) {
+        hash = (37 * hash) + IMPORTER_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getImporterName().hashCode();
+      }
       if (hasManufacturer()) {
         hash = (37 * hash) + MANUFACTURER_FIELD_NUMBER;
         hash = (53 * hash) + getManufacturer().hashCode();
@@ -2940,14 +3028,16 @@ public final class Message {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        manufacturer_ = "";
+        importerName_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        product_ = "";
+        manufacturer_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        quantity_ = 0;
+        product_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        willingPrice_ = 0;
+        quantity_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        willingPrice_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2979,18 +3069,22 @@ public final class Message {
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.manufacturer_ = manufacturer_;
+        result.importerName_ = importerName_;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.product_ = product_;
+        result.manufacturer_ = manufacturer_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.quantity_ = quantity_;
           to_bitField0_ |= 0x00000004;
         }
+        result.product_ = product_;
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.willingPrice_ = willingPrice_;
+          result.quantity_ = quantity_;
           to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.willingPrice_ = willingPrice_;
+          to_bitField0_ |= 0x00000010;
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3041,13 +3135,18 @@ public final class Message {
 
       public Builder mergeFrom(protos.message.Message.AddEncomendaMessage other) {
         if (other == protos.message.Message.AddEncomendaMessage.getDefaultInstance()) return this;
-        if (other.hasManufacturer()) {
+        if (other.hasImporterName()) {
           bitField0_ |= 0x00000001;
+          importerName_ = other.importerName_;
+          onChanged();
+        }
+        if (other.hasManufacturer()) {
+          bitField0_ |= 0x00000002;
           manufacturer_ = other.manufacturer_;
           onChanged();
         }
         if (other.hasProduct()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           product_ = other.product_;
           onChanged();
         }
@@ -3064,6 +3163,9 @@ public final class Message {
 
       @java.lang.Override
       public final boolean isInitialized() {
+        if (!hasImporterName()) {
+          return false;
+        }
         if (!hasManufacturer()) {
           return false;
         }
@@ -3099,16 +3201,100 @@ public final class Message {
       }
       private int bitField0_;
 
-      private java.lang.Object manufacturer_ = "";
+      private java.lang.Object importerName_ = "";
       /**
-       * <code>required string manufacturer = 1;</code>
-       * @return Whether the manufacturer field is set.
+       * <code>required string importer_name = 1;</code>
+       * @return Whether the importerName field is set.
        */
-      public boolean hasManufacturer() {
+      public boolean hasImporterName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required string manufacturer = 1;</code>
+       * <code>required string importer_name = 1;</code>
+       * @return The importerName.
+       */
+      public java.lang.String getImporterName() {
+        java.lang.Object ref = importerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            importerName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string importer_name = 1;</code>
+       * @return The bytes for importerName.
+       */
+      public com.google.protobuf.ByteString
+          getImporterNameBytes() {
+        java.lang.Object ref = importerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          importerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string importer_name = 1;</code>
+       * @param value The importerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setImporterName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        importerName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string importer_name = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearImporterName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        importerName_ = getDefaultInstance().getImporterName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string importer_name = 1;</code>
+       * @param value The bytes for importerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setImporterNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        importerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object manufacturer_ = "";
+      /**
+       * <code>required string manufacturer = 2;</code>
+       * @return Whether the manufacturer field is set.
+       */
+      public boolean hasManufacturer() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required string manufacturer = 2;</code>
        * @return The manufacturer.
        */
       public java.lang.String getManufacturer() {
@@ -3126,7 +3312,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string manufacturer = 1;</code>
+       * <code>required string manufacturer = 2;</code>
        * @return The bytes for manufacturer.
        */
       public com.google.protobuf.ByteString
@@ -3143,7 +3329,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string manufacturer = 1;</code>
+       * <code>required string manufacturer = 2;</code>
        * @param value The manufacturer to set.
        * @return This builder for chaining.
        */
@@ -3152,23 +3338,23 @@ public final class Message {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         manufacturer_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string manufacturer = 1;</code>
+       * <code>required string manufacturer = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearManufacturer() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         manufacturer_ = getDefaultInstance().getManufacturer();
         onChanged();
         return this;
       }
       /**
-       * <code>required string manufacturer = 1;</code>
+       * <code>required string manufacturer = 2;</code>
        * @param value The bytes for manufacturer to set.
        * @return This builder for chaining.
        */
@@ -3177,7 +3363,7 @@ public final class Message {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         manufacturer_ = value;
         onChanged();
         return this;
@@ -3185,14 +3371,14 @@ public final class Message {
 
       private java.lang.Object product_ = "";
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @return Whether the product field is set.
        */
       public boolean hasProduct() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @return The product.
        */
       public java.lang.String getProduct() {
@@ -3210,7 +3396,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @return The bytes for product.
        */
       public com.google.protobuf.ByteString
@@ -3227,7 +3413,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @param value The product to set.
        * @return This builder for chaining.
        */
@@ -3236,23 +3422,23 @@ public final class Message {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         product_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearProduct() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         product_ = getDefaultInstance().getProduct();
         onChanged();
         return this;
       }
       /**
-       * <code>required string product = 2;</code>
+       * <code>required string product = 3;</code>
        * @param value The bytes for product to set.
        * @return This builder for chaining.
        */
@@ -3261,7 +3447,7 @@ public final class Message {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         product_ = value;
         onChanged();
         return this;
@@ -3269,36 +3455,36 @@ public final class Message {
 
       private int quantity_ ;
       /**
-       * <code>required int32 quantity = 3;</code>
+       * <code>required int32 quantity = 4;</code>
        * @return Whether the quantity field is set.
        */
       public boolean hasQuantity() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>required int32 quantity = 3;</code>
+       * <code>required int32 quantity = 4;</code>
        * @return The quantity.
        */
       public int getQuantity() {
         return quantity_;
       }
       /**
-       * <code>required int32 quantity = 3;</code>
+       * <code>required int32 quantity = 4;</code>
        * @param value The quantity to set.
        * @return This builder for chaining.
        */
       public Builder setQuantity(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         quantity_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 quantity = 3;</code>
+       * <code>required int32 quantity = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearQuantity() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         quantity_ = 0;
         onChanged();
         return this;
@@ -3306,36 +3492,36 @@ public final class Message {
 
       private int willingPrice_ ;
       /**
-       * <code>required int32 willing_price = 4;</code>
+       * <code>required int32 willing_price = 5;</code>
        * @return Whether the willingPrice field is set.
        */
       public boolean hasWillingPrice() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
-       * <code>required int32 willing_price = 4;</code>
+       * <code>required int32 willing_price = 5;</code>
        * @return The willingPrice.
        */
       public int getWillingPrice() {
         return willingPrice_;
       }
       /**
-       * <code>required int32 willing_price = 4;</code>
+       * <code>required int32 willing_price = 5;</code>
        * @param value The willingPrice to set.
        * @return This builder for chaining.
        */
       public Builder setWillingPrice(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         willingPrice_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 willing_price = 4;</code>
+       * <code>required int32 willing_price = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearWillingPrice() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         willingPrice_ = 0;
         onChanged();
         return this;
@@ -3427,10 +3613,11 @@ public final class Message {
       "facturer_name\030\001 \002(\t\022\024\n\014product_name\030\002 \002(" +
       "\t\022\030\n\020minimum_quantity\030\003 \002(\005\022\030\n\020maximum_q" +
       "uantity\030\004 \002(\005\022\025\n\runitary_price\030\005 \002(\005\022\030\n\020" +
-      "negotiation_time\030\006 \002(\005\"e\n\023AddEncomendaMe" +
-      "ssage\022\024\n\014manufacturer\030\001 \002(\t\022\017\n\007product\030\002" +
-      " \002(\t\022\020\n\010quantity\030\003 \002(\005\022\025\n\rwilling_price\030" +
-      "\004 \002(\005B\020\n\016protos.message"
+      "negotiation_time\030\006 \002(\005\"|\n\023AddEncomendaMe" +
+      "ssage\022\025\n\rimporter_name\030\001 \002(\t\022\024\n\014manufact" +
+      "urer\030\002 \002(\t\022\017\n\007product\030\003 \002(\t\022\020\n\010quantity\030" +
+      "\004 \002(\005\022\025\n\rwilling_price\030\005 \002(\005B\020\n\016protos.m" +
+      "essage"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3453,7 +3640,7 @@ public final class Message {
     internal_static_message_AddEncomendaMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_AddEncomendaMessage_descriptor,
-        new java.lang.String[] { "Manufacturer", "Product", "Quantity", "WillingPrice", });
+        new java.lang.String[] { "ImporterName", "Manufacturer", "Product", "Quantity", "WillingPrice", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

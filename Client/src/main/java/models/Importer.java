@@ -8,8 +8,8 @@ public class Importer extends User {
     }
 
 
-    public Importer(String username, String password) {
-        super(username, password);
+    public Importer(String username, String password, String area) {
+        super(username, password, area);
     }
 
 

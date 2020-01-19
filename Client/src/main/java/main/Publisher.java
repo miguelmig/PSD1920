@@ -7,10 +7,30 @@ public class Publisher {
 
     private ZMQ.Socket socket;
 
-    public Publisher() {
+    public Publisher(String area) {
         ZMQ.Context context = ZMQ.context(1);
         this.socket = context.socket(SocketType.PUB);
-        socket.connect("tcp://localhost:12345");
+
+        switch (area) {
+            case "tecnologia":
+                socket.connect("tcp://localhost:8001");
+                break;
+
+            case "alimentacao":
+                socket.connect("tcp://localhost:8006");
+                break;
+
+            case "texteis":
+                socket.connect("tcp://localhost:8011");
+                break;
+
+            case "diversos":
+                socket.connect("tcp://localhost:8016");
+                break;
+
+            default:
+                break;
+        }
     }
 
     public void sendMessage(String topic, String msg) {
