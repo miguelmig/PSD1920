@@ -18,6 +18,7 @@
 -export([enum_symbol_by_value/2, enum_value_by_symbol/2]).
 -export([enum_symbol_by_value_ClientType/1, enum_value_by_symbol_ClientType/1]).
 -export([enum_symbol_by_value_AuthenticationRequestType/1, enum_value_by_symbol_AuthenticationRequestType/1]).
+-export([enum_symbol_by_value_Area/1, enum_value_by_symbol_Area/1]).
 -export([get_service_names/0]).
 -export([get_service_def/1]).
 -export([get_rpc_names/1]).
@@ -52,7 +53,8 @@
 %% enumerated types
 -type 'ClientType'() :: 'IMPORTER' | 'MANUFACTURER'.
 -type 'AuthenticationRequestType'() :: 'REGISTER' | 'LOGIN'.
--export_type(['ClientType'/0, 'AuthenticationRequestType'/0]).
+-type 'Area'() :: 'TECNOLOGIA' | 'ALIMENTACAO' | 'TEXTEIS' | 'DIVERSOS'.
+-export_type(['ClientType'/0, 'AuthenticationRequestType'/0, 'Area'/0]).
 
 %% message types
 -type 'AuthenticationRequest'() :: #'AuthenticationRequest'{}.
@@ -91,8 +93,9 @@ encode_msg_AuthenticationRequest(Msg, TrUserData) ->
 encode_msg_AuthenticationRequest(#'AuthenticationRequest'{authType
 							      = F1,
 							  clientType = F2,
-							  username = F3,
-							  password = F4},
+							  area = F3,
+							  username = F4,
+							  password = F5},
 				 Bin, TrUserData) ->
     B1 = begin
 	   TrF1 = id(F1, TrUserData),
@@ -105,28 +108,42 @@ encode_msg_AuthenticationRequest(#'AuthenticationRequest'{authType
 	 end,
     B3 = begin
 	   TrF3 = id(F3, TrUserData),
-	   e_type_string(TrF3, <<B2/binary, 26>>, TrUserData)
+	   e_enum_Area(TrF3, <<B2/binary, 24>>, TrUserData)
+	 end,
+    B4 = begin
+	   TrF4 = id(F4, TrUserData),
+	   e_type_string(TrF4, <<B3/binary, 34>>, TrUserData)
 	 end,
     begin
-      TrF4 = id(F4, TrUserData),
-      e_type_string(TrF4, <<B3/binary, 34>>, TrUserData)
+      TrF5 = id(F5, TrUserData),
+      e_type_string(TrF5, <<B4/binary, 42>>, TrUserData)
     end.
 
 e_enum_ClientType('IMPORTER', Bin, _TrUserData) ->
-    <<Bin/binary, 0>>;
-e_enum_ClientType('MANUFACTURER', Bin, _TrUserData) ->
     <<Bin/binary, 1>>;
+e_enum_ClientType('MANUFACTURER', Bin, _TrUserData) ->
+    <<Bin/binary, 2>>;
 e_enum_ClientType(V, Bin, _TrUserData) ->
     e_varint(V, Bin).
 
 e_enum_AuthenticationRequestType('REGISTER', Bin,
 				 _TrUserData) ->
-    <<Bin/binary, 0>>;
+    <<Bin/binary, 1>>;
 e_enum_AuthenticationRequestType('LOGIN', Bin,
 				 _TrUserData) ->
-    <<Bin/binary, 1>>;
+    <<Bin/binary, 2>>;
 e_enum_AuthenticationRequestType(V, Bin, _TrUserData) ->
     e_varint(V, Bin).
+
+e_enum_Area('TECNOLOGIA', Bin, _TrUserData) ->
+    <<Bin/binary, 1>>;
+e_enum_Area('ALIMENTACAO', Bin, _TrUserData) ->
+    <<Bin/binary, 2>>;
+e_enum_Area('TEXTEIS', Bin, _TrUserData) ->
+    <<Bin/binary, 3>>;
+e_enum_Area('DIVERSOS', Bin, _TrUserData) ->
+    <<Bin/binary, 4>>;
+e_enum_Area(V, Bin, _TrUserData) -> e_varint(V, Bin).
 
 -compile({nowarn_unused_function,e_type_sint/3}).
 e_type_sint(Value, Bin, _TrUserData) when Value >= 0 ->
@@ -255,108 +272,129 @@ decode_msg_AuthenticationRequest(Bin, TrUserData) ->
 					     id(undefined, TrUserData),
 					     id(undefined, TrUserData),
 					     id(undefined, TrUserData),
+					     id(undefined, TrUserData),
 					     TrUserData).
 
 dfp_read_field_def_AuthenticationRequest(<<8,
 					   Rest/binary>>,
-					 Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+					 Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
 					 TrUserData) ->
     d_field_AuthenticationRequest_authType(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, TrUserData);
+					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   TrUserData);
 dfp_read_field_def_AuthenticationRequest(<<16,
 					   Rest/binary>>,
-					 Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+					 Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
 					 TrUserData) ->
     d_field_AuthenticationRequest_clientType(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData);
-dfp_read_field_def_AuthenticationRequest(<<26,
+dfp_read_field_def_AuthenticationRequest(<<24,
 					   Rest/binary>>,
-					 Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+					 Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
 					 TrUserData) ->
-    d_field_AuthenticationRequest_username(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, TrUserData);
+    d_field_AuthenticationRequest_area(Rest, Z1, Z2, F@_1,
+				       F@_2, F@_3, F@_4, F@_5, TrUserData);
 dfp_read_field_def_AuthenticationRequest(<<34,
 					   Rest/binary>>,
-					 Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+					 Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+					 TrUserData) ->
+    d_field_AuthenticationRequest_username(Rest, Z1, Z2,
+					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   TrUserData);
+dfp_read_field_def_AuthenticationRequest(<<42,
+					   Rest/binary>>,
+					 Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
 					 TrUserData) ->
     d_field_AuthenticationRequest_password(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, TrUserData);
+					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   TrUserData);
 dfp_read_field_def_AuthenticationRequest(<<>>, 0, 0,
-					 F@_1, F@_2, F@_3, F@_4, _) ->
+					 F@_1, F@_2, F@_3, F@_4, F@_5, _) ->
     #'AuthenticationRequest'{authType = F@_1,
-			     clientType = F@_2, username = F@_3,
-			     password = F@_4};
+			     clientType = F@_2, area = F@_3, username = F@_4,
+			     password = F@_5};
 dfp_read_field_def_AuthenticationRequest(Other, Z1, Z2,
-					 F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+					 F@_1, F@_2, F@_3, F@_4, F@_5,
+					 TrUserData) ->
     dg_read_field_def_AuthenticationRequest(Other, Z1, Z2,
-					    F@_1, F@_2, F@_3, F@_4, TrUserData).
+					    F@_1, F@_2, F@_3, F@_4, F@_5,
+					    TrUserData).
 
 dg_read_field_def_AuthenticationRequest(<<1:1, X:7,
 					  Rest/binary>>,
-					N, Acc, F@_1, F@_2, F@_3, F@_4,
+					N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 					TrUserData)
     when N < 32 - 7 ->
     dg_read_field_def_AuthenticationRequest(Rest, N + 7,
 					    X bsl N + Acc, F@_1, F@_2, F@_3,
-					    F@_4, TrUserData);
+					    F@_4, F@_5, TrUserData);
 dg_read_field_def_AuthenticationRequest(<<0:1, X:7,
 					  Rest/binary>>,
-					N, Acc, F@_1, F@_2, F@_3, F@_4,
+					N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 					TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
       8 ->
 	  d_field_AuthenticationRequest_authType(Rest, 0, 0, F@_1,
-						 F@_2, F@_3, F@_4, TrUserData);
+						 F@_2, F@_3, F@_4, F@_5,
+						 TrUserData);
       16 ->
 	  d_field_AuthenticationRequest_clientType(Rest, 0, 0,
-						   F@_1, F@_2, F@_3, F@_4,
+						   F@_1, F@_2, F@_3, F@_4, F@_5,
 						   TrUserData);
-      26 ->
-	  d_field_AuthenticationRequest_username(Rest, 0, 0, F@_1,
-						 F@_2, F@_3, F@_4, TrUserData);
+      24 ->
+	  d_field_AuthenticationRequest_area(Rest, 0, 0, F@_1,
+					     F@_2, F@_3, F@_4, F@_5,
+					     TrUserData);
       34 ->
+	  d_field_AuthenticationRequest_username(Rest, 0, 0, F@_1,
+						 F@_2, F@_3, F@_4, F@_5,
+						 TrUserData);
+      42 ->
 	  d_field_AuthenticationRequest_password(Rest, 0, 0, F@_1,
-						 F@_2, F@_3, F@_4, TrUserData);
+						 F@_2, F@_3, F@_4, F@_5,
+						 TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 ->
 		skip_varint_AuthenticationRequest(Rest, 0, 0, F@_1,
-						  F@_2, F@_3, F@_4, TrUserData);
+						  F@_2, F@_3, F@_4, F@_5,
+						  TrUserData);
 	    1 ->
 		skip_64_AuthenticationRequest(Rest, 0, 0, F@_1, F@_2,
-					      F@_3, F@_4, TrUserData);
+					      F@_3, F@_4, F@_5, TrUserData);
 	    2 ->
 		skip_length_delimited_AuthenticationRequest(Rest, 0, 0,
 							    F@_1, F@_2, F@_3,
-							    F@_4, TrUserData);
+							    F@_4, F@_5,
+							    TrUserData);
 	    3 ->
 		skip_group_AuthenticationRequest(Rest, Key bsr 3, 0,
-						 F@_1, F@_2, F@_3, F@_4,
+						 F@_1, F@_2, F@_3, F@_4, F@_5,
 						 TrUserData);
 	    5 ->
 		skip_32_AuthenticationRequest(Rest, 0, 0, F@_1, F@_2,
-					      F@_3, F@_4, TrUserData)
+					      F@_3, F@_4, F@_5, TrUserData)
 	  end
     end;
 dg_read_field_def_AuthenticationRequest(<<>>, 0, 0,
-					F@_1, F@_2, F@_3, F@_4, _) ->
+					F@_1, F@_2, F@_3, F@_4, F@_5, _) ->
     #'AuthenticationRequest'{authType = F@_1,
-			     clientType = F@_2, username = F@_3,
-			     password = F@_4}.
+			     clientType = F@_2, area = F@_3, username = F@_4,
+			     password = F@_5}.
 
 d_field_AuthenticationRequest_authType(<<1:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, F@_1, F@_2, F@_3, F@_4,
+				       N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 				       TrUserData)
     when N < 57 ->
     d_field_AuthenticationRequest_authType(Rest, N + 7,
 					   X bsl N + Acc, F@_1, F@_2, F@_3,
-					   F@_4, TrUserData);
+					   F@_4, F@_5, TrUserData);
 d_field_AuthenticationRequest_authType(<<0:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, _, F@_2, F@_3, F@_4,
+				       N, Acc, _, F@_2, F@_3, F@_4, F@_5,
 				       TrUserData) ->
     {NewFValue, RestF} =
 	{id(d_enum_AuthenticationRequestType(begin
@@ -370,20 +408,20 @@ d_field_AuthenticationRequest_authType(<<0:1, X:7,
 	    TrUserData),
 	 Rest},
     dfp_read_field_def_AuthenticationRequest(RestF, 0, 0,
-					     NewFValue, F@_2, F@_3, F@_4,
+					     NewFValue, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
 d_field_AuthenticationRequest_clientType(<<1:1, X:7,
 					   Rest/binary>>,
-					 N, Acc, F@_1, F@_2, F@_3, F@_4,
+					 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 					 TrUserData)
     when N < 57 ->
     d_field_AuthenticationRequest_clientType(Rest, N + 7,
 					     X bsl N + Acc, F@_1, F@_2, F@_3,
-					     F@_4, TrUserData);
+					     F@_4, F@_5, TrUserData);
 d_field_AuthenticationRequest_clientType(<<0:1, X:7,
 					   Rest/binary>>,
-					 N, Acc, F@_1, _, F@_3, F@_4,
+					 N, Acc, F@_1, _, F@_3, F@_4, F@_5,
 					 TrUserData) ->
     {NewFValue, RestF} = {id(d_enum_ClientType(begin
 						 <<Res:32/signed-native>> = <<(X
@@ -396,20 +434,44 @@ d_field_AuthenticationRequest_clientType(<<0:1, X:7,
 			     TrUserData),
 			  Rest},
     dfp_read_field_def_AuthenticationRequest(RestF, 0, 0,
-					     F@_1, NewFValue, F@_3, F@_4,
+					     F@_1, NewFValue, F@_3, F@_4, F@_5,
+					     TrUserData).
+
+d_field_AuthenticationRequest_area(<<1:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+				   TrUserData)
+    when N < 57 ->
+    d_field_AuthenticationRequest_area(Rest, N + 7,
+				       X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				       F@_5, TrUserData);
+d_field_AuthenticationRequest_area(<<0:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, _, F@_4, F@_5,
+				   TrUserData) ->
+    {NewFValue, RestF} = {id(d_enum_Area(begin
+					   <<Res:32/signed-native>> = <<(X bsl N
+									   +
+									   Acc):32/unsigned-native>>,
+					   id(Res, TrUserData)
+					 end),
+			     TrUserData),
+			  Rest},
+    dfp_read_field_def_AuthenticationRequest(RestF, 0, 0,
+					     F@_1, F@_2, NewFValue, F@_4, F@_5,
 					     TrUserData).
 
 d_field_AuthenticationRequest_username(<<1:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, F@_1, F@_2, F@_3, F@_4,
+				       N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 				       TrUserData)
     when N < 57 ->
     d_field_AuthenticationRequest_username(Rest, N + 7,
 					   X bsl N + Acc, F@_1, F@_2, F@_3,
-					   F@_4, TrUserData);
+					   F@_4, F@_5, TrUserData);
 d_field_AuthenticationRequest_username(<<0:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, F@_1, F@_2, _, F@_4,
+				       N, Acc, F@_1, F@_2, F@_3, _, F@_5,
 				       TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
@@ -419,20 +481,20 @@ d_field_AuthenticationRequest_username(<<0:1, X:7,
 			    Rest2}
 			 end,
     dfp_read_field_def_AuthenticationRequest(RestF, 0, 0,
-					     F@_1, F@_2, NewFValue, F@_4,
+					     F@_1, F@_2, F@_3, NewFValue, F@_5,
 					     TrUserData).
 
 d_field_AuthenticationRequest_password(<<1:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, F@_1, F@_2, F@_3, F@_4,
+				       N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
 				       TrUserData)
     when N < 57 ->
     d_field_AuthenticationRequest_password(Rest, N + 7,
 					   X bsl N + Acc, F@_1, F@_2, F@_3,
-					   F@_4, TrUserData);
+					   F@_4, F@_5, TrUserData);
 d_field_AuthenticationRequest_password(<<0:1, X:7,
 					 Rest/binary>>,
-				       N, Acc, F@_1, F@_2, F@_3, _,
+				       N, Acc, F@_1, F@_2, F@_3, F@_4, _,
 				       TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
@@ -442,65 +504,73 @@ d_field_AuthenticationRequest_password(<<0:1, X:7,
 			    Rest2}
 			 end,
     dfp_read_field_def_AuthenticationRequest(RestF, 0, 0,
-					     F@_1, F@_2, F@_3, NewFValue,
+					     F@_1, F@_2, F@_3, F@_4, NewFValue,
 					     TrUserData).
 
 skip_varint_AuthenticationRequest(<<1:1, _:7,
 				    Rest/binary>>,
-				  Z1, Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+				  Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+				  TrUserData) ->
     skip_varint_AuthenticationRequest(Rest, Z1, Z2, F@_1,
-				      F@_2, F@_3, F@_4, TrUserData);
+				      F@_2, F@_3, F@_4, F@_5, TrUserData);
 skip_varint_AuthenticationRequest(<<0:1, _:7,
 				    Rest/binary>>,
-				  Z1, Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+				  Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+				  TrUserData) ->
     dfp_read_field_def_AuthenticationRequest(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
 skip_length_delimited_AuthenticationRequest(<<1:1, X:7,
 					      Rest/binary>>,
 					    N, Acc, F@_1, F@_2, F@_3, F@_4,
-					    TrUserData)
+					    F@_5, TrUserData)
     when N < 57 ->
     skip_length_delimited_AuthenticationRequest(Rest, N + 7,
 						X bsl N + Acc, F@_1, F@_2, F@_3,
-						F@_4, TrUserData);
+						F@_4, F@_5, TrUserData);
 skip_length_delimited_AuthenticationRequest(<<0:1, X:7,
 					      Rest/binary>>,
 					    N, Acc, F@_1, F@_2, F@_3, F@_4,
-					    TrUserData) ->
+					    F@_5, TrUserData) ->
     Length = X bsl N + Acc,
     <<_:Length/binary, Rest2/binary>> = Rest,
     dfp_read_field_def_AuthenticationRequest(Rest2, 0, 0,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
 skip_group_AuthenticationRequest(Bin, FNum, Z2, F@_1,
-				 F@_2, F@_3, F@_4, TrUserData) ->
+				 F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     {_, Rest} = read_group(Bin, FNum),
     dfp_read_field_def_AuthenticationRequest(Rest, 0, Z2,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
 skip_32_AuthenticationRequest(<<_:32, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     dfp_read_field_def_AuthenticationRequest(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
 skip_64_AuthenticationRequest(<<_:64, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     dfp_read_field_def_AuthenticationRequest(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4,
+					     F@_1, F@_2, F@_3, F@_4, F@_5,
 					     TrUserData).
 
-d_enum_ClientType(0) -> 'IMPORTER';
-d_enum_ClientType(1) -> 'MANUFACTURER';
+d_enum_ClientType(1) -> 'IMPORTER';
+d_enum_ClientType(2) -> 'MANUFACTURER';
 d_enum_ClientType(V) -> V.
 
-d_enum_AuthenticationRequestType(0) -> 'REGISTER';
-d_enum_AuthenticationRequestType(1) -> 'LOGIN';
+d_enum_AuthenticationRequestType(1) -> 'REGISTER';
+d_enum_AuthenticationRequestType(2) -> 'LOGIN';
 d_enum_AuthenticationRequestType(V) -> V.
+
+d_enum_Area(1) -> 'TECNOLOGIA';
+d_enum_Area(2) -> 'ALIMENTACAO';
+d_enum_Area(3) -> 'TEXTEIS';
+d_enum_Area(4) -> 'DIVERSOS';
+d_enum_Area(V) -> V.
 
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
@@ -583,12 +653,13 @@ merge_msg_AuthenticationRequest(#'AuthenticationRequest'{},
 				#'AuthenticationRequest'{authType = NFauthType,
 							 clientType =
 							     NFclientType,
+							 area = NFarea,
 							 username = NFusername,
 							 password = NFpassword},
 				_) ->
     #'AuthenticationRequest'{authType = NFauthType,
-			     clientType = NFclientType, username = NFusername,
-			     password = NFpassword}.
+			     clientType = NFclientType, area = NFarea,
+			     username = NFusername, password = NFpassword}.
 
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 ->
@@ -616,15 +687,16 @@ verify_msg(Msg, MsgName, Opts) ->
 -dialyzer({nowarn_function,v_msg_AuthenticationRequest/3}).
 v_msg_AuthenticationRequest(#'AuthenticationRequest'{authType
 							 = F1,
-						     clientType = F2,
-						     username = F3,
-						     password = F4},
+						     clientType = F2, area = F3,
+						     username = F4,
+						     password = F5},
 			    Path, TrUserData) ->
     v_enum_AuthenticationRequestType(F1, [authType | Path],
 				     TrUserData),
     v_enum_ClientType(F2, [clientType | Path], TrUserData),
-    v_type_string(F3, [username | Path], TrUserData),
-    v_type_string(F4, [password | Path], TrUserData),
+    v_enum_Area(F3, [area | Path], TrUserData),
+    v_type_string(F4, [username | Path], TrUserData),
+    v_type_string(F5, [password | Path], TrUserData),
     ok;
 v_msg_AuthenticationRequest(X, Path, _TrUserData) ->
     mk_type_error({expected_msg, 'AuthenticationRequest'},
@@ -657,6 +729,17 @@ v_enum_AuthenticationRequestType(X, Path,
     mk_type_error({invalid_enum,
 		   'AuthenticationRequestType'},
 		  X, Path).
+
+-compile({nowarn_unused_function,v_enum_Area/3}).
+-dialyzer({nowarn_function,v_enum_Area/3}).
+v_enum_Area('TECNOLOGIA', _Path, _TrUserData) -> ok;
+v_enum_Area('ALIMENTACAO', _Path, _TrUserData) -> ok;
+v_enum_Area('TEXTEIS', _Path, _TrUserData) -> ok;
+v_enum_Area('DIVERSOS', _Path, _TrUserData) -> ok;
+v_enum_Area(V, Path, TrUserData) when is_integer(V) ->
+    v_type_sint32(V, Path, TrUserData);
+v_enum_Area(X, Path, _TrUserData) ->
+    mk_type_error({invalid_enum, 'Area'}, X, Path).
 
 -compile({nowarn_unused_function,v_type_sint32/3}).
 -dialyzer({nowarn_function,v_type_sint32/3}).
@@ -729,9 +812,12 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 
 get_msg_defs() ->
     [{{enum, 'ClientType'},
-      [{'IMPORTER', 0}, {'MANUFACTURER', 1}]},
+      [{'IMPORTER', 1}, {'MANUFACTURER', 2}]},
      {{enum, 'AuthenticationRequestType'},
-      [{'REGISTER', 0}, {'LOGIN', 1}]},
+      [{'REGISTER', 1}, {'LOGIN', 2}]},
+     {{enum, 'Area'},
+      [{'TECNOLOGIA', 1}, {'ALIMENTACAO', 2}, {'TEXTEIS', 3},
+       {'DIVERSOS', 4}]},
      {{msg, 'AuthenticationRequest'},
       [#field{name = authType, fnum = 1, rnum = 2,
 	      type = {enum, 'AuthenticationRequestType'},
@@ -739,9 +825,12 @@ get_msg_defs() ->
        #field{name = clientType, fnum = 2, rnum = 3,
 	      type = {enum, 'ClientType'}, occurrence = required,
 	      opts = []},
-       #field{name = username, fnum = 3, rnum = 4,
+       #field{name = area, fnum = 3, rnum = 4,
+	      type = {enum, 'Area'}, occurrence = required,
+	      opts = []},
+       #field{name = username, fnum = 4, rnum = 5,
 	      type = string, occurrence = required, opts = []},
-       #field{name = password, fnum = 4, rnum = 5,
+       #field{name = password, fnum = 5, rnum = 6,
 	      type = string, occurrence = required, opts = []}]}].
 
 
@@ -755,7 +844,7 @@ get_msg_or_group_names() -> ['AuthenticationRequest'].
 
 
 get_enum_names() ->
-    ['ClientType', 'AuthenticationRequestType'].
+    ['ClientType', 'AuthenticationRequestType', 'Area'].
 
 
 fetch_msg_def(MsgName) ->
@@ -779,17 +868,23 @@ find_msg_def('AuthenticationRequest') ->
      #field{name = clientType, fnum = 2, rnum = 3,
 	    type = {enum, 'ClientType'}, occurrence = required,
 	    opts = []},
-     #field{name = username, fnum = 3, rnum = 4,
+     #field{name = area, fnum = 3, rnum = 4,
+	    type = {enum, 'Area'}, occurrence = required,
+	    opts = []},
+     #field{name = username, fnum = 4, rnum = 5,
 	    type = string, occurrence = required, opts = []},
-     #field{name = password, fnum = 4, rnum = 5,
+     #field{name = password, fnum = 5, rnum = 6,
 	    type = string, occurrence = required, opts = []}];
 find_msg_def(_) -> error.
 
 
 find_enum_def('ClientType') ->
-    [{'IMPORTER', 0}, {'MANUFACTURER', 1}];
+    [{'IMPORTER', 1}, {'MANUFACTURER', 2}];
 find_enum_def('AuthenticationRequestType') ->
-    [{'REGISTER', 0}, {'LOGIN', 1}];
+    [{'REGISTER', 1}, {'LOGIN', 2}];
+find_enum_def('Area') ->
+    [{'TECNOLOGIA', 1}, {'ALIMENTACAO', 2}, {'TEXTEIS', 3},
+     {'DIVERSOS', 4}];
 find_enum_def(_) -> error.
 
 
@@ -797,33 +892,48 @@ enum_symbol_by_value('ClientType', Value) ->
     enum_symbol_by_value_ClientType(Value);
 enum_symbol_by_value('AuthenticationRequestType',
 		     Value) ->
-    enum_symbol_by_value_AuthenticationRequestType(Value).
+    enum_symbol_by_value_AuthenticationRequestType(Value);
+enum_symbol_by_value('Area', Value) ->
+    enum_symbol_by_value_Area(Value).
 
 
 enum_value_by_symbol('ClientType', Sym) ->
     enum_value_by_symbol_ClientType(Sym);
 enum_value_by_symbol('AuthenticationRequestType',
 		     Sym) ->
-    enum_value_by_symbol_AuthenticationRequestType(Sym).
+    enum_value_by_symbol_AuthenticationRequestType(Sym);
+enum_value_by_symbol('Area', Sym) ->
+    enum_value_by_symbol_Area(Sym).
 
 
-enum_symbol_by_value_ClientType(0) -> 'IMPORTER';
-enum_symbol_by_value_ClientType(1) -> 'MANUFACTURER'.
+enum_symbol_by_value_ClientType(1) -> 'IMPORTER';
+enum_symbol_by_value_ClientType(2) -> 'MANUFACTURER'.
 
 
-enum_value_by_symbol_ClientType('IMPORTER') -> 0;
-enum_value_by_symbol_ClientType('MANUFACTURER') -> 1.
+enum_value_by_symbol_ClientType('IMPORTER') -> 1;
+enum_value_by_symbol_ClientType('MANUFACTURER') -> 2.
 
-enum_symbol_by_value_AuthenticationRequestType(0) ->
-    'REGISTER';
 enum_symbol_by_value_AuthenticationRequestType(1) ->
+    'REGISTER';
+enum_symbol_by_value_AuthenticationRequestType(2) ->
     'LOGIN'.
 
 
 enum_value_by_symbol_AuthenticationRequestType('REGISTER') ->
-    0;
+    1;
 enum_value_by_symbol_AuthenticationRequestType('LOGIN') ->
-    1.
+    2.
+
+enum_symbol_by_value_Area(1) -> 'TECNOLOGIA';
+enum_symbol_by_value_Area(2) -> 'ALIMENTACAO';
+enum_symbol_by_value_Area(3) -> 'TEXTEIS';
+enum_symbol_by_value_Area(4) -> 'DIVERSOS'.
+
+
+enum_value_by_symbol_Area('TECNOLOGIA') -> 1;
+enum_value_by_symbol_Area('ALIMENTACAO') -> 2;
+enum_value_by_symbol_Area('TEXTEIS') -> 3;
+enum_value_by_symbol_Area('DIVERSOS') -> 4.
 
 
 get_service_names() -> [].
@@ -885,6 +995,7 @@ msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 fqbin_to_enum_name(<<"authentication.ClientType">>) -> 'ClientType';
 fqbin_to_enum_name(<<"authentication.AuthenticationRequestType">>) ->
     'AuthenticationRequestType';
+fqbin_to_enum_name(<<"authentication.Area">>) -> 'Area';
 fqbin_to_enum_name(E) ->
     error({gpb_error, {badenum, E}}).
 
@@ -892,6 +1003,7 @@ fqbin_to_enum_name(E) ->
 enum_name_to_fqbin('ClientType') -> <<"authentication.ClientType">>;
 enum_name_to_fqbin('AuthenticationRequestType') ->
     <<"authentication.AuthenticationRequestType">>;
+enum_name_to_fqbin('Area') -> <<"authentication.Area">>;
 enum_name_to_fqbin(E) ->
     error({gpb_error, {badenum, E}}).
 
@@ -945,7 +1057,7 @@ get_rpc_containment(P) ->
 
 
 get_enum_containment("authentication") ->
-    ['AuthenticationRequestType', 'ClientType'];
+    ['Area', 'AuthenticationRequestType', 'ClientType'];
 get_enum_containment(P) ->
     error({gpb_error, {badproto, P}}).
 
@@ -961,6 +1073,8 @@ get_proto_by_service_name_as_fqbin(E) ->
     error({gpb_error, {badservice, E}}).
 
 
+get_proto_by_enum_name_as_fqbin(<<"authentication.Area">>) ->
+    "authentication";
 get_proto_by_enum_name_as_fqbin(<<"authentication.ClientType">>) ->
     "authentication";
 get_proto_by_enum_name_as_fqbin(<<"authentication.AuthenticationRequestType">>) ->

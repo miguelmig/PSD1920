@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ negotiation_reply.proto
+*/
+
+package authentication;
+
+option java_package = "protos.negotiation";
+
+
+message BaseReply {
+
+    enum ReplyType {
+        SUCCESS = 1;
+        CANCELATION = 2;
+    }
+
+    required ReplyType type = 1;
+}
+
+
+
+
+
+
+
+
