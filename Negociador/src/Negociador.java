@@ -7,7 +7,7 @@ public class Negociador {
     public static void main(String[] args) throws Exception {
         if(args.length < 1){
             System.err.println("Not enough arguments!");
-            System.err.print("Usage: " + args[0] + "<port>");
+            System.err.print("Usage: <port>");
             return;
         }
 

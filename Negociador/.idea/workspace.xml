@@ -93,6 +93,16 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="TecnologiaNegociador" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Negociador" />
+      <module name="Negociador" />
+      <option name="PROGRAM_PARAMETERS" value="8000" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
