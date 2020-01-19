@@ -1,16 +1,13 @@
 -module(server).
--export([start/1, parse_accounts/1]).
+-export([start/1, order_pa/2]).
+
+-define(INITUSERS, #{"Cesar" => "Silva", "Pedro" => "Moura", 
+"Miguel" => "Oliveira", "John" => "Doe", "Teste" => "1234"}).
+-define(CONSUMERPA, []).
+-define(PRODUCERPA, []).
 
 -include("authentication.hrl").
--include("server.hrl").
 -include("autresponse.hrl").
-
--define(SHOST, "localhost").
--define(SPORT, 13000).
-
-%% TODO 
-%% Processo de eleicao de negociador ao qual ligar,
-%% para ja e estatico, futuramente aleatorio
 
 %%
 %% funcao que arrana o servidor de front-end
@@ -19,7 +16,8 @@
 %%
 start(Port) ->
   {ok, Listen} = gen_tcp:listen(Port, [binary, {active, true}]),
-  PID = spawn(fun() -> login_manager(#{}) end),
+  M = ?INITUSERS,
+  PID = spawn(fun() -> login_manager(M) end),
   aceptor(Listen, PID).
 
 %%
@@ -34,12 +32,6 @@ aceptor(Listen, LM) ->
   PID = spawn(fun() -> client_non_autenticated(Sock, LM) end),
   gen_tcp:controlling_process(Sock, PID),
   aceptor(Listen, LM).
-
-%%
-%% TODO ler contas de um ficheiro
-%%
-parse_accounts(F) ->
-  true.
 
 %%
 %% ator especial que valida os logins, comunica via mensagens
@@ -147,16 +139,13 @@ handle_login(CS, CType, Login, PW, LM) ->
   LM ! {login, Login, PW, self()},
   receive
     {user_not_exist, LM} ->
-      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_NOT_EXISTS'}),
-      gen_tcp:send(CS, msg_creation(Msg)),
+      gen_tcp:send(CS, msg_creation('USER_NOT_EXISTS')),
       client_non_autenticated(CS, LM);
     {wrong_wp, LM} ->
-      Msg = autresponse:encode_msg(#'AutResponse'{autResType='WRONG_PW'}),
-      gen_tcp:send(CS, msg_creation(Msg)),
+      gen_tcp:send(CS, msg_creation('WRONG_PW')),
       client_non_autenticated(CS, LM);
     {logged_in, LM} ->
-      Msg = autresponse:encode_msg(#'AutResponse'{autResType='LOGGED_IN'}),
-      gen_tcp:send(CS, msg_creation(Msg)),
+      gen_tcp:send(CS, msg_creation('LOGGED_IN')),
       %%SS = connect_to_back_end(),
       client_autenticated(CS, dummy, LM)
   end.
@@ -169,12 +158,10 @@ handle_create(CS, CType, Login, PW, LM) ->
   LM ! {create, Login, PW, self()},
   receive
     {user_exists, LM} ->
-      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_EXISTS'}),
-      gen_tcp:send(CS, msg_creation(Msg)),
+      gen_tcp:send(CS, msg_creation('USER_EXISTS')),
       client_non_autenticated(CS, LM);
     {user_created, LM} ->
-      Msg = autresponse:encode_msg(#'AutResponse'{autResType='USER_CREATED'}),
-      gen_tcp:send(CS, msg_creation(Msg)),
+      gen_tcp:send(CS, msg_creation('USER_CREATED')),
       %%SS = connect_to_back_end(Type),
       client_autenticated(CS, dummy, LM)
   end.
@@ -183,9 +170,10 @@ handle_create(CS, CType, Login, PW, LM) ->
 %% funcao utilitaria para apender a mensagem o necessario 
 %% para enviar ao  cliente
 %%
-%% Mgs - a mensagem a ser enviada
+%% Msg - a mensagem a ser enviada
 %%
-msg_creation(Msg) ->
+msg_creation(Type) ->
+  Msg = autresponse:encode_msg(#'AutResponse'{autResType=Type}),
   Len = erlang:byte_size(Msg),
   LenBin = <<Len:32/little>>,
   [LenBin | Msg].
@@ -196,19 +184,8 @@ msg_creation(Msg) ->
 %% TODO processo de eleicao da porta,
 %% usar lista?
 %%
-connect_to_back_end() ->
-  {ok, SS} = gen_tcp:connect(?SHOST, ?SPORT),
-  SS.
-
-connect_to_back_end(Host, Port) ->
-  {ok, SS} = gen_tcp:connect(Host, Port),
-  SS.
-
-connect_to_back_end(Type) ->
-  %%{ok, SS} = gen_tcp:connecT(?HOST, ?PORT, ),
-  %%SS
+connect_to_back_end(Type, CM) ->
   true.
-
 
 
 %%
@@ -267,5 +244,7 @@ client_loop(CS, SS, LM) ->
       end
   end.
 
+order_pa({A1, A2}, {B1, B2}) ->
+  {A2, A1} =< {B2, B1}.
 
 
