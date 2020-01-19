@@ -1,6 +1,8 @@
 package menus;
 
 import main.Client;
+import models.Importer;
+import models.Manufacturer;
 import protos.authentication.Authentication;
 import protos.authentication.AuthenticationReply;
 
@@ -46,8 +48,14 @@ public class RegisterMenu extends Menu {
                 Client.user.setUsername(username);
                 Client.user.setPassword(password);
 
-                Menu startMenu = new StartMenu();
-                startMenu.run();
+                if (Client.user instanceof Importer) {
+                    Menu menu = new IMainMenu();
+                    Client.subscriber.start();
+                    menu.run();
+                } else {
+                    Menu menu = new MMainMenu();
+                    menu.run();
+                }
                 break;
 
             default:

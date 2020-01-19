@@ -20,6 +20,10 @@ import java.util.Arrays;
 public class Client {
 
     public static User user;
+
+    public static Publisher publisher;
+    public static Subscriber subscriber;
+
     private static CodedInputStream cis;
     private static CodedOutputStream cos;
 
@@ -41,10 +45,12 @@ public class Client {
         switch (args[0]) {
             case "importer":
                 user = new Importer();
+                subscriber = new Subscriber();
                 break;
 
             case "manufacturer":
                 user = new Manufacturer();
+                publisher = new Publisher();
                 break;
 
             default:
