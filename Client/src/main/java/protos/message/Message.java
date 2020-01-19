@@ -14,6 +14,312 @@ public final class Message {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code message.ClientType}
+   */
+  public enum ClientType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>IMPORTER = 1;</code>
+     */
+    IMPORTER(1),
+    /**
+     * <code>MANUFACTURER = 2;</code>
+     */
+    MANUFACTURER(2),
+    ;
+
+    /**
+     * <code>IMPORTER = 1;</code>
+     */
+    public static final int IMPORTER_VALUE = 1;
+    /**
+     * <code>MANUFACTURER = 2;</code>
+     */
+    public static final int MANUFACTURER_VALUE = 2;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static ClientType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static ClientType forNumber(int value) {
+      switch (value) {
+        case 1: return IMPORTER;
+        case 2: return MANUFACTURER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<ClientType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ClientType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ClientType>() {
+            public ClientType findValueByNumber(int number) {
+              return ClientType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return protos.message.Message.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final ClientType[] VALUES = values();
+
+    public static ClientType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private ClientType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:message.ClientType)
+  }
+
+  /**
+   * Protobuf enum {@code message.AuthenticationRequestType}
+   */
+  public enum AuthenticationRequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>REGISTER = 1;</code>
+     */
+    REGISTER(1),
+    /**
+     * <code>LOGIN = 2;</code>
+     */
+    LOGIN(2),
+    ;
+
+    /**
+     * <code>REGISTER = 1;</code>
+     */
+    public static final int REGISTER_VALUE = 1;
+    /**
+     * <code>LOGIN = 2;</code>
+     */
+    public static final int LOGIN_VALUE = 2;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static AuthenticationRequestType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static AuthenticationRequestType forNumber(int value) {
+      switch (value) {
+        case 1: return REGISTER;
+        case 2: return LOGIN;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<AuthenticationRequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        AuthenticationRequestType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<AuthenticationRequestType>() {
+            public AuthenticationRequestType findValueByNumber(int number) {
+              return AuthenticationRequestType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return protos.message.Message.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final AuthenticationRequestType[] VALUES = values();
+
+    public static AuthenticationRequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private AuthenticationRequestType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:message.AuthenticationRequestType)
+  }
+
+  /**
+   * Protobuf enum {@code message.Area}
+   */
+  public enum Area
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>TECNOLOGIA = 1;</code>
+     */
+    TECNOLOGIA(1),
+    /**
+     * <code>ALIMENTACAO = 2;</code>
+     */
+    ALIMENTACAO(2),
+    /**
+     * <code>TEXTEIS = 3;</code>
+     */
+    TEXTEIS(3),
+    /**
+     * <code>DIVERSOS = 4;</code>
+     */
+    DIVERSOS(4),
+    ;
+
+    /**
+     * <code>TECNOLOGIA = 1;</code>
+     */
+    public static final int TECNOLOGIA_VALUE = 1;
+    /**
+     * <code>ALIMENTACAO = 2;</code>
+     */
+    public static final int ALIMENTACAO_VALUE = 2;
+    /**
+     * <code>TEXTEIS = 3;</code>
+     */
+    public static final int TEXTEIS_VALUE = 3;
+    /**
+     * <code>DIVERSOS = 4;</code>
+     */
+    public static final int DIVERSOS_VALUE = 4;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static Area valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static Area forNumber(int value) {
+      switch (value) {
+        case 1: return TECNOLOGIA;
+        case 2: return ALIMENTACAO;
+        case 3: return TEXTEIS;
+        case 4: return DIVERSOS;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Area>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        Area> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Area>() {
+            public Area findValueByNumber(int number) {
+              return Area.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return protos.message.Message.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final Area[] VALUES = values();
+
+    public static Area valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private Area(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:message.Area)
+  }
+
   public interface GenericMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:message.GenericMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -58,6 +364,21 @@ public final class Message {
      * <code>optional .message.AddEncomendaMessage encomenda = 3;</code>
      */
     protos.message.Message.AddEncomendaMessageOrBuilder getEncomendaOrBuilder();
+
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     * @return Whether the authRequest field is set.
+     */
+    boolean hasAuthRequest();
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     * @return The authRequest.
+     */
+    protos.message.Message.AuthenticationRequest getAuthRequest();
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     */
+    protos.message.Message.AuthenticationRequestOrBuilder getAuthRequestOrBuilder();
 
     public protos.message.Message.GenericMessage.PayloadCase getPayloadCase();
   }
@@ -148,6 +469,20 @@ public final class Message {
               payloadCase_ = 3;
               break;
             }
+            case 34: {
+              protos.message.Message.AuthenticationRequest.Builder subBuilder = null;
+              if (payloadCase_ == 4) {
+                subBuilder = ((protos.message.Message.AuthenticationRequest) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(protos.message.Message.AuthenticationRequest.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((protos.message.Message.AuthenticationRequest) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 4;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -193,6 +528,10 @@ public final class Message {
        * <code>ADD_ENCOMENDA = 2;</code>
        */
       ADD_ENCOMENDA(2),
+      /**
+       * <code>AUTH_REQUEST = 3;</code>
+       */
+      AUTH_REQUEST(3),
       ;
 
       /**
@@ -203,6 +542,10 @@ public final class Message {
        * <code>ADD_ENCOMENDA = 2;</code>
        */
       public static final int ADD_ENCOMENDA_VALUE = 2;
+      /**
+       * <code>AUTH_REQUEST = 3;</code>
+       */
+      public static final int AUTH_REQUEST_VALUE = 3;
 
 
       public final int getNumber() {
@@ -227,6 +570,7 @@ public final class Message {
         switch (value) {
           case 1: return ADD_ARTIGO;
           case 2: return ADD_ENCOMENDA;
+          case 3: return AUTH_REQUEST;
           default: return null;
         }
       }
@@ -284,6 +628,7 @@ public final class Message {
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       ARTIGO(2),
       ENCOMENDA(3),
+      AUTH_REQUEST(4),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -303,6 +648,7 @@ public final class Message {
         switch (value) {
           case 2: return ARTIGO;
           case 3: return ENCOMENDA;
+          case 4: return AUTH_REQUEST;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -393,6 +739,34 @@ public final class Message {
       return protos.message.Message.AddEncomendaMessage.getDefaultInstance();
     }
 
+    public static final int AUTH_REQUEST_FIELD_NUMBER = 4;
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     * @return Whether the authRequest field is set.
+     */
+    public boolean hasAuthRequest() {
+      return payloadCase_ == 4;
+    }
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     * @return The authRequest.
+     */
+    public protos.message.Message.AuthenticationRequest getAuthRequest() {
+      if (payloadCase_ == 4) {
+         return (protos.message.Message.AuthenticationRequest) payload_;
+      }
+      return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+    }
+    /**
+     * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+     */
+    public protos.message.Message.AuthenticationRequestOrBuilder getAuthRequestOrBuilder() {
+      if (payloadCase_ == 4) {
+         return (protos.message.Message.AuthenticationRequest) payload_;
+      }
+      return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -416,6 +790,12 @@ public final class Message {
           return false;
         }
       }
+      if (hasAuthRequest()) {
+        if (!getAuthRequest().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -431,6 +811,9 @@ public final class Message {
       }
       if (payloadCase_ == 3) {
         output.writeMessage(3, (protos.message.Message.AddEncomendaMessage) payload_);
+      }
+      if (payloadCase_ == 4) {
+        output.writeMessage(4, (protos.message.Message.AuthenticationRequest) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -452,6 +835,10 @@ public final class Message {
       if (payloadCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, (protos.message.Message.AddEncomendaMessage) payload_);
+      }
+      if (payloadCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (protos.message.Message.AuthenticationRequest) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -482,6 +869,10 @@ public final class Message {
           if (!getEncomenda()
               .equals(other.getEncomenda())) return false;
           break;
+        case 4:
+          if (!getAuthRequest()
+              .equals(other.getAuthRequest())) return false;
+          break;
         case 0:
         default:
       }
@@ -508,6 +899,10 @@ public final class Message {
         case 3:
           hash = (37 * hash) + ENCOMENDA_FIELD_NUMBER;
           hash = (53 * hash) + getEncomenda().hashCode();
+          break;
+        case 4:
+          hash = (37 * hash) + AUTH_REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getAuthRequest().hashCode();
           break;
         case 0:
         default:
@@ -695,6 +1090,13 @@ public final class Message {
             result.payload_ = encomendaBuilder_.build();
           }
         }
+        if (payloadCase_ == 4) {
+          if (authRequestBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = authRequestBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -757,6 +1159,10 @@ public final class Message {
             mergeEncomenda(other.getEncomenda());
             break;
           }
+          case AUTH_REQUEST: {
+            mergeAuthRequest(other.getAuthRequest());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -778,6 +1184,11 @@ public final class Message {
         }
         if (hasEncomenda()) {
           if (!getEncomenda().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasAuthRequest()) {
+          if (!getAuthRequest().isInitialized()) {
             return false;
           }
         }
@@ -1135,6 +1546,144 @@ public final class Message {
         payloadCase_ = 3;
         onChanged();;
         return encomendaBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          protos.message.Message.AuthenticationRequest, protos.message.Message.AuthenticationRequest.Builder, protos.message.Message.AuthenticationRequestOrBuilder> authRequestBuilder_;
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       * @return Whether the authRequest field is set.
+       */
+      public boolean hasAuthRequest() {
+        return payloadCase_ == 4;
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       * @return The authRequest.
+       */
+      public protos.message.Message.AuthenticationRequest getAuthRequest() {
+        if (authRequestBuilder_ == null) {
+          if (payloadCase_ == 4) {
+            return (protos.message.Message.AuthenticationRequest) payload_;
+          }
+          return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 4) {
+            return authRequestBuilder_.getMessage();
+          }
+          return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public Builder setAuthRequest(protos.message.Message.AuthenticationRequest value) {
+        if (authRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          authRequestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public Builder setAuthRequest(
+          protos.message.Message.AuthenticationRequest.Builder builderForValue) {
+        if (authRequestBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          authRequestBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public Builder mergeAuthRequest(protos.message.Message.AuthenticationRequest value) {
+        if (authRequestBuilder_ == null) {
+          if (payloadCase_ == 4 &&
+              payload_ != protos.message.Message.AuthenticationRequest.getDefaultInstance()) {
+            payload_ = protos.message.Message.AuthenticationRequest.newBuilder((protos.message.Message.AuthenticationRequest) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 4) {
+            authRequestBuilder_.mergeFrom(value);
+          }
+          authRequestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public Builder clearAuthRequest() {
+        if (authRequestBuilder_ == null) {
+          if (payloadCase_ == 4) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 4) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          authRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public protos.message.Message.AuthenticationRequest.Builder getAuthRequestBuilder() {
+        return getAuthRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      public protos.message.Message.AuthenticationRequestOrBuilder getAuthRequestOrBuilder() {
+        if ((payloadCase_ == 4) && (authRequestBuilder_ != null)) {
+          return authRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 4) {
+            return (protos.message.Message.AuthenticationRequest) payload_;
+          }
+          return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .message.AuthenticationRequest auth_request = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          protos.message.Message.AuthenticationRequest, protos.message.Message.AuthenticationRequest.Builder, protos.message.Message.AuthenticationRequestOrBuilder> 
+          getAuthRequestFieldBuilder() {
+        if (authRequestBuilder_ == null) {
+          if (!(payloadCase_ == 4)) {
+            payload_ = protos.message.Message.AuthenticationRequest.getDefaultInstance();
+          }
+          authRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              protos.message.Message.AuthenticationRequest, protos.message.Message.AuthenticationRequest.Builder, protos.message.Message.AuthenticationRequestOrBuilder>(
+                  (protos.message.Message.AuthenticationRequest) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 4;
+        onChanged();;
+        return authRequestBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -3579,6 +4128,1150 @@ public final class Message {
 
   }
 
+  public interface AuthenticationRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:message.AuthenticationRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .message.AuthenticationRequestType authType = 1;</code>
+     * @return Whether the authType field is set.
+     */
+    boolean hasAuthType();
+    /**
+     * <code>required .message.AuthenticationRequestType authType = 1;</code>
+     * @return The authType.
+     */
+    protos.message.Message.AuthenticationRequestType getAuthType();
+
+    /**
+     * <code>required .message.ClientType clientType = 2;</code>
+     * @return Whether the clientType field is set.
+     */
+    boolean hasClientType();
+    /**
+     * <code>required .message.ClientType clientType = 2;</code>
+     * @return The clientType.
+     */
+    protos.message.Message.ClientType getClientType();
+
+    /**
+     * <code>required .message.Area area = 3;</code>
+     * @return Whether the area field is set.
+     */
+    boolean hasArea();
+    /**
+     * <code>required .message.Area area = 3;</code>
+     * @return The area.
+     */
+    protos.message.Message.Area getArea();
+
+    /**
+     * <code>required string username = 4;</code>
+     * @return Whether the username field is set.
+     */
+    boolean hasUsername();
+    /**
+     * <code>required string username = 4;</code>
+     * @return The username.
+     */
+    java.lang.String getUsername();
+    /**
+     * <code>required string username = 4;</code>
+     * @return The bytes for username.
+     */
+    com.google.protobuf.ByteString
+        getUsernameBytes();
+
+    /**
+     * <code>required string password = 5;</code>
+     * @return Whether the password field is set.
+     */
+    boolean hasPassword();
+    /**
+     * <code>required string password = 5;</code>
+     * @return The password.
+     */
+    java.lang.String getPassword();
+    /**
+     * <code>required string password = 5;</code>
+     * @return The bytes for password.
+     */
+    com.google.protobuf.ByteString
+        getPasswordBytes();
+  }
+  /**
+   * Protobuf type {@code message.AuthenticationRequest}
+   */
+  public  static final class AuthenticationRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:message.AuthenticationRequest)
+      AuthenticationRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AuthenticationRequest.newBuilder() to construct.
+    private AuthenticationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AuthenticationRequest() {
+      authType_ = 1;
+      clientType_ = 1;
+      area_ = 1;
+      username_ = "";
+      password_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AuthenticationRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AuthenticationRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protos.message.Message.AuthenticationRequestType value = protos.message.Message.AuthenticationRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                authType_ = rawValue;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protos.message.Message.ClientType value = protos.message.Message.ClientType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                clientType_ = rawValue;
+              }
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protos.message.Message.Area value = protos.message.Message.Area.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(3, rawValue);
+              } else {
+                bitField0_ |= 0x00000004;
+                area_ = rawValue;
+              }
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              username_ = bs;
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              password_ = bs;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.message.Message.internal_static_message_AuthenticationRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.message.Message.internal_static_message_AuthenticationRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.message.Message.AuthenticationRequest.class, protos.message.Message.AuthenticationRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int AUTHTYPE_FIELD_NUMBER = 1;
+    private int authType_;
+    /**
+     * <code>required .message.AuthenticationRequestType authType = 1;</code>
+     * @return Whether the authType field is set.
+     */
+    public boolean hasAuthType() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required .message.AuthenticationRequestType authType = 1;</code>
+     * @return The authType.
+     */
+    public protos.message.Message.AuthenticationRequestType getAuthType() {
+      @SuppressWarnings("deprecation")
+      protos.message.Message.AuthenticationRequestType result = protos.message.Message.AuthenticationRequestType.valueOf(authType_);
+      return result == null ? protos.message.Message.AuthenticationRequestType.REGISTER : result;
+    }
+
+    public static final int CLIENTTYPE_FIELD_NUMBER = 2;
+    private int clientType_;
+    /**
+     * <code>required .message.ClientType clientType = 2;</code>
+     * @return Whether the clientType field is set.
+     */
+    public boolean hasClientType() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required .message.ClientType clientType = 2;</code>
+     * @return The clientType.
+     */
+    public protos.message.Message.ClientType getClientType() {
+      @SuppressWarnings("deprecation")
+      protos.message.Message.ClientType result = protos.message.Message.ClientType.valueOf(clientType_);
+      return result == null ? protos.message.Message.ClientType.IMPORTER : result;
+    }
+
+    public static final int AREA_FIELD_NUMBER = 3;
+    private int area_;
+    /**
+     * <code>required .message.Area area = 3;</code>
+     * @return Whether the area field is set.
+     */
+    public boolean hasArea() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required .message.Area area = 3;</code>
+     * @return The area.
+     */
+    public protos.message.Message.Area getArea() {
+      @SuppressWarnings("deprecation")
+      protos.message.Message.Area result = protos.message.Message.Area.valueOf(area_);
+      return result == null ? protos.message.Message.Area.TECNOLOGIA : result;
+    }
+
+    public static final int USERNAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object username_;
+    /**
+     * <code>required string username = 4;</code>
+     * @return Whether the username field is set.
+     */
+    public boolean hasUsername() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>required string username = 4;</code>
+     * @return The username.
+     */
+    public java.lang.String getUsername() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          username_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string username = 4;</code>
+     * @return The bytes for username.
+     */
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        username_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PASSWORD_FIELD_NUMBER = 5;
+    private volatile java.lang.Object password_;
+    /**
+     * <code>required string password = 5;</code>
+     * @return Whether the password field is set.
+     */
+    public boolean hasPassword() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>required string password = 5;</code>
+     * @return The password.
+     */
+    public java.lang.String getPassword() {
+      java.lang.Object ref = password_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          password_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string password = 5;</code>
+     * @return The bytes for password.
+     */
+    public com.google.protobuf.ByteString
+        getPasswordBytes() {
+      java.lang.Object ref = password_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        password_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasAuthType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasClientType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasArea()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUsername()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPassword()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeEnum(1, authType_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeEnum(2, clientType_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeEnum(3, area_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, username_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, password_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, authType_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, clientType_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, area_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, username_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, password_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.message.Message.AuthenticationRequest)) {
+        return super.equals(obj);
+      }
+      protos.message.Message.AuthenticationRequest other = (protos.message.Message.AuthenticationRequest) obj;
+
+      if (hasAuthType() != other.hasAuthType()) return false;
+      if (hasAuthType()) {
+        if (authType_ != other.authType_) return false;
+      }
+      if (hasClientType() != other.hasClientType()) return false;
+      if (hasClientType()) {
+        if (clientType_ != other.clientType_) return false;
+      }
+      if (hasArea() != other.hasArea()) return false;
+      if (hasArea()) {
+        if (area_ != other.area_) return false;
+      }
+      if (hasUsername() != other.hasUsername()) return false;
+      if (hasUsername()) {
+        if (!getUsername()
+            .equals(other.getUsername())) return false;
+      }
+      if (hasPassword() != other.hasPassword()) return false;
+      if (hasPassword()) {
+        if (!getPassword()
+            .equals(other.getPassword())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasAuthType()) {
+        hash = (37 * hash) + AUTHTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + authType_;
+      }
+      if (hasClientType()) {
+        hash = (37 * hash) + CLIENTTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + clientType_;
+      }
+      if (hasArea()) {
+        hash = (37 * hash) + AREA_FIELD_NUMBER;
+        hash = (53 * hash) + area_;
+      }
+      if (hasUsername()) {
+        hash = (37 * hash) + USERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getUsername().hashCode();
+      }
+      if (hasPassword()) {
+        hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
+        hash = (53 * hash) + getPassword().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.message.Message.AuthenticationRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.message.Message.AuthenticationRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.message.Message.AuthenticationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.message.Message.AuthenticationRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code message.AuthenticationRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:message.AuthenticationRequest)
+        protos.message.Message.AuthenticationRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.message.Message.internal_static_message_AuthenticationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.message.Message.internal_static_message_AuthenticationRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.message.Message.AuthenticationRequest.class, protos.message.Message.AuthenticationRequest.Builder.class);
+      }
+
+      // Construct using protos.message.Message.AuthenticationRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        authType_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        clientType_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        area_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        username_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        password_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.message.Message.internal_static_message_AuthenticationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.message.Message.AuthenticationRequest getDefaultInstanceForType() {
+        return protos.message.Message.AuthenticationRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.message.Message.AuthenticationRequest build() {
+        protos.message.Message.AuthenticationRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.message.Message.AuthenticationRequest buildPartial() {
+        protos.message.Message.AuthenticationRequest result = new protos.message.Message.AuthenticationRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.authType_ = authType_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.clientType_ = clientType_;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.area_ = area_;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.username_ = username_;
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.password_ = password_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.message.Message.AuthenticationRequest) {
+          return mergeFrom((protos.message.Message.AuthenticationRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.message.Message.AuthenticationRequest other) {
+        if (other == protos.message.Message.AuthenticationRequest.getDefaultInstance()) return this;
+        if (other.hasAuthType()) {
+          setAuthType(other.getAuthType());
+        }
+        if (other.hasClientType()) {
+          setClientType(other.getClientType());
+        }
+        if (other.hasArea()) {
+          setArea(other.getArea());
+        }
+        if (other.hasUsername()) {
+          bitField0_ |= 0x00000008;
+          username_ = other.username_;
+          onChanged();
+        }
+        if (other.hasPassword()) {
+          bitField0_ |= 0x00000010;
+          password_ = other.password_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasAuthType()) {
+          return false;
+        }
+        if (!hasClientType()) {
+          return false;
+        }
+        if (!hasArea()) {
+          return false;
+        }
+        if (!hasUsername()) {
+          return false;
+        }
+        if (!hasPassword()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.message.Message.AuthenticationRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.message.Message.AuthenticationRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int authType_ = 1;
+      /**
+       * <code>required .message.AuthenticationRequestType authType = 1;</code>
+       * @return Whether the authType field is set.
+       */
+      public boolean hasAuthType() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required .message.AuthenticationRequestType authType = 1;</code>
+       * @return The authType.
+       */
+      public protos.message.Message.AuthenticationRequestType getAuthType() {
+        @SuppressWarnings("deprecation")
+        protos.message.Message.AuthenticationRequestType result = protos.message.Message.AuthenticationRequestType.valueOf(authType_);
+        return result == null ? protos.message.Message.AuthenticationRequestType.REGISTER : result;
+      }
+      /**
+       * <code>required .message.AuthenticationRequestType authType = 1;</code>
+       * @param value The authType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuthType(protos.message.Message.AuthenticationRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        authType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .message.AuthenticationRequestType authType = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAuthType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        authType_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private int clientType_ = 1;
+      /**
+       * <code>required .message.ClientType clientType = 2;</code>
+       * @return Whether the clientType field is set.
+       */
+      public boolean hasClientType() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required .message.ClientType clientType = 2;</code>
+       * @return The clientType.
+       */
+      public protos.message.Message.ClientType getClientType() {
+        @SuppressWarnings("deprecation")
+        protos.message.Message.ClientType result = protos.message.Message.ClientType.valueOf(clientType_);
+        return result == null ? protos.message.Message.ClientType.IMPORTER : result;
+      }
+      /**
+       * <code>required .message.ClientType clientType = 2;</code>
+       * @param value The clientType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientType(protos.message.Message.ClientType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        clientType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .message.ClientType clientType = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        clientType_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private int area_ = 1;
+      /**
+       * <code>required .message.Area area = 3;</code>
+       * @return Whether the area field is set.
+       */
+      public boolean hasArea() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required .message.Area area = 3;</code>
+       * @return The area.
+       */
+      public protos.message.Message.Area getArea() {
+        @SuppressWarnings("deprecation")
+        protos.message.Message.Area result = protos.message.Message.Area.valueOf(area_);
+        return result == null ? protos.message.Message.Area.TECNOLOGIA : result;
+      }
+      /**
+       * <code>required .message.Area area = 3;</code>
+       * @param value The area to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArea(protos.message.Message.Area value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        area_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .message.Area area = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArea() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        area_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object username_ = "";
+      /**
+       * <code>required string username = 4;</code>
+       * @return Whether the username field is set.
+       */
+      public boolean hasUsername() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>required string username = 4;</code>
+       * @return The username.
+       */
+      public java.lang.String getUsername() {
+        java.lang.Object ref = username_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            username_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string username = 4;</code>
+       * @return The bytes for username.
+       */
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        java.lang.Object ref = username_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          username_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string username = 4;</code>
+       * @param value The username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsername(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        username_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string username = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUsername() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        username_ = getDefaultInstance().getUsername();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string username = 4;</code>
+       * @param value The bytes for username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsernameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        username_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object password_ = "";
+      /**
+       * <code>required string password = 5;</code>
+       * @return Whether the password field is set.
+       */
+      public boolean hasPassword() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>required string password = 5;</code>
+       * @return The password.
+       */
+      public java.lang.String getPassword() {
+        java.lang.Object ref = password_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            password_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string password = 5;</code>
+       * @return The bytes for password.
+       */
+      public com.google.protobuf.ByteString
+          getPasswordBytes() {
+        java.lang.Object ref = password_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          password_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string password = 5;</code>
+       * @param value The password to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPassword(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        password_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string password = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPassword() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        password_ = getDefaultInstance().getPassword();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string password = 5;</code>
+       * @param value The bytes for password to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPasswordBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        password_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:message.AuthenticationRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:message.AuthenticationRequest)
+    private static final protos.message.Message.AuthenticationRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.message.Message.AuthenticationRequest();
+    }
+
+    public static protos.message.Message.AuthenticationRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<AuthenticationRequest>
+        PARSER = new com.google.protobuf.AbstractParser<AuthenticationRequest>() {
+      @java.lang.Override
+      public AuthenticationRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AuthenticationRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AuthenticationRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AuthenticationRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.message.Message.AuthenticationRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_message_GenericMessage_descriptor;
   private static final 
@@ -3594,6 +5287,11 @@ public final class Message {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_message_AddEncomendaMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_message_AuthenticationRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_message_AuthenticationRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3603,21 +5301,31 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\022\007message\"\340\001\n\016GenericMess" +
+      "\n\rmessage.proto\022\007message\"\252\002\n\016GenericMess" +
       "age\0221\n\004type\030\001 \002(\0162#.message.GenericMessa" +
       "ge.MessageType\022+\n\006artigo\030\002 \001(\0132\031.message" +
       ".AddArtigoMessageH\000\0221\n\tencomenda\030\003 \001(\0132\034" +
-      ".message.AddEncomendaMessageH\000\"0\n\013Messag" +
-      "eType\022\016\n\nADD_ARTIGO\020\001\022\021\n\rADD_ENCOMENDA\020\002" +
-      "B\t\n\007payload\"\250\001\n\020AddArtigoMessage\022\031\n\021manu" +
-      "facturer_name\030\001 \002(\t\022\024\n\014product_name\030\002 \002(" +
-      "\t\022\030\n\020minimum_quantity\030\003 \002(\005\022\030\n\020maximum_q" +
-      "uantity\030\004 \002(\005\022\025\n\runitary_price\030\005 \002(\005\022\030\n\020" +
-      "negotiation_time\030\006 \002(\005\"|\n\023AddEncomendaMe" +
-      "ssage\022\025\n\rimporter_name\030\001 \002(\t\022\024\n\014manufact" +
-      "urer\030\002 \002(\t\022\017\n\007product\030\003 \002(\t\022\020\n\010quantity\030" +
-      "\004 \002(\005\022\025\n\rwilling_price\030\005 \002(\005B\020\n\016protos.m" +
-      "essage"
+      ".message.AddEncomendaMessageH\000\0226\n\014auth_r" +
+      "equest\030\004 \001(\0132\036.message.AuthenticationReq" +
+      "uestH\000\"B\n\013MessageType\022\016\n\nADD_ARTIGO\020\001\022\021\n" +
+      "\rADD_ENCOMENDA\020\002\022\020\n\014AUTH_REQUEST\020\003B\t\n\007pa" +
+      "yload\"\250\001\n\020AddArtigoMessage\022\031\n\021manufactur" +
+      "er_name\030\001 \002(\t\022\024\n\014product_name\030\002 \002(\t\022\030\n\020m" +
+      "inimum_quantity\030\003 \002(\005\022\030\n\020maximum_quantit" +
+      "y\030\004 \002(\005\022\025\n\runitary_price\030\005 \002(\005\022\030\n\020negoti" +
+      "ation_time\030\006 \002(\005\"|\n\023AddEncomendaMessage\022" +
+      "\025\n\rimporter_name\030\001 \002(\t\022\024\n\014manufacturer\030\002" +
+      " \002(\t\022\017\n\007product\030\003 \002(\t\022\020\n\010quantity\030\004 \002(\005\022" +
+      "\025\n\rwilling_price\030\005 \002(\005\"\267\001\n\025Authenticatio" +
+      "nRequest\0224\n\010authType\030\001 \002(\0162\".message.Aut" +
+      "henticationRequestType\022\'\n\nclientType\030\002 \002" +
+      "(\0162\023.message.ClientType\022\033\n\004area\030\003 \002(\0162\r." +
+      "message.Area\022\020\n\010username\030\004 \002(\t\022\020\n\010passwo" +
+      "rd\030\005 \002(\t*,\n\nClientType\022\014\n\010IMPORTER\020\001\022\020\n\014" +
+      "MANUFACTURER\020\002*4\n\031AuthenticationRequestT" +
+      "ype\022\014\n\010REGISTER\020\001\022\t\n\005LOGIN\020\002*B\n\004Area\022\016\n\n" +
+      "TECNOLOGIA\020\001\022\017\n\013ALIMENTACAO\020\002\022\013\n\007TEXTEIS" +
+      "\020\003\022\014\n\010DIVERSOS\020\004B\020\n\016protos.message"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3628,7 +5336,7 @@ public final class Message {
     internal_static_message_GenericMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_GenericMessage_descriptor,
-        new java.lang.String[] { "Type", "Artigo", "Encomenda", "Payload", });
+        new java.lang.String[] { "Type", "Artigo", "Encomenda", "AuthRequest", "Payload", });
     internal_static_message_AddArtigoMessage_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_message_AddArtigoMessage_fieldAccessorTable = new
@@ -3641,6 +5349,12 @@ public final class Message {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_AddEncomendaMessage_descriptor,
         new java.lang.String[] { "ImporterName", "Manufacturer", "Product", "Quantity", "WillingPrice", });
+    internal_static_message_AuthenticationRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_message_AuthenticationRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_message_AuthenticationRequest_descriptor,
+        new java.lang.String[] { "AuthType", "ClientType", "Area", "Username", "Password", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

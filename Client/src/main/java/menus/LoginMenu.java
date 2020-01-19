@@ -2,7 +2,6 @@ package menus;
 
 import main.Client;
 import models.Importer;
-import protos.authentication.Authentication;
 import protos.authentication.AuthenticationReply;
 
 import java.io.IOException;
