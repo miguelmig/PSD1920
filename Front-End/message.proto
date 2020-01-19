@@ -1,0 +1,75 @@
+syntax = "proto2";
+
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ message.proto
+*/
+
+option java_package = "protos.message";
+
+
+message GenericMessage {
+
+    enum MessageType {
+        ADD_ARTIGO = 1;
+        ADD_ENCOMENDA = 2;
+        AUTH_REQUEST = 3;
+    }
+
+    required MessageType type = 1;
+    oneof payload
+    {
+        AddArtigoMessage artigo = 2;
+        AddEncomendaMessage encomenda = 3;
+        AuthenticationRequest auth_request = 4;
+    };
+}
+
+message AddArtigoMessage
+{
+    required string manufacturer_name = 1;
+    required string product_name = 2;
+    required int32 minimum_quantity = 3;
+    required int32 maximum_quantity = 4;
+    required int32 unitary_price = 5;
+    required int32 negotiation_time = 6;
+}
+
+message AddEncomendaMessage
+{
+	required string importer_name = 1;
+    required string manufacturer = 2;
+    required string product = 3;
+    required int32 quantity = 4;
+    required int32 willing_price = 5;
+}
+
+enum ClientType {
+    IMPORTER = 1;
+    MANUFACTURER = 2;
+}
+
+enum AuthenticationRequestType {
+    REGISTER = 1;
+    LOGIN = 2;
+}
+
+enum Area {
+    TECNOLOGIA = 1;
+    ALIMENTACAO = 2;
+    TEXTEIS = 3;
+    DIVERSOS = 4;
+}
+
+message AuthenticationRequest {
+    required AuthenticationRequestType authType = 1;
+    required ClientType clientType = 2;
+    required Area area = 3;
+    required string username = 4;
+    required string password = 5;
+}
+
+
+
+
+

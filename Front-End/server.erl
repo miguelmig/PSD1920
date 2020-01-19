@@ -6,7 +6,7 @@
 -define(POA, #{'TECNOLOGIA' => 8000, 'ALIMENTACAO' => 8005, 'TEXTEIS' => 8010,
                'DIVERSOS' => 8015}).
 
--include("authentication.hrl").
+-include("message.hrl").
 -include("autresponse.hrl").
 
 %%
@@ -88,8 +88,9 @@ client_non_autenticated(CS, LM) ->
       io:format("[Client] Client closed via error.~n", []),
       error;
     Msg ->
-      AutReq = authentication:decode_msg(Msg, 'AuthenticationRequest'),
-      #'AuthenticationRequest'{authType=Mode, area=Area, clientType=_, username=Login, password=PW} = AutReq,
+      AutReq = message:decode_msg(Msg, 'GenericMessage'),
+      #'GenericMessage'{type='AUTH_REQUEST', payload={auth_request, _Aux}}= AutReq,
+      #'AuthenticationRequest'{authType=Mode, area=Area, clientType=_, username=Login, password=PW} = _Aux,
       atempt(CS, Mode, Area, Login, PW, LM, Msg)
   end.
 
@@ -206,7 +207,14 @@ read(Socket) ->
   end.
 
 %%
-%% Mantida para ja, para testes.
+%% Re-envia os dados de autenticação
+%% para o negociador associado para uma
+%% atualização do catálogo
+%%
+%% CS - client socket
+%% SS  - server socket(negociador)
+%% Msg - mensagem com as informacoes do cliente
+%%
 %%
 client_autenticated(CS, SS, Msg) ->
   gen_tcp:send(SS, add_length(Msg)),
@@ -222,15 +230,30 @@ client_autenticated(CS, SS, Msg) ->
 %% SS - Server Socket
 %%
 client_loop(CS, SS) ->
-  case read(CS) of
-    closed -> 
-      io:format("[Client] Closed~n", [ ]),
-      closed;
-    error ->
-      io:format("[Client] Error~n", [ ]),
-      error;
-    Request ->
+  read_write_simultaneo(CS, SS).
+
+read_write_simultaneo(CS, SS) ->
+  receive
+    {tcp, CS, Data} ->
       io:format("[Client] Request Sent~n", [ ]),
-      gen_tcp:send(SS, add_length(Request)),
-      client_loop(CS, SS)
+      gen_tcp:send(SS, add_length(Data)),
+      read_write_simultaneo(CS, SS);
+    {tcp_closed, CS} ->
+      io:format("[Client] Client side close~n", [ ]),
+      closed;
+    {tcp_error, CS, _} ->
+      io:format("[Client] Client side error~n", [ ]),
+      error;
+    {tcp, SS, Data} ->
+      io:format("[Client] Reply Received~n", [ ]),
+      gen_tcp:send(CS, add_length(Data)),
+      read_write_simultaneo(CS, SS);
+    {tcp_closed,SS} ->
+      io:format("[Client] Client side closed~n", [ ]),
+      closed;
+    {tcp_error, SS, _} ->
+      io:format("[Client] Server side error~n", [ ]),
+      error
   end.
+  
+
