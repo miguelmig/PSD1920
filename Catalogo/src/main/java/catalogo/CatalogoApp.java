@@ -101,7 +101,8 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
     public boolean updateNegociacao(Negociacao negociacao) {
         synchronized (this.negociacoes_em_curso)
         {
-            Optional<Negociacao> found = this.negociacoes_em_curso.stream().filter(o -> o.getFabricante().equals(negociacao.getFabricante()) &&
+            Optional<Negociacao> found = this.negociacoes_em_curso.stream()
+                    .filter(o -> o.getNome_fabricante().equals(negociacao.getNome_fabricante()) &&
                     o.getArtigo().equals(negociacao.getArtigo())).findFirst();
             if(!found.isPresent())
             {
@@ -120,7 +121,7 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
         synchronized (this.negociacoes_em_curso)
         {
 			return negociacoes_em_curso.removeIf(n -> { 
-				return n.getFabricante().equals(nome_fab) && n.getArtigo().getNome().equals(nome_artigo);
+				return n.getNome_fabricante().equals(nome_fab) && n.getArtigo().getNome().equals(nome_artigo);
 			});
         }
     }

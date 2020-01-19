@@ -24,8 +24,6 @@ import com.google.protobuf.CodedOutputStream;
 import protos.message.*;
 import rest.representation.OrdemCompra;
 
-import javax.ws.rs.client.Entity;
-
 
 public class FrontEndHandler {
     private RESTClient rest;
@@ -70,9 +68,17 @@ public class FrontEndHandler {
 
     private void handleRequests() throws Exception {
         int len = cis.readRawLittleEndian32();
+
+        System.out.println("[*] Message Length: " + len);
         Message.GenericMessage msg = Message.GenericMessage.parseFrom(cis.readRawBytes(len));
 
-        if(msg.hasEncomenda())
+        System.out.println("[*] Got Message Type: " + msg.getType().toString());
+        if(msg.has)
+        {
+            System.out.println("[+] Got a Authentication Message!");
+
+        }
+        else if(msg.hasEncomenda())
         {
             System.out.println("[+] Got Add Encomenda Message!");
             Message.AddEncomendaMessage encomenda = msg.getEncomenda();
