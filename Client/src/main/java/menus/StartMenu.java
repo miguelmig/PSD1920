@@ -9,6 +9,7 @@ public class StartMenu extends Menu {
     public void display() {
         System.out.println("----- START MENU -----");
         System.out.println("1. Register.");
+        System.out.println("2. Login.");
     }
 
     @Override
@@ -16,9 +17,21 @@ public class StartMenu extends Menu {
         Scanner s = new Scanner(System.in);
 
         int choice = s.nextInt();
-        if (choice == 1) {
-            Menu registerMenu = new RegisterMenu();
-            registerMenu.run();
+        switch (choice) {
+            case 1:
+                Menu registerMenu = new RegisterMenu();
+                registerMenu.run();
+                break;
+
+            case 2:
+                Menu loginMenu = new LoginMenu();
+                loginMenu.run();
+                break;
+
+            default:
+                System.out.println("Invalid input");
+                this.run();
+                break;
         }
     }
 }

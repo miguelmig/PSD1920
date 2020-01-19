@@ -2,7 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8645b21-619d-443a-a9bf-240930ddcafe" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/main/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/main/Subscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/target/classes/main/Subscriber.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/target/classes/main/Subscriber.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front-End/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../Front-End/server.beam" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Negociador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Negociador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/NotificationBroker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/NotificationBroker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/Negociador.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/Negociador.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Negociador.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Negociador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddArtigoMessage$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddArtigoMessage$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddArtigoMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddArtigoMessageOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddEncomendaMessage$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddEncomendaMessage$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddEncomendaMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$AddEncomendaMessageOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage$MessageType$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage$MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage$PayloadCase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message$GenericMessageOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Message.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,21 +137,21 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="554" y="347" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1579459584426" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1579459768190">
+    <state width="1398" height="198" key="GridCell.Tab.0.bottom" timestamp="1579462286421">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1579459768190" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1579459768188">
+    <state width="1398" height="198" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1579462286421" />
+    <state width="1398" height="198" key="GridCell.Tab.0.center" timestamp="1579462286419">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1579459768188" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1579459768187">
+    <state width="1398" height="198" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1579462286419" />
+    <state width="1398" height="198" key="GridCell.Tab.0.left" timestamp="1579462286418">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1579459768187" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1579459768189">
+    <state width="1398" height="198" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1579462286418" />
+    <state width="1398" height="198" key="GridCell.Tab.0.right" timestamp="1579462286420">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1579459768189" />
+    <state width="1398" height="198" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1579462286420" />
   </component>
 </project>
