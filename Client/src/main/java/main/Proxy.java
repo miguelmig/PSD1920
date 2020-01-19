@@ -23,25 +23,22 @@ public class Proxy {
         while (!Thread.currentThread().isInterrupted()) {
             items.poll();
 
-            if(items.pollin(0)) {
-                ZMQ.Socket from, to;
-                if (items.pollin(0)) {
-                    from = pubs; to = subs;
-                    System.out.println("From pubs");
+            ZMQ.Socket from, to;
+            if (items.pollin(0)) {
+                from = pubs; to = subs;
+            } else {
+                from = subs; to = pubs;
+            }
+
+            while (true) {
+                byte[] m = from.recv();
+                // System.out.println(m[0]);
+                // System.out.println(new String(m));
+                if (from.hasReceiveMore()) {
+                    to.sendMore(m);
                 } else {
-                    from = subs; to = pubs;
-                    System.out.println("From subs");
-                }
-                while (true) {
-                    byte[] m = from.recv();
-                    System.out.println(m[0]);
-                    System.out.println(new String(m));
-                    if (from.hasReceiveMore()) {
-                        to.sendMore(m);
-                    } else {
-                        to.send(m);
-                        break;
-                    }
+                    to.send(m);
+                    break;
                 }
             }
         }
