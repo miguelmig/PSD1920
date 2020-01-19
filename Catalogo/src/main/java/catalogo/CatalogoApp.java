@@ -8,7 +8,6 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import catalogo.resources.NegociacaoResource;
-import catalogo.health.TemplateHealthCheck;
 
 import java.util.ArrayList;
 import java.util.List;
