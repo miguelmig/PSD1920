@@ -1,4 +1,4 @@
-package catalogo.representations;
+package rest.representation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
