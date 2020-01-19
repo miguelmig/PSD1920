@@ -78,7 +78,7 @@ public class FrontEndHandler {
             Message.AddEncomendaMessage encomenda = msg.getEncomenda();
             for(Negociacao n : negociacoes)
             {
-                if(n.getFabricante().equals(encomenda.getManufacturer()) &&
+                if(n.getNome_fabricante().equals(encomenda.getManufacturer()) &&
                         n.getArtigo().getNome().equals(encomenda.getProduct()))
                 {
                     OrdemCompra ordem = new OrdemCompra(encomenda.getImporterName(),
@@ -98,7 +98,7 @@ public class FrontEndHandler {
             Negociacao n = criarNegociacao(artigo.getManufacturerName(), artigo.getProductName(),
                     artigo.getMinimumQuantity(), artigo.getMaximumQuantity(), artigo.getUnitaryPrice(),
                     artigo.getNegotiationTime());
-            updateFabricante(n.getFabricante(), n.getArtigo());
+            updateFabricante(n.getNome_fabricante(), n.getArtigo());
         }
     }
 
@@ -111,11 +111,13 @@ public class FrontEndHandler {
                 preco_unitario,
                 (int)(System.currentTimeMillis() / 1000) + tempo_negociacao );
         Negociacao n = new Negociacao(fabricante_nome, a, new ArrayList<>());
-        System.out.println("[*] New negotiation added! Artigo: " + a);
+        //System.out.println("[*] New negotiation added! Artigo: " + a);
+        /*
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(n);
         System.out.println(json);
-        System.out.println("JSON: " + json);
+        */
+
         negociacoes.add(n);
         rest.addNegociacao(n);
         return n;
@@ -162,7 +164,7 @@ public class FrontEndHandler {
             cos.flush();
         }
         rest.deleteNegociacao(n);
-        Fabricante fab = fabricantes.get(n.getFabricante());
+        Fabricante fab = fabricantes.get(n.getNome_fabricante());
         if(fab != null)
         {
             fab.getArtigos().removeIf(a -> a.equals(n.getArtigo()));
@@ -189,7 +191,7 @@ public class FrontEndHandler {
                 try {
                     endNegociacao(n, i);
                 }
-                catch(IOException) {
+                catch(Exception e) {
 
                 }
             }
