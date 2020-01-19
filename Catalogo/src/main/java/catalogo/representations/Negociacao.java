@@ -1,5 +1,6 @@
 package catalogo.representations;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,10 @@ class OrdemCompra
     private int quantidade;
     private int preco_unitario;
 
-    public OrdemCompra(String id_cliente, int quantidade, int preco_unitario)
+    @JsonCreator
+    public OrdemCompra(@JsonProperty("nome_importador") String id_cliente,
+                       @JsonProperty("quantidade") int quantidade,
+                       @JsonProperty("preco_unitario") int preco_unitario)
     {
         this.nome_importador = id_cliente;
         this.quantidade = quantidade;
@@ -61,7 +65,10 @@ public class Negociacao {
 
     private List<OrdemCompra> ordens;
 
-    public Negociacao(String nome_fabricante, Artigo artigo, List<OrdemCompra> ordens) {
+    @JsonCreator
+    public Negociacao(@JsonProperty("nome_fabricante") String nome_fabricante,
+                      @JsonProperty("artigo") Artigo artigo,
+                      @JsonProperty("ordens") List<OrdemCompra> ordens) {
         this.nome_fabricante = nome_fabricante;
         this.artigo = artigo;
         this.ordens = ordens;

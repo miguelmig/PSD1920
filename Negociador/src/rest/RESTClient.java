@@ -47,7 +47,7 @@ public class RESTClient {
 
     public void updateFabricante(Fabricante fabricante)
     {
-        Invocation.Builder invocationBuilder = createInvocationBuilder("fabricante/");
+        Invocation.Builder invocationBuilder = createInvocationBuilder("fabricante/update");
         Response rs = invocationBuilder.put(Entity.json(fabricante));
     }
 }

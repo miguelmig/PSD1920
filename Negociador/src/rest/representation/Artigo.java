@@ -12,7 +12,12 @@ public class Artigo {
     private final int preco_minimo_unitario;
     private final int tempo_de_negociacao;
 
-    public Artigo(String nome, int quantidade_minima, int quantidade_maxima, int preco_minimo_unitario, int tempo_de_negociacao) {
+    @JsonCreator
+    public Artigo(@JsonProperty("nome") String nome,
+                  @JsonProperty("quantidade_minima") int quantidade_minima,
+                  @JsonProperty("quantidade_maxima") int quantidade_maxima,
+                  @JsonProperty("preco_minimo_unitario") int preco_minimo_unitario,
+                  @JsonProperty("tempo_de_negociacao") int tempo_de_negociacao) {
         this.nome = nome;
         this.quantidade_minima = quantidade_minima;
         this.quantidade_maxima = quantidade_maxima;
