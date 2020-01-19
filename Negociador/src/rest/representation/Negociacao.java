@@ -27,7 +27,7 @@ public class Negociacao {
     }
 
     @JsonProperty
-    public String getFabricante() {
+    public String getNome_fabricante() {
         return this.nome_fabricante;
     }
 

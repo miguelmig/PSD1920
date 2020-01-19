@@ -89,8 +89,8 @@ client_non_autenticated(CS, LM) ->
       error;
     Msg ->
       AutReq = authentication:decode_msg(Msg, 'AuthenticationRequest'),
-      #'AuthenticationRequest'{authType=Mode, area=Area, clientType=CType, username=Login, password=PW} = AutReq,
-      atempt(CS, Mode, Area, CType, Login, PW, LM)
+      #'AuthenticationRequest'{authType=Mode, area=Area, clientType=_, username=Login, password=PW} = AutReq,
+      atempt(CS, Mode, Area, Login, PW, LM, Msg)
   end.
 
 
@@ -117,13 +117,13 @@ parse_mode(Mode) ->
 %% PW - password do utiizador
 %% LM - PID do Login Manager
 %%
-atempt(CS, Mode, Area, CType, Login, PW, LM) ->
+atempt(CS, Mode, Area, Login, PW, LM, Msg) ->
   _M = parse_mode(Mode),
   case _M of 
     login ->
-      handle_login(CS, Area, CType, Login, PW, LM);
+      handle_login(CS, Area, Login, PW, LM, Msg);
     create ->
-      handle_create(CS, Area, CType, Login, PW, LM)
+      handle_create(CS, Area, Login, PW, LM, Msg)
   end.
 
 %%
@@ -133,7 +133,7 @@ atempt(CS, Mode, Area, CType, Login, PW, LM) ->
 %% CS - Client Sockets
 %% LM - PID do login Manager
 %%
-handle_login(CS, Area, CType, Login, PW, LM) ->
+handle_login(CS, Area, Login, PW, LM, Msg) ->
   LM ! {login, Login, PW, self()},
   receive
     {user_not_exist, LM} ->
@@ -145,14 +145,14 @@ handle_login(CS, Area, CType, Login, PW, LM) ->
     {logged_in, LM} ->
       gen_tcp:send(CS, msg_creation('LOGGED_IN')),
       SS = connect_to_back_end(Area),
-      client_autenticated(CS, SS)
+      client_autenticated(CS, SS, Msg)
   end.
 
 %%
 %% Semelhante a handle_login mas para o caso de 
 %% criacao de conta
 %%
-handle_create(CS, Area, CType, Login, PW, LM) ->
+handle_create(CS, Area, Login, PW, LM, Msg) ->
   LM ! {create, Login, PW, self()},
   receive
     {user_exists, LM} ->
@@ -161,7 +161,7 @@ handle_create(CS, Area, CType, Login, PW, LM) ->
     {user_created, LM} ->
       gen_tcp:send(CS, msg_creation('USER_CREATED')),
       SS = connect_to_back_end(Area),
-      client_autenticated(CS, SS)
+      client_autenticated(CS, SS, Msg)
   end.
 
 %%
@@ -208,7 +208,8 @@ read(Socket) ->
 %%
 %% Mantida para ja, para testes.
 %%
-client_autenticated(CS, SS) ->
+client_autenticated(CS, SS, Msg) ->
+  gen_tcp:send(SS, add_length(Msg)),
   client_loop(CS, SS).
 
 

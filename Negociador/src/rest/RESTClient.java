@@ -41,7 +41,7 @@ public class RESTClient {
     }
 
     public void deleteNegociacao(Negociacao negociacao) {
-        Invocation.Builder invocationBuilder = createInvocationBuilder("negociacao/delete/" + negociacao.getFabricante() + "/" + negociacao.getArtigo().getNome());
+        Invocation.Builder invocationBuilder = createInvocationBuilder("negociacao/delete/" + negociacao.getNome_fabricante() + "/" + negociacao.getArtigo().getNome());
         Response rs = invocationBuilder.delete();
     }
 
