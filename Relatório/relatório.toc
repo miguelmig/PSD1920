@@ -1,2 +1,6 @@
 \babel@toc {portuges}{}
 \contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{2}% 
+\contentsline {chapter}{\numberline {2}Cliente}{3}% 
+\contentsline {chapter}{\numberline {3}Front-End}{4}% 
+\contentsline {chapter}{\numberline {4}Negociador}{5}% 
+\contentsline {chapter}{\numberline {5}Cat\IeC {\'a}logo}{6}% 
