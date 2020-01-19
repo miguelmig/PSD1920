@@ -12,6 +12,8 @@ public class RESTClient {
 
     private Invocation.Builder invocationBuilder;
     private Client client;
+    WebTarget webTarget;
+    Invocation.Builder builder;
     public static final String host = "http://localhost:" + Config.CATALOGO_PORT;
 
     public RESTClient()
@@ -21,8 +23,9 @@ public class RESTClient {
 
     private Invocation.Builder createInvocationBuilder(String path)
     {
-        WebTarget webTarget = client.target(host).path(path);
-        return webTarget.request(MediaType.APPLICATION_JSON);
+        webTarget = client.target(host).path(path);
+        builder = webTarget.request(MediaType.APPLICATION_JSON);
+        return builder;
     }
 
     public void addNegociacao(Negociacao negociacao)
