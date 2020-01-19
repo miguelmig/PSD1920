@@ -14,6 +14,7 @@ message GenericMessage {
     enum MessageType {
         ADD_ARTIGO = 1;
         ADD_ENCOMENDA = 2;
+        AUTH_REQUEST = 3;
     }
 
     required MessageType type = 1;
@@ -21,6 +22,7 @@ message GenericMessage {
     {
         AddArtigoMessage artigo = 2;
         AddEncomendaMessage encomenda = 3;
+        AuthenticationRequest auth_request = 4;
     };
 }
 
@@ -43,7 +45,30 @@ message AddEncomendaMessage
     required int32 willing_price = 5;
 }
 
+enum ClientType {
+    IMPORTER = 1;
+    MANUFACTURER = 2;
+}
 
+enum AuthenticationRequestType {
+    REGISTER = 1;
+    LOGIN = 2;
+}
+
+enum Area {
+    TECNOLOGIA = 1;
+    ALIMENTACAO = 2;
+    TEXTEIS = 3;
+    DIVERSOS = 4;
+}
+
+message AuthenticationRequest {
+    required AuthenticationRequestType authType = 1;
+    required ClientType clientType = 2;
+    required Area area = 3;
+    required string username = 4;
+    required string password = 5;
+}
 
 
 

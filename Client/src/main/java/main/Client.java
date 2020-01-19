@@ -7,17 +7,11 @@ import menus.StartMenu;
 import models.Importer;
 import models.Manufacturer;
 import models.User;
-import protos.authentication.Authentication;
 import protos.authentication.AuthenticationReply;
 import protos.message.Message;
-import protos.order.Order;
-import protos.product.Product;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,34 +83,34 @@ public class Client {
 
 
     public static void sendAuthenticationRequest(
-            Authentication.AuthenticationRequestType authType,
-            Authentication.ClientType clientType,
+            Message.AuthenticationRequestType authType,
+            Message.ClientType clientType,
             String username,
             String password) throws IOException {
 
-        Authentication.AuthenticationRequest.Builder request =
-                Authentication.AuthenticationRequest.newBuilder();
+        Message.AuthenticationRequest.Builder request =
+                Message.AuthenticationRequest.newBuilder();
 
         request.setAuthType(authType);
         request.setClientType(clientType);
 
         String area = user.getArea();
-        Authentication.Area a = null;
+        Message.Area a = null;
         switch (area) {
             case "tecnologia":
-                a = Authentication.Area.TECNOLOGIA;
+                a = Message.Area.TECNOLOGIA;
                 break;
 
             case "alimentacao":
-                a = Authentication.Area.ALIMENTACAO;
+                a = Message.Area.ALIMENTACAO;
                 break;
 
             case "texteis":
-                a = Authentication.Area.TEXTEIS;
+                a = Message.Area.TEXTEIS;
                 break;
 
             case "diversos":
-                a = Authentication.Area.DIVERSOS;
+                a = Message.Area.DIVERSOS;
                 break;
         }
 
@@ -124,7 +118,11 @@ public class Client {
         request.setUsername(username);
         request.setPassword(password);
 
-        request.build().writeTo(cos);
+        Message.GenericMessage.Builder message = Message.GenericMessage.newBuilder();
+        message.setType(Message.GenericMessage.MessageType.AUTH_REQUEST);
+        message.setAuthRequest(request);
+
+        message.build().writeTo(cos);
         cos.flush();
     }
 
@@ -135,12 +133,12 @@ public class Client {
         return AuthenticationReply.AutResponse.parseFrom(cis.readRawBytes(len));
     }
 
-    public static Authentication.ClientType getClientType() {
+    public static Message.ClientType getClientType() {
 
         if (user instanceof Importer) {
-            return Authentication.ClientType.IMPORTER;
+            return Message.ClientType.IMPORTER;
         } else {
-            return Authentication.ClientType.MANUFACTURER;
+            return Message.ClientType.MANUFACTURER;
         }
     }
 
