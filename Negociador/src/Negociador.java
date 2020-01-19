@@ -5,13 +5,13 @@ import rest.RESTClient;
 
 public class Negociador {
     public static void main(String[] args) throws Exception {
-        if(args.length < 2){
+        if(args.length < 1){
             System.err.println("Not enough arguments!");
             System.err.print("Usage: " + args[0] + "<port>");
             return;
         }
 
-        int port = Integer.parseInt(args[1]);
+        int port = Integer.parseInt(args[0]);
 
         new Thread(() -> {
             net.NotificationBroker notification_broker = new NotificationBroker(port);
