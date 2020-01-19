@@ -1,8 +1,11 @@
 package net;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.protobuf.Descriptors;
 import io.dropwizard.validation.OneOf;
 import org.eclipse.jetty.util.IO;
+import protos.negotiation.NegotiationReply;
 import rest.RESTClient;
 import rest.representation.Artigo;
 import rest.representation.Fabricante;
@@ -21,6 +24,8 @@ import com.google.protobuf.CodedOutputStream;
 import protos.message.*;
 import rest.representation.OrdemCompra;
 
+import javax.ws.rs.client.Entity;
+
 
 public class FrontEndHandler {
     private RESTClient rest;
@@ -32,6 +37,7 @@ public class FrontEndHandler {
     private Socket socket;
     private CodedInputStream cis;
     private CodedOutputStream cos;
+    private ScheduledThreadPoolExecutor e;
 
     public FrontEndHandler(int port, RESTClient rest) throws Exception
     {
@@ -44,24 +50,25 @@ public class FrontEndHandler {
         this.sockserver = new ServerSocket(port);
     }
 
-    public void run() throws IOException
+    public void run() throws Exception
     {
-        while(true)
-        {
-            negociacoes.clear();
-            socket = sockserver.accept();
-            cis = CodedInputStream.newInstance(socket.getInputStream());
-            cos = CodedOutputStream.newInstance(socket.getOutputStream());
-            System.out.println("[*] Front End Connected!");
+        e = new ScheduledThreadPoolExecutor(1);
+
+        negociacoes.clear();
+        socket = sockserver.accept();
+
+        cis = CodedInputStream.newInstance(socket.getInputStream());
+        cos = CodedOutputStream.newInstance(socket.getOutputStream());
+        System.out.println("[*] Front End Connected!");
+        e.scheduleAtFixedRate(this::checkNegociacoesEmCurso, 5, 5, TimeUnit.SECONDS);
+
+        while(true) {
             handleRequests();
-
-            ScheduledThreadPoolExecutor e = new ScheduledThreadPoolExecutor(1);
-
-            e.scheduleAtFixedRate(this::checkNegociacoesEmCurso, 1, 5, TimeUnit.SECONDS);
         }
+
     }
 
-    private void handleRequests() throws IOException {
+    private void handleRequests() throws Exception {
         int len = cis.readRawLittleEndian32();
         Message.GenericMessage msg = Message.GenericMessage.parseFrom(cis.readRawBytes(len));
 
@@ -97,14 +104,20 @@ public class FrontEndHandler {
 
     private synchronized Negociacao criarNegociacao(String fabricante_nome,
                                                String nome_artigo, int min_quantity, int max_quantity,
-                                               int preco_unitario, int tempo_negociacao)
+                                               int preco_unitario, int tempo_negociacao) throws Exception
     {
         Artigo a = new Artigo(nome_artigo,
                 min_quantity, max_quantity,
                 preco_unitario,
                 (int)(System.currentTimeMillis() / 1000) + tempo_negociacao );
         Negociacao n = new Negociacao(fabricante_nome, a, new ArrayList<>());
+        System.out.println("[*] New negotiation added! Artigo: " + a);
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        String json = mapper.writeValueAsString(n);
+        System.out.println(json);
+        System.out.println("JSON: " + json);
         negociacoes.add(n);
+        rest.addNegociacao(n);
         return n;
     }
 
@@ -124,7 +137,7 @@ public class FrontEndHandler {
         rest.updateFabricante(fab);
     }
 
-    private void endNegociacao(Negociacao n, Iterator<Negociacao> i)
+    private void endNegociacao(Negociacao n, Iterator<Negociacao> i) throws Exception
     {
         int quantidade_minima = n.getArtigo().getQuantidade_minima();
         List<OrdemCompra> ordens = n.getOrdens();
@@ -135,19 +148,32 @@ public class FrontEndHandler {
         if(!vencedora.isPresent())
         {
             System.out.println("[!] Negotiation closed without enough quantity orders");
-            //TODO: SEND NO DEAL MESSAGE TO FRONT END
+            NegotiationReply.BaseReply.Builder reply = NegotiationReply.BaseReply.newBuilder();
+            reply.setType(NegotiationReply.BaseReply.ReplyType.CANCELATION);
+            reply.build().writeTo(cos);
+            cos.flush();
         }
         else
         {
             OrdemCompra ordem = vencedora.get();
-            //TODO: SEND WINNER MESSAGE TO FRONT END
+            NegotiationReply.BaseReply.Builder reply = NegotiationReply.BaseReply.newBuilder();
+            reply.setType(NegotiationReply.BaseReply.ReplyType.SUCCESS);
+            reply.build().writeTo(cos);
+            cos.flush();
+        }
+        rest.deleteNegociacao(n);
+        Fabricante fab = fabricantes.get(n.getFabricante());
+        if(fab != null)
+        {
+            fab.getArtigos().removeIf(a -> a.equals(n.getArtigo()));
+            rest.updateFabricante(fab);
         }
         i.remove();
     }
 
     private synchronized void checkNegociacoesEmCurso()
     {
-        if(negociacoes.isEmpty())
+        if(negociacoes.size() == 0)
             return;
 
         System.out.println("[*] Checking current negotiations");
@@ -159,7 +185,13 @@ public class FrontEndHandler {
             int ending_time = n.getArtigo().getTempo_de_negociacao();
             if(ending_time <= currentSeconds)
             {
-                endNegociacao(n, i);
+                System.out.println("[*] Ending negotiation!");
+                try {
+                    endNegociacao(n, i);
+                }
+                catch(IOException) {
+
+                }
             }
         }
 
