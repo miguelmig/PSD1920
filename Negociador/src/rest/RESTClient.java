@@ -45,6 +45,12 @@ public class RESTClient {
         Response rs = invocationBuilder.delete();
     }
 
+    public void addFabricante(String nome)
+    {
+        Invocation.Builder invocationBuilder = createInvocationBuilder("fabricante/add/" + nome);
+        Response rs = invocationBuilder.post(null);
+    }
+
     public void updateFabricante(Fabricante fabricante)
     {
         Invocation.Builder invocationBuilder = createInvocationBuilder("fabricante/update");
