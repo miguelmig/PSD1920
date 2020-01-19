@@ -18,7 +18,9 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Client {
 
@@ -32,9 +34,24 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
 
-        if (args.length != 1) {
+        if (args.length < 2) {
             System.err.println("Error: Invalid number of arguments.");
-            System.err.println("Must be: /client client-type");
+            System.err.println("Must be: /client importer area topic1 topic2 ...");
+            System.err.println("         /client manufacturer area");
+            return;
+        }
+
+        List<String> areas = new ArrayList<>() {{
+            add("tecnologia");
+            add("alimentacao");
+            add("texteis");
+            add("diversos");
+        }};
+
+        String area = args[1];
+        if (!areas.contains(area)) {
+            System.err.println("Error: Invalid area.");
+            System.err.println("Areas: tecnologia alimentacao texteis diversos");
             return;
         }
 
@@ -47,13 +64,18 @@ public class Client {
 
         switch (args[0]) {
             case "importer":
+                List<String> topics = new ArrayList<>();
+                topics.addAll(Arrays.asList(args).subList(2, args.length));
+
                 user = new Importer();
-                subscriber = new Subscriber();
+                user.setArea(area);
+                subscriber = new Subscriber(area, topics);
                 break;
 
             case "manufacturer":
                 user = new Manufacturer();
-                publisher = new Publisher();
+                user.setArea(area);
+                publisher = new Publisher(area);
                 break;
 
             default:
@@ -77,6 +99,28 @@ public class Client {
 
         request.setAuthType(authType);
         request.setClientType(clientType);
+
+        String area = user.getArea();
+        Authentication.Area a = null;
+        switch (area) {
+            case "tecnologia":
+                a = Authentication.Area.TECNOLOGIA;
+                break;
+
+            case "alimentacao":
+                a = Authentication.Area.ALIMENTACAO;
+                break;
+
+            case "texteis":
+                a = Authentication.Area.TEXTEIS;
+                break;
+
+            case "diversos":
+                a = Authentication.Area.DIVERSOS;
+                break;
+        }
+
+        request.setArea(a);
         request.setUsername(username);
         request.setPassword(password);
 
@@ -133,6 +177,7 @@ public class Client {
 
 
         Message.AddEncomendaMessage.Builder order = Message.AddEncomendaMessage.newBuilder();
+        order.setImporterName(user.getUsername());
         order.setManufacturer(manufacturer);
         order.setProduct(product);
         order.setQuantity(quantity);

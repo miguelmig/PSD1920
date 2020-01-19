@@ -11,19 +11,26 @@ option java_package = "protos.authentication";
 
 
 enum ClientType {
-    IMPORTER = 0;
-    MANUFACTURER = 1;
+    IMPORTER = 1;
+    MANUFACTURER = 2;
 }
 
 enum AuthenticationRequestType {
-    REGISTER = 0;
-    LOGIN = 1;
+    REGISTER = 1;
+    LOGIN = 2;
 }
 
+enum Area {
+    TECNOLOGIA = 1;
+    ALIMENTACAO = 2;
+    TEXTEIS = 3;
+    DIVERSOS = 4;
+}
 
 message AuthenticationRequest {
     required AuthenticationRequestType authType = 1;
     required ClientType clientType = 2;
-    required string username = 3;
-    required string password = 4;
+    required Area area = 3;
+    required string username = 4;
+    required string password = 5;
 }

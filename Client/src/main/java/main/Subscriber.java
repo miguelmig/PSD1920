@@ -13,12 +13,30 @@ public class Subscriber extends Thread {
 
     private List<String> subscriptions;
 
-    public Subscriber() {
+    public Subscriber(String area, List<String> topics) {
         this.context = ZMQ.context(1);
         this.socket = context.socket(SocketType.SUB);
-        socket.connect("tcp://localhost:54321");
+        switch (area) {
+            case "tecnologia":
+                socket.connect("tcp://localhost:8002");
+                break;
 
-        this.subscriptions = new ArrayList<>();
+            case "alimentacao":
+                socket.connect("tcp://localhost:8007");
+                break;
+
+            case "texteis":
+                socket.connect("tcp://localhost:8012");
+                break;
+
+            case "diversos":
+                socket.connect("tcp://localhost:8017");
+                break;
+
+            default:
+                break;
+        }
+        this.subscriptions = topics;
     }
 
     public void addSubscription(String topic) {
@@ -27,7 +45,6 @@ public class Subscriber extends Thread {
     }
 
     public void run() {
-        //System.out.println("Subscriber is running!");
 
         while (true) {
             byte[] b = socket.recv();
