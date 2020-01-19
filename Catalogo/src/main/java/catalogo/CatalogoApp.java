@@ -116,20 +116,13 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
         }
     }
 
-    public boolean deleteNegociacao(Negociacao negociacao)
+    public boolean deleteNegociacao(String nome_fab, String nome_artigo)
     {
         synchronized (this.negociacoes_em_curso)
         {
-            Optional<Negociacao> found = this.negociacoes_em_curso.stream().filter(o -> o.getFabricante().equals(negociacao.getFabricante()) &&
-                    o.getArtigo().equals(negociacao.getArtigo())).findFirst();
-            if(!found.isPresent())
-            {
-                return false;
-            }
-
-            Negociacao result = found.get();
-            this.negociacoes_em_curso.remove(result);
-            return true;
+			return negociacoes_em_curso.removeIf(n -> { 
+				return n.getFabricante().equals(nome_fab) && n.getArtigo().getNome().equals(nome_artigo) 
+			});
         }
     }
 

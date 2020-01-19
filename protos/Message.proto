@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package data;
+option java_package = "data";
+option java_outer_classname = "Message";
+
+
+message GenericMessage {
+
+    enum MessageType {
+        ADD_ARTIGO = 1;
+        ADD_ENCOMENDA = 2;
+    }
+
+    required MessageType type = 1;
+    oneof payload
+    {
+        AddArtigoMessage artigo = 2;
+        AddEncomendaMessage encomenda = 3;
+    };
+}
+
+message AddArtigoMessage
+{
+    required string name = 1;
+    required string content = 2;
+}
+
+message AddEncomendaMessage
+{
+    required string room = 1;
+    required string name = 2;
+}

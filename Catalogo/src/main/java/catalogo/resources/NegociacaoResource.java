@@ -49,10 +49,10 @@ public class NegociacaoResource {
     }
 
     @DELETE
-    @Path("/delete")
-    public Response delete(@NotNull @Valid Negociacao negociacao)
+    @Path("/delete/{fabricante}/{artigo}")
+    public Response delete(@PathParam("fabricante") @NotNull String nome_fab, @PathParam("artigo") @NotNull String nome_artigo)
     {
-        boolean deleted = app.deleteNegociacao(negociacao);
+        boolean deleted = app.deleteNegociacao(nome_fab, nome_artigo);
         if(deleted)
             return Response.ok().build();
 
