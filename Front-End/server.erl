@@ -1,10 +1,10 @@
 -module(server).
--export([start/1, order_pa/2]).
+-export([start/1]).
 
 -define(INITUSERS, #{"Cesar" => "Silva", "Pedro" => "Moura", 
 "Miguel" => "Oliveira", "John" => "Doe", "Teste" => "1234"}).
--define(CONSUMERPA, []).
--define(PRODUCERPA, []).
+-define(POA, #{'TECNOLOGIA' => 8000, 'ALIMENTACAO' => 8005, 'TEXTEIS' => 8010,
+               'DIVERSOS' => 8015}).
 
 -include("authentication.hrl").
 -include("autresponse.hrl").
@@ -89,9 +89,8 @@ client_non_autenticated(CS, LM) ->
       error;
     Msg ->
       AutReq = authentication:decode_msg(Msg, 'AuthenticationRequest'),
-      #'AuthenticationRequest'{authType=Mode, clientType=CType,
-                              username=Login, password=PW} = AutReq,
-      atempt(CS, Mode, CType, Login, PW, LM)
+      #'AuthenticationRequest'{authType=Mode, area=Area, clientType=CType, username=Login, password=PW} = AutReq,
+      atempt(CS, Mode, Area, CType, Login, PW, LM)
   end.
 
 
@@ -118,14 +117,13 @@ parse_mode(Mode) ->
 %% PW - password do utiizador
 %% LM - PID do Login Manager
 %%
-atempt(CS, Mode, CType, Login, PW, LM) ->
-  io:format("[Client]Mode: ~p Type:~p Login: ~p PW: ~p~n", [Mode, CType, Login, PW]),
+atempt(CS, Mode, Area, CType, Login, PW, LM) ->
   _M = parse_mode(Mode),
   case _M of 
     login ->
-      handle_login(CS, CType, Login, PW, LM);
+      handle_login(CS, Area, CType, Login, PW, LM);
     create ->
-      handle_create(CS, CType, Login, PW, LM)
+      handle_create(CS, Area, CType, Login, PW, LM)
   end.
 
 %%
@@ -135,7 +133,7 @@ atempt(CS, Mode, CType, Login, PW, LM) ->
 %% CS - Client Sockets
 %% LM - PID do login Manager
 %%
-handle_login(CS, CType, Login, PW, LM) ->
+handle_login(CS, Area, CType, Login, PW, LM) ->
   LM ! {login, Login, PW, self()},
   receive
     {user_not_exist, LM} ->
@@ -146,15 +144,15 @@ handle_login(CS, CType, Login, PW, LM) ->
       client_non_autenticated(CS, LM);
     {logged_in, LM} ->
       gen_tcp:send(CS, msg_creation('LOGGED_IN')),
-      %%SS = connect_to_back_end(),
-      client_autenticated(CS, dummy, LM)
+      SS = connect_to_back_end(Area),
+      client_autenticated(CS, SS, LM)
   end.
 
 %%
 %% Semelhante a handle_login mas para o caso de 
 %% criacao de conta
 %%
-handle_create(CS, CType, Login, PW, LM) ->
+handle_create(CS, Area, CType, Login, PW, LM) ->
   LM ! {create, Login, PW, self()},
   receive
     {user_exists, LM} ->
@@ -162,8 +160,8 @@ handle_create(CS, CType, Login, PW, LM) ->
       client_non_autenticated(CS, LM);
     {user_created, LM} ->
       gen_tcp:send(CS, msg_creation('USER_CREATED')),
-      %%SS = connect_to_back_end(Type),
-      client_autenticated(CS, dummy, LM)
+      SS = connect_to_back_end(Area),
+      client_autenticated(CS, SS, LM)
   end.
 
 %%
@@ -174,6 +172,10 @@ handle_create(CS, CType, Login, PW, LM) ->
 %%
 msg_creation(Type) ->
   Msg = autresponse:encode_msg(#'AutResponse'{autResType=Type}),
+  add_length(Msg).
+
+
+add_length(Msg) ->
   Len = erlang:byte_size(Msg),
   LenBin = <<Len:32/little>>,
   [LenBin | Msg].
@@ -184,8 +186,10 @@ msg_creation(Type) ->
 %% TODO processo de eleicao da porta,
 %% usar lista?
 %%
-connect_to_back_end(Type, CM) ->
-  true.
+connect_to_back_end(Type) ->
+  Port = maps:get(Type, ?POA),
+  {ok, SS} = gen_tcp:connect("localhost", Port, [binary, {active, true}]),
+  SS.
 
 
 %%
@@ -229,7 +233,7 @@ client_loop(CS, SS, LM) ->
       error;
     Request ->
       io:format("[Client] Request Sent~n", [ ]),
-      gen_tcp:send(SS, Request),
+      gen_tcp:send(SS, add_length(Request)),
       case read(SS) of
         closed ->
           io:format("[Client] Closed~n", [ ]),
@@ -239,12 +243,7 @@ client_loop(CS, SS, LM) ->
           error;
         Reply ->
           io:format("[Client] Reply Received~n", [ ]),
-          gen_tcp:send(CS, Reply),
+          gen_tcp:send(CS, add_length(Reply)),
           client_loop(CS, SS, LM)
       end
   end.
-
-order_pa({A1, A2}, {B1, B2}) ->
-  {A2, A1} =< {B2, B1}.
-
-
