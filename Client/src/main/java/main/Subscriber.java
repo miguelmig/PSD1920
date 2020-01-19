@@ -27,9 +27,7 @@ public class Subscriber extends Thread {
     }
 
     public void run() {
-        System.out.println("Subscriber is running!");
-
-        addSubscription("Tecnologia");
+        //System.out.println("Subscriber is running!");
 
         while (true) {
             byte[] b = socket.recv();

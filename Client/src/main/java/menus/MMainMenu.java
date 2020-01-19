@@ -10,7 +10,7 @@ public class MMainMenu extends Menu {
     @Override
     public void display() {
         System.out.println("----- MANUFACTURER MAIN MENU -----");
-        System.out.println("1. Enviar oferta de produção.");
+        System.out.println("1. Fazer oferta de produção.");
     }
 
     @Override
@@ -19,10 +19,10 @@ public class MMainMenu extends Menu {
 
         int choice = s.nextInt();
         if (choice == 1) {
-            Client.publisher.sendMessage("Tecnologia", "PC");
+            //Client.publisher.sendMessage("Tecnologia", "PC");
 
-            Menu menu = new MMainMenu();
-            menu.run();
+            Menu productMenu = new ProductMenu();
+            productMenu.run();
         }
     }
 }

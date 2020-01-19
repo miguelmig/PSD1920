@@ -9,6 +9,8 @@ import models.Manufacturer;
 import models.User;
 import protos.authentication.Authentication;
 import protos.authentication.AuthenticationReply;
+import protos.order.Order;
+import protos.product.Product;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -97,5 +99,41 @@ public class Client {
         }
     }
 
+    public static void sendProductMessage(
+            String name,
+            int minimumQuantity,
+            int maximumQuantity,
+            int unitaryPrice,
+            int negotiationTime) throws IOException {
+
+        Product.ProductMessage.Builder product = Product.ProductMessage.newBuilder();
+
+        product.setName(name);
+        product.setMinimumQuantity(minimumQuantity);
+        product.setMaximumQuantity(maximumQuantity);
+        product.setUnitaryPrice(unitaryPrice);
+        product.setNegotiationTime(negotiationTime);
+
+        product.build().writeTo(cos);
+        cos.flush();
+    }
+
+
+    public static void sendOrderMessage(
+            String manufacturer,
+            String product,
+            int quantity,
+            int willingPrice) throws IOException {
+
+        Order.OrderMessage.Builder order = Order.OrderMessage.newBuilder();
+
+        order.setManufacturer(manufacturer);
+        order.setProduct(product);
+        order.setQuantity(quantity);
+        order.setWillingPrice(willingPrice);
+
+        order.build().writeTo(cos);
+        cos.flush();
+    }
 
 }

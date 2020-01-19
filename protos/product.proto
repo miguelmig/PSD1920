@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+/*
+    COMPILING:
+        protoc --java_out=../Client/src/main/java/ product.proto
+*/
+
+package product;
+
+option java_package = "protos.product";
+
+
+message ProductMessage {
+    required string name = 1;
+    required int32 minimum_quantity = 2;
+    required int32 maximum_quantity = 3;
+    required int32 unitary_price = 4;
+    required int32 negotiation_time = 5;
+}
