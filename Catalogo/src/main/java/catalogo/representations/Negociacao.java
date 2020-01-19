@@ -10,20 +10,20 @@ import java.util.List;
 class OrdemCompra
 {
     @NotNull
-    private int id_cliente;
+    private String nome_importador;
     private int quantidade;
     private int preco_unitario;
 
-    public OrdemCompra(int id_cliente, int quantidade, int preco_unitario)
+    public OrdemCompra(String id_cliente, int quantidade, int preco_unitario)
     {
-        this.id_cliente = id_cliente;
+        this.nome_importador = id_cliente;
         this.quantidade = quantidade;
         this.preco_unitario = preco_unitario;
     }
 
     @JsonProperty
-    public int getIdCliente() {
-        return this.id_cliente;
+    public String getImportador() {
+        return this.nome_importador;
     }
 
     @JsonProperty
@@ -37,8 +37,8 @@ class OrdemCompra
     }
 
     @JsonProperty
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setNome_importador(String nome_importador) {
+        this.nome_importador = nome_importador;
     }
 
     @JsonProperty

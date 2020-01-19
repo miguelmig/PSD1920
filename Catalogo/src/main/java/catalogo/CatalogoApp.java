@@ -45,13 +45,13 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
         }
     }
 
-    public List<Fabricante> getFabricante(Optional<String> nome)
+    public List<Fabricante> getFabricante(String nome)
     {
         synchronized (this.fabricantes)
         {
-            if(nome.isPresent()) {
+            if(nome != null) {
                 for (Fabricante fab : fabricantes) {
-                    if (fab.getNome().equals(nome.get()))
+                    if (fab.getNome().equals(nome))
                     {
                         List<Fabricante> ret = new ArrayList<>();
                         ret.add(fab);
@@ -121,7 +121,7 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
         synchronized (this.negociacoes_em_curso)
         {
 			return negociacoes_em_curso.removeIf(n -> { 
-				return n.getFabricante().equals(nome_fab) && n.getArtigo().getNome().equals(nome_artigo) 
+				return n.getFabricante().equals(nome_fab) && n.getArtigo().getNome().equals(nome_artigo);
 			});
         }
     }
