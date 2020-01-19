@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import config.Config;
+import rest.representation.Fabricante;
 import rest.representation.Negociacao;
 
 public class RESTClient {
@@ -36,9 +37,14 @@ public class RESTClient {
         Response rs = invocationBuilder.put(Entity.json(negociacao));
     }
 
-    public void deleteNegociacao(Negociacao negociacao)
-    {
+    public void deleteNegociacao(Negociacao negociacao) {
         Invocation.Builder invocationBuilder = createInvocationBuilder("negociacao/delete/" + negociacao.getFabricante() + "/" + negociacao.getArtigo().getNome());
         Response rs = invocationBuilder.delete();
+    }
+
+    public void updateFabricante(Fabricante fabricante)
+    {
+        Invocation.Builder invocationBuilder = createInvocationBuilder("fabricante/");
+        Response rs = invocationBuilder.put(Entity.json(fabricante));
     }
 }
