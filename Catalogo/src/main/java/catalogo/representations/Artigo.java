@@ -42,5 +42,13 @@ public class Artigo {
         return tempo_de_negociacao;
     }
 
+    public boolean equals(Artigo other) {
+        return (this.nome.equals(other.getNome()) &&
+                this.quantidade_minima == other.getQuantidade_minima() &&
+                this.quantidade_maxima == other.getQuantidade_maxima() &&
+                this.preco_minimo_unitario == other.getPreco_minimo_unitario() &&
+                this.tempo_de_negociacao == other.getTempo_de_negociacao());
+    }
+
 
 }
