@@ -76,7 +76,10 @@ class FrontEndThread implements Runnable
         {
             Message.AuthenticationRequest request = msg.getAuthRequest();
             this.username = request.getUsername();
-            handler.addFabricante(username);
+            if(request.getClientType() == Message.ClientType.MANUFACTURER) {
+                // Só adicionar fabricante se o cliente realmente for um.
+                handler.addFabricante(username);
+            }
             handler.registerUser(username, this);
             System.out.println("[+] Got a Authentication Message, User: " + username);
         }
