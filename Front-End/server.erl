@@ -234,7 +234,7 @@ client_loop(CS, SS) ->
     {tcp, CS, Data} ->
       io:format("[Client] Request Sent~n", [ ]),
       gen_tcp:send(SS, add_length(Data)),
-      read_write_simultaneo(CS, SS);
+      client_loop(CS, SS);
     {tcp_closed, CS} ->
       io:format("[Client] Client side close~n", [ ]),
       closed;
@@ -244,7 +244,7 @@ client_loop(CS, SS) ->
     {tcp, SS, Data} ->
       io:format("[Client] Reply Received~n", [ ]),
       gen_tcp:send(CS, add_length(Data)),
-      read_write_simultaneo(CS, SS);
+      client_loop(CS, SS);
     {tcp_closed,SS} ->
       io:format("[Client] Client side closed~n", [ ]),
       closed;
