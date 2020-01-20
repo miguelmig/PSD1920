@@ -55,6 +55,7 @@ public class RegisterMenu extends Menu {
                     menu.run();
                 } else {
                     Menu menu = new MMainMenu();
+                    Client.listener.start();
                     menu.run();
                 }
                 break;

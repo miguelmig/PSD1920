@@ -72,6 +72,7 @@ public class Client {
                 user = new Manufacturer();
                 user.setArea(area);
                 publisher = new Publisher(area);
+                listener = new Listener(cis);
                 break;
 
             default:
