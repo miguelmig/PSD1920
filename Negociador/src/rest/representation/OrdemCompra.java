@@ -23,7 +23,7 @@ public class OrdemCompra
     }
 
     @JsonProperty
-    public String getImportador() {
+    public String getNome_Importador() {
         return this.nome_importador;
     }
 

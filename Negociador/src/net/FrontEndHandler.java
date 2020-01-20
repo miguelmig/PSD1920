@@ -24,6 +24,82 @@ import com.google.protobuf.CodedOutputStream;
 import protos.message.*;
 import rest.representation.OrdemCompra;
 
+class FrontEndThread implements Runnable
+{
+    private CodedInputStream cis;
+    private CodedOutputStream cos;
+    private FrontEndHandler handler;
+    private String username;
+
+    public FrontEndThread(CodedInputStream cis, CodedOutputStream cos, FrontEndHandler handler) throws Exception
+    {
+        this.cis = cis;
+        this.cos = cos;
+        this.handler = handler;
+    }
+
+    @Override
+    public void run()
+    {
+        while(true)
+        {
+            try {
+                handleRequests();
+            }
+            catch(Exception e)
+            {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    private void handleRequests() throws Exception {
+        int len = cis.readRawLittleEndian32();
+
+        System.out.println("[*] Message Length: " + len);
+        Message.GenericMessage msg = Message.GenericMessage.parseFrom(cis.readRawBytes(len));
+
+        System.out.println("[*] Got Message Type: " + msg.getType().toString());
+        if(msg.hasAuthRequest())
+        {
+            Message.AuthenticationRequest request = msg.getAuthRequest();
+            this.username = request.getUsername();
+            handler.addFabricante(username);
+            handler.registerUser(username, this);
+            System.out.println("[+] Got a Authentication Message, User: " + username);
+        }
+        else if(msg.hasEncomenda())
+        {
+            System.out.println("[+] Got Add Encomenda Message!");
+            Message.AddEncomendaMessage encomenda = msg.getEncomenda();
+            for(Negociacao n : handler.getNegociacoes())
+            {
+                if(n.getNome_fabricante().equals(encomenda.getManufacturer()) &&
+                        n.getArtigo().getNome().equals(encomenda.getProduct()))
+                {
+                    OrdemCompra ordem = new OrdemCompra(encomenda.getImporterName(),
+                            encomenda.getQuantity(),
+                            encomenda.getWillingPrice());
+
+                    System.out.println("[+] Updated a Negotiation with a new Order");
+                    n.getOrdens().add(ordem);
+                    handler.updateNegociacao(n);
+                }
+            }
+        }
+        else if(msg.hasArtigo())
+        {
+            System.out.println("[+] Got Add Artigo Message!");
+            Message.AddArtigoMessage artigo = msg.getArtigo();
+            Negociacao n = handler.criarNegociacao(artigo.getManufacturerName(), artigo.getProductName(),
+                    artigo.getMinimumQuantity(), artigo.getMaximumQuantity(), artigo.getUnitaryPrice(),
+                    artigo.getNegotiationTime());
+            handler.updateFabricante(n.getNome_fabricante(), n.getArtigo());
+        }
+
+    }
+}
+
 
 public class FrontEndHandler {
     private RESTClient rest;
@@ -32,10 +108,10 @@ public class FrontEndHandler {
     private List<Negociacao> negociacoes = new ArrayList<>();
     private Map<String, Fabricante> fabricantes = new HashMap<>();
 
-    private Socket socket;
-    private CodedInputStream cis;
-    private CodedOutputStream cos;
+    private List<CodedOutputStream> output_streams = new ArrayList<>();
     private ScheduledThreadPoolExecutor e;
+
+    private Map<String, FrontEndThread> users = new HashMap<>();
 
     public FrontEndHandler(int port, RESTClient rest) throws Exception
     {
@@ -51,64 +127,23 @@ public class FrontEndHandler {
     public void run() throws Exception
     {
         e = new ScheduledThreadPoolExecutor(1);
-
+        e.scheduleAtFixedRate(this::checkNegociacoesEmCurso, 15, 5, TimeUnit.SECONDS);
         negociacoes.clear();
-        socket = sockserver.accept();
-
-        cis = CodedInputStream.newInstance(socket.getInputStream());
-        cos = CodedOutputStream.newInstance(socket.getOutputStream());
-        System.out.println("[*] Front End Connected!");
-        e.scheduleAtFixedRate(this::checkNegociacoesEmCurso, 5, 5, TimeUnit.SECONDS);
-
-        while(true) {
-            handleRequests();
+        while(true)
+        {
+            Socket socket = sockserver.accept();
+            System.out.println("[*] Front End Connected for a new client!");
+            CodedInputStream cis = CodedInputStream.newInstance(socket.getInputStream());
+            CodedOutputStream cos = CodedOutputStream.newInstance(socket.getOutputStream());
+            output_streams.add(cos);
+            new Thread(
+                    new FrontEndThread(
+                            cis, cos, this)).start();
         }
 
     }
 
-    private void handleRequests() throws Exception {
-        int len = cis.readRawLittleEndian32();
-
-        System.out.println("[*] Message Length: " + len);
-        Message.GenericMessage msg = Message.GenericMessage.parseFrom(cis.readRawBytes(len));
-
-        System.out.println("[*] Got Message Type: " + msg.getType().toString());
-        if(msg.has)
-        {
-            System.out.println("[+] Got a Authentication Message!");
-
-        }
-        else if(msg.hasEncomenda())
-        {
-            System.out.println("[+] Got Add Encomenda Message!");
-            Message.AddEncomendaMessage encomenda = msg.getEncomenda();
-            for(Negociacao n : negociacoes)
-            {
-                if(n.getNome_fabricante().equals(encomenda.getManufacturer()) &&
-                        n.getArtigo().getNome().equals(encomenda.getProduct()))
-                {
-                    OrdemCompra ordem = new OrdemCompra(encomenda.getImporterName(),
-                            encomenda.getQuantity(),
-                            encomenda.getWillingPrice());
-
-                    System.out.println("[+] Updated a Negotiation with a new Order");
-                    n.getOrdens().add(ordem);
-                    updateNegociacao(n);
-                }
-            }
-        }
-        else if(msg.hasArtigo())
-        {
-            System.out.println("[+] Got Add Artigo Message!");
-            Message.AddArtigoMessage artigo = msg.getArtigo();
-            Negociacao n = criarNegociacao(artigo.getManufacturerName(), artigo.getProductName(),
-                    artigo.getMinimumQuantity(), artigo.getMaximumQuantity(), artigo.getUnitaryPrice(),
-                    artigo.getNegotiationTime());
-            updateFabricante(n.getNome_fabricante(), n.getArtigo());
-        }
-    }
-
-    private synchronized Negociacao criarNegociacao(String fabricante_nome,
+    public synchronized Negociacao criarNegociacao(String fabricante_nome,
                                                String nome_artigo, int min_quantity, int max_quantity,
                                                int preco_unitario, int tempo_negociacao) throws Exception
     {
@@ -129,12 +164,18 @@ public class FrontEndHandler {
         return n;
     }
 
-    private synchronized void updateNegociacao(Negociacao n)
+    public synchronized void updateNegociacao(Negociacao n) throws Exception
     {
+        System.out.println("[*] Updating negotiation");
+
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        String json = mapper.writeValueAsString(n);
+        System.out.println(json);
+
         rest.updateNegociacao(n);
     }
 
-    private synchronized void updateFabricante(String nome_fabricante, Artigo a)
+    public synchronized void updateFabricante(String nome_fabricante, Artigo a) throws Exception
     {
         Fabricante fab = fabricantes.get(nome_fabricante);
         if(fab == null)
@@ -142,6 +183,9 @@ public class FrontEndHandler {
 
         fab.getArtigos().add(a);
         fabricantes.put(nome_fabricante, fab);
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        String json = mapper.writeValueAsString(fab);
+        System.out.println(json);
         rest.updateFabricante(fab);
     }
 
@@ -156,18 +200,13 @@ public class FrontEndHandler {
         if(!vencedora.isPresent())
         {
             System.out.println("[!] Negotiation closed without enough quantity orders");
-            NegotiationReply.BaseReply.Builder reply = NegotiationReply.BaseReply.newBuilder();
-            reply.setType(NegotiationReply.BaseReply.ReplyType.CANCELATION);
-            reply.build().writeTo(cos);
-            cos.flush();
+            sendAllReply(NegotiationReply.BaseReply.ReplyType.CANCELATION);
         }
         else
         {
             OrdemCompra ordem = vencedora.get();
-            NegotiationReply.BaseReply.Builder reply = NegotiationReply.BaseReply.newBuilder();
-            reply.setType(NegotiationReply.BaseReply.ReplyType.SUCCESS);
-            reply.build().writeTo(cos);
-            cos.flush();
+            System.out.println("[!] Negotiation closed with a winner from: " + ordem.getNome_Importador());
+            sendAllReply(NegotiationReply.BaseReply.ReplyType.SUCCESS);
         }
         rest.deleteNegociacao(n);
         Fabricante fab = fabricantes.get(n.getNome_fabricante());
@@ -177,6 +216,26 @@ public class FrontEndHandler {
             rest.updateFabricante(fab);
         }
         i.remove();
+    }
+
+    public void sendAllReply(NegotiationReply.BaseReply.ReplyType type) throws Exception
+    {
+        protos.negotiation.NegotiationReply.BaseReply.Builder reply = protos.negotiation.NegotiationReply.BaseReply.newBuilder();
+        reply.setType(NegotiationReply.BaseReply.ReplyType.SUCCESS);
+        NegotiationReply.BaseReply reply_builded = reply.build();
+        for(CodedOutputStream cos : output_streams) {
+            reply_builded.writeTo(cos);
+            cos.flush();
+        }
+    }
+    public synchronized  List<Negociacao> getNegociacoes()
+    {
+        return this.negociacoes;
+    }
+
+    public synchronized void addFabricante(String nome)
+    {
+        rest.addFabricante(nome);
     }
 
     private synchronized void checkNegociacoesEmCurso()
@@ -202,6 +261,10 @@ public class FrontEndHandler {
                 }
             }
         }
+    }
 
+    public void registerUser(String username, FrontEndThread thread)
+    {
+        users.put(username, thread);
     }
 }

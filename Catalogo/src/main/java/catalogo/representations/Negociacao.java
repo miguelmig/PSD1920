@@ -11,8 +11,13 @@ import java.util.List;
 class OrdemCompra
 {
     @NotNull
+    @JsonProperty
     private String nome_importador;
+
+    @JsonProperty
     private int quantidade;
+
+    @JsonProperty
     private int preco_unitario;
 
     @JsonCreator
@@ -26,7 +31,7 @@ class OrdemCompra
     }
 
     @JsonProperty
-    public String getImportador() {
+    public String getNome_Importador() {
         return this.nome_importador;
     }
 

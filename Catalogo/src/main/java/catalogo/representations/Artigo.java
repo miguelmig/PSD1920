@@ -7,9 +7,13 @@ import javax.validation.constraints.NotNull;
 public class Artigo {
     @NotNull
     private final String nome;
+    @JsonProperty
     private final int quantidade_minima;
+    @JsonProperty
     private final int quantidade_maxima;
+    @JsonProperty
     private final int preco_minimo_unitario;
+    @JsonProperty
     private final int tempo_de_negociacao;
 
     @JsonCreator
