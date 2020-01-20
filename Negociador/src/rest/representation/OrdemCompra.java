@@ -8,8 +8,11 @@ import javax.validation.constraints.NotNull;
 public class OrdemCompra
 {
     @NotNull
+    @JsonProperty
     private String nome_importador;
+    @JsonProperty
     private int quantidade;
+    @JsonProperty
     private int preco_unitario;
 
     @JsonCreator
@@ -23,7 +26,7 @@ public class OrdemCompra
     }
 
     @JsonProperty
-    public String getNome_Importador() {
+    public String getNome_importador() {
         return this.nome_importador;
     }
 
@@ -33,7 +36,7 @@ public class OrdemCompra
     }
 
     @JsonProperty
-    public int getPrecoUnitario() {
+    public int getPreco_unitario() {
         return this.preco_unitario;
     }
 

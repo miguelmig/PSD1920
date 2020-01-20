@@ -38,6 +38,16 @@ class FrontEndThread implements Runnable
         this.handler = handler;
     }
 
+    public CodedOutputStream getOutputStream()
+    {
+        return this.cos;
+    }
+
+    public String getUsername()
+    {
+        return this.username;
+    }
+
     @Override
     public void run()
     {
@@ -49,6 +59,8 @@ class FrontEndThread implements Runnable
             catch(Exception e)
             {
                 System.err.println(e.getMessage());
+                this.handler.disconnected(this);
+                break;
             }
         }
     }
@@ -167,10 +179,11 @@ public class FrontEndHandler {
     public synchronized void updateNegociacao(Negociacao n) throws Exception
     {
         System.out.println("[*] Updating negotiation");
-
+        /*
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(n);
         System.out.println(json);
+        */
 
         rest.updateNegociacao(n);
     }
@@ -183,9 +196,11 @@ public class FrontEndHandler {
 
         fab.getArtigos().add(a);
         fabricantes.put(nome_fabricante, fab);
+        /*
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(fab);
         System.out.println(json);
+        */
         rest.updateFabricante(fab);
     }
 
@@ -195,18 +210,18 @@ public class FrontEndHandler {
         List<OrdemCompra> ordens = n.getOrdens();
         Optional<OrdemCompra> vencedora = ordens.stream()
                 .filter(o -> o.getQuantidade() > quantidade_minima)
-                .min((o1, o2) -> Integer.compare(o2.getPrecoUnitario() * o2.getQuantidade(),
-                        o1.getPrecoUnitario() * o1.getQuantidade()));
+                .min((o1, o2) -> Integer.compare(o2.getPreco_unitario() * o2.getQuantidade(),
+                        o1.getPreco_unitario() * o1.getQuantidade()));
         if(!vencedora.isPresent())
         {
             System.out.println("[!] Negotiation closed without enough quantity orders");
-            sendAllReply(NegotiationReply.BaseReply.ReplyType.CANCELATION);
+            sendReply(n, NegotiationReply.BaseReply.ReplyType.CANCELATION, null);
         }
         else
         {
             OrdemCompra ordem = vencedora.get();
-            System.out.println("[!] Negotiation closed with a winner from: " + ordem.getNome_Importador());
-            sendAllReply(NegotiationReply.BaseReply.ReplyType.SUCCESS);
+            System.out.println("[!] Negotiation closed with a winner from: " + ordem.getNome_importador());
+            sendReply(n, NegotiationReply.BaseReply.ReplyType.SUCCESS, ordem);
         }
         rest.deleteNegociacao(n);
         Fabricante fab = fabricantes.get(n.getNome_fabricante());
@@ -218,14 +233,71 @@ public class FrontEndHandler {
         i.remove();
     }
 
-    public void sendAllReply(NegotiationReply.BaseReply.ReplyType type) throws Exception
+
+    public void sendReply(Negociacao n,
+                          NegotiationReply.BaseReply.ReplyType type,
+                          OrdemCompra winner) throws Exception
     {
+        String fabricante = n.getNome_fabricante();
+        FrontEndThread thread = users.get(fabricante);
         protos.negotiation.NegotiationReply.BaseReply.Builder reply = protos.negotiation.NegotiationReply.BaseReply.newBuilder();
-        reply.setType(NegotiationReply.BaseReply.ReplyType.SUCCESS);
+        reply.setType(type);
         NegotiationReply.BaseReply reply_builded = reply.build();
-        for(CodedOutputStream cos : output_streams) {
-            reply_builded.writeTo(cos);
-            cos.flush();
+        if(thread != null)
+        {
+            System.out.println("[*]Sending " + type.toString() + " to manufacturer: " + fabricante);
+            CodedOutputStream output_stream = thread.getOutputStream();
+            reply_builded.writeTo(output_stream);
+            output_stream.flush();
+        }
+
+        if(type == NegotiationReply.BaseReply.ReplyType.SUCCESS)
+        {
+            // Let's only send success to the winner user.
+            String user = winner.getNome_importador();
+            FrontEndThread importador_thread = users.get(user);
+            if(importador_thread != null)
+            {
+                System.out.println("[*]Sending " + type.toString() + " to winner order: " + user);
+                CodedOutputStream output_stream = importador_thread.getOutputStream();
+                reply_builded.writeTo(output_stream);
+                output_stream.flush();
+            }
+            reply.setType(NegotiationReply.BaseReply.ReplyType.CANCELATION);
+            NegotiationReply.BaseReply cancelation = reply.build();
+            for(OrdemCompra ordem : n.getOrdens())
+            {
+                String importador = ordem.getNome_importador();
+                if(importador.equals(user))
+                    continue;
+
+                FrontEndThread t = users.get(importador);
+                if(t != null)
+                {
+                    System.out.println("[*]Sending " +
+                            NegotiationReply.BaseReply.ReplyType.CANCELATION.toString() + "" +
+                            " to non-winning order: " + importador);
+                    CodedOutputStream output_stream = t.getOutputStream();
+                    cancelation.writeTo(output_stream);
+                    output_stream.flush();
+                }
+            }
+        }
+        else {
+            // In case of cancelation, send cancelattion to all interested importers
+            for(OrdemCompra ordem : n.getOrdens())
+            {
+                String importador = ordem.getNome_importador();
+
+                FrontEndThread t = users.get(importador);
+                if(t != null)
+                {
+                    System.out.println("[*]Sending " + type.toString() + " to order: " + importador);
+                    CodedOutputStream output_stream = t.getOutputStream();
+                    reply_builded.writeTo(output_stream);
+                    output_stream.flush();
+                }
+            }
         }
     }
     public synchronized  List<Negociacao> getNegociacoes()
@@ -266,5 +338,13 @@ public class FrontEndHandler {
     public void registerUser(String username, FrontEndThread thread)
     {
         users.put(username, thread);
+    }
+
+    public void disconnected(FrontEndThread thread)
+    {
+        System.out.println("[-] User:" + (thread.getUsername() == null ? "No-login" : thread.getUsername())
+        + "disconnected!");
+        output_streams.remove(thread.getOutputStream());
+        users.values().removeIf(t -> t.getUsername().equals(thread.getUsername()));
     }
 }

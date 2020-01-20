@@ -31,7 +31,7 @@ class OrdemCompra
     }
 
     @JsonProperty
-    public String getNome_Importador() {
+    public String getNome_importador() {
         return this.nome_importador;
     }
 
@@ -41,7 +41,7 @@ class OrdemCompra
     }
 
     @JsonProperty
-    public int getPrecoUnitario() {
+    public int getPreco_unitario() {
         return this.preco_unitario;
     }
 
