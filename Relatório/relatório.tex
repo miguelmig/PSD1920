@@ -32,15 +32,40 @@
 \tableofcontents
 
 \chapter{Introdução}
+O seguinte relatório descreve o desenvolvimento do trabalho prático da UC de Paradigmas de Sistemas Distribuídos.
+
+O trabalho prático tem como objetivo aplicar os conhecimentos adquiridos nas aulas, mais nomeadamente protocolos de comunicação entre diferentes  (Java e Erlang)linguagens utilizando serviços de serialização como \textit{Protocol Buffers}, programação com atores, \textit{Message Oriented Middleware} e serviços REST.
+
 
 \chapter{Cliente}
 
 \chapter{Front-End}
 
-Na implementa
+O comportamento inicial do Front-End começa pela criação de um
+\textit{ListeningSocket} para aceitar ligações e um actor especial que 
+denominamos \textit{Login Manager} que comunica via mensagens nativas
+\textit{Erlang}, cuja função é validar credenciais recebidas. \\
+Quando é recebida uma ligação, é alocado um ator para se encarregar desta.
+Este pode ser dividido em 2 grandes fases - autenticado e não autenticado.
+Tudo o que um utilizador não autenticado pode fazer é realizar tentativas de
+autenticação. Por sua vez quando um utilizador é autenticado, este abre uma
+ligação a um \textbf{Negociador} e a partir deste ponto, simplesmente encaminha
+pedidos vindos do cliente para este. A comunicação usada entre
+o \textbf{Cliente} e o \textbf{Front-End} usa \textit{gpb}, uma implementação em
+\textit{Erlang} de \textit{Protobuffers}
+- \url{https://github.com/tomas-abrahamsson/gpb} - o qual apresenta um guia
+extenso em como usar o módulo
 
+ 
 \chapter{Negociador}
 
 \chapter{Catálogo}
+
+\chapter{Conclusão}
+
+Achamos que a solução proposta, responde aos vários problemas propostos no
+enunciado, quer a nível de uso das ferrametas usadas - \textit{ZeroMQ},
+\textit{REST}, \textit{Erlang} - como também ao nível das funcionalidades
+pedidas.
 
 \end{document}
