@@ -15,7 +15,7 @@
 \begin{document}
 
 \title{
-    Fundamentos de Sistemas Distribuídos\\
+    Paradigmas de Sistemas Distribuídos\\
     \textbf{\\Trabalho Prático}
     \large{\\Relatório de Desenvolvimento}
 }
@@ -38,7 +38,36 @@ O trabalho prático tem como objetivo aplicar os conhecimentos adquiridos nas au
 
 
 \chapter{Cliente}
+O cliente é a componente do sistema que interage com o utilizador, podendo desempenhar dois papéis: \textbf{Fabricante} e \textbf{Importador}, sendo que são disponibilizadas diferentes interfaces consoante estes papéis.
 
+
+
+\section{Fabricante}
+Um fabricante é um cliente que disponibiliza ofertas para a produção de artigos de uma determinada área, indicando o \textbf{nome do artigo}, \textbf{quantidades mínima e máxima}, \textbf{preço unitário} e \textbf{período de tempo} durante o qual um importador pode fazer ofertas.
+
+Um fabricante é criado da seguinte forma:
+
+\texttt{/client manufacturer @area}
+
+Onde \textit{manufacturer} é o campo que identifica que o cliente é um fabricante, e \textit{@area} é o nome da área em que é especialista (ex.: Tecnologia, Alimentação, etc).
+
+\section{Importador}
+Um importador é um cliente que demonstra interesse em certos fabricantes, podendo efetuar encomendas a artigos dos mesmos, indicando a \textbf{quantidade} desejada e o \textbf{preço unitário} que está disposto a pagar. Para além disto, pode demonstrar interesse em novos fabricantes.
+
+Um importador é criado da seguinte forma:
+
+\texttt{/client importer @area @m1 @m2 ...}
+
+Os primeiros 2 parâmetros são análogos ao que foi visto em cima. Os parâmetros \textit{@m} são os nomes dos fabricantes ao qual deseja subscrever (sendo que dentro da aplicação pode subscrever a novos).
+
+Tanto o importador como o fabricante devem ser sempre notificados acerca do resultado de uma negociação de uma encomenda.
+
+\section{Comunicação}
+
+O cliente comunica principalmente através de \textit{Protocol Buffers} com o servidor \textit{Front-end}. É através desta comunicação que é feita a autenticação no sistema, bem como o envio de ofertas e encomendas por parte dos fabricantes e importadores, respetivamente.
+
+Além disto, os clientes conseguem comunicar entre si através de \textit{sockets} do \texttt{ZeroMQ}, de forma a implementar um modelo \textit{publish-subscribe}.
+Este modelo permite que sempre que um fabricante publique uma oferta, os importadores interessados nessa oferta sejam notificados, de modo a poderem realizar uma encomenda.
 \chapter{Front-End}
 
 O comportamento inicial do Front-End começa pela criação de um
@@ -58,8 +87,54 @@ extenso em como usar o módulo.
 
  
 \chapter{Negociador}
+Esta componente é crucial nas operações de iniciar uma produção de um artigo e na adição de uma ordem de compra por parte de um importador.
+
+
+Adicionalmente, esta componente está responsável por enviar pedidos ao Cátalogo para reportar os registos de Fabricantes e quaisquer alterações relativas às Negociações em curso(como a adição de um pedido de encomenda de um Importador).
+
+\section{Diferenciação de Negociadores}
+Uma vez a necessidade de disponibilizar inúmeros artigos e portanto um elevado número de negociações em curso, optamos por separar as Negociações por Área, sendo cada Negociador responsável pelas negociações de uma certa Área.
+
+
+Deste modo, cada Negociador corre numa porta específica conhecida pelo \texttt{Front-End} que irá redirecionar os pedidos, consoante a Área do Fabricante, ou do Importador.
+
+\section{Notificações}
+Para poder disponibilizar a funcionalidade de \textbf{Notificações} o Negociador interage como um \texttt{Broker} na tecnologia \texttt{ZeroMQ}, num padrão \textbf{Publisher-Subscriber} cuja implementação está disponível na classe \texttt{NotificationBroker} que executa como um \texttt{Thread} independente neste processo.
+
+\section{Término de Negociações}
+
+Para poder implementar o término de uma negociação necessitamos de correr um temporizador que verificasse o estado de cada negociação em curso e comparasse o tempo atual com o tempo final de negociação.
+
+
+No fim do período de negociações de uma negociação, é verificado se a quantidade mínima de produtos imposta pelo Fabricante foi satisfeita, caso contrário, todas as partes interessadas(respetivo Fabricante, e todos os Importadores que registaram um pedido de encomenda) recebem uma mensagem a indicar que a oferta de produção foi cancelada.
+
+
+Se existir pelo menos uma ordem de encomenda cuja quantidade seja maior que a quantidade mínima necessária para produção, procuramos a oferta de encomenda que contém o maior valor(\texttt{quantidade * preco\_unitario}).
 
 \chapter{Catálogo}
+
+O Cátalogo é responsável por guardar a informação dos fabricantes e das negociações em curso e de disponibilizar uma interface \texttt{REST}(usando a \textit{framework} \texttt{Dropwizard}) para obter as informações relativas aos Fabricantes e às Negociações.
+
+
+Além de disponibilizar as operações de \texttt{GET} disponibilizamos também operações de \texttt{POST}, \texttt{PUT} e \texttt{DELETE} que só deverão ser usadas pelo \textbf{Negociador} para atualizar a informação do Catálogo.
+
+
+Criamos 2 recursos, \texttt{FabricanteResource} e \texttt{NegociacaoResource} que estão responsáveis por disponiblizar as operações necessárias.
+Para o correto funcionamento destes Recursos, necessitamos de implementar várias \textbf{Representações}, em formato \texttt{JSON}, que serão usadas para a troca de informação das operações.
+Implementamos então as seguintes representações:
+\begin{itemize}
+    \item \texttt{Fabricante} - Contém o nome do Fabricante, a lista dos seus \texttt{Artigos} disponíveis atualmente.
+    \item \texttt{Artigo} - Contém a informação que o Fabricante disponibiliza quando a oferta de produção de um artigo.
+    
+    Ou seja, o nome do Artigo, a quantidade mínima a ser produzida, a quantidade máxima, o preço mínimo unitário e o período tempo permitido para negociações.
+    
+    \item \texttt{Negociação} - Contém o nome do fabricante que disponibilizou o Artigo, o Artigo que irá ser produzido e a Lista de \texttt{OrdemCompra} que representa as ofertas de encomendas feitas por importadores relativo a este artigo.
+    
+    \item \texttt{OrdemCompra} - Contém o nome do importador que realizou a oferta de encomenda, a quantidade do produto que o importador deseja comprar, e o preço unitário que está disposto a pagar.
+\end{itemize}
+
+Uma vez que as operações aos Recursos podem ser concorrentes, necessitamos de aplicar algum controlo de concorrência nas operações relativas às estruturas de dados, o que concretizamos utilizando a \textit{keyword} do Java \texttt{synchronized} para assegurar atomicidade nas operações.
+
 
 \chapter{Conclusão}
 
@@ -67,6 +142,8 @@ Achamos que a solução proposta, responde aos vários problemas propostos no
 enunciado, quer a nível de uso de conceitos usados - \textit{ZeroMQ},
 \textit{REST}, \textit{Erlang} - como também ao nível das funcionalidades
 pedidas.
+
+
 Como trabalho futuro, poderiamos considerar a adesão de negociadores em
 \textit{run-time}, tópicos de subscrição mais extensos ou até uma interface
 gráfica para o cliente, de maneira a consolidar ainda mais o implementado.
