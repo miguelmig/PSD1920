@@ -343,7 +343,7 @@ public class FrontEndHandler {
     public void disconnected(FrontEndThread thread)
     {
         System.out.println("[-] User:" + (thread.getUsername() == null ? "No-login" : thread.getUsername())
-        + "disconnected!");
+        + " disconnected!");
         output_streams.remove(thread.getOutputStream());
         users.values().removeIf(t -> t.getUsername().equals(thread.getUsername()));
     }

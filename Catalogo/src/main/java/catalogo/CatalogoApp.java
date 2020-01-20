@@ -66,11 +66,17 @@ public class CatalogoApp extends Application<CatalogoConfiguration> {
         }
     }
 
-    public void addFabricante(String nome)
+    public boolean addFabricante(String nome)
     {
         synchronized (this.fabricantes)
         {
+            for(Fabricante fab : this.fabricantes)
+            {
+                if(fab.getNome().equals(nome))
+                    return false;
+            }
             fabricantes.add(new Fabricante(nome, new ArrayList<>()));
+            return true;
         }
     }
 

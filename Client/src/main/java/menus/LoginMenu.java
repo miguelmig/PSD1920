@@ -44,7 +44,7 @@ public class LoginMenu extends Menu {
 
             case LOGGED_IN:
                 System.out.println("Successfully logged in!");
-
+                Client.user.setUsername(username);
                 if (Client.user instanceof Importer) {
                     Menu menu = new IMainMenu();
                     Client.subscriber.start();

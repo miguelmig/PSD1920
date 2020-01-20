@@ -46,8 +46,9 @@ public class FabricanteResource {
     @POST
     @Path("/add/{nome}")
     public Response add(@PathParam("nome") @NotNull String nome) {
-        app.addFabricante(nome);
-        return Response.ok().build();
+        if(app.addFabricante(nome))
+            return Response.ok().build();
+        return Response.notModified().build();
     }
 
     @DELETE
