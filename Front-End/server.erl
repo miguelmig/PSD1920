@@ -230,9 +230,6 @@ client_autenticated(CS, SS, Msg) ->
 %% SS - Server Socket
 %%
 client_loop(CS, SS) ->
-  read_write_simultaneo(CS, SS).
-
-read_write_simultaneo(CS, SS) ->
   receive
     {tcp, CS, Data} ->
       io:format("[Client] Request Sent~n", [ ]),
