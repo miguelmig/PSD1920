@@ -9,6 +9,7 @@ public class IMainMenu extends Menu {
     public void display() {
         System.out.println("----- IMPORTER MAIN MENU -----");
         System.out.println("1. Send order.");
+        System.out.println("2. Subscribe to manufacturer.");
     }
 
     @Override
@@ -16,12 +17,21 @@ public class IMainMenu extends Menu {
         Scanner s = new Scanner(System.in);
 
         int choice = s.nextInt();
-        if (choice == 1) {
-            Menu orderMenu = new OrderMenu();
-            orderMenu.run();
-        } else {
-            System.out.println("Invalid input.");
-            this.run();
+        switch (choice) {
+            case 1:
+                Menu orderMenu = new OrderMenu();
+                orderMenu.run();
+                break;
+
+            case 2:
+                Menu subscribeMenu = new SubscribeMenu();
+                subscribeMenu.run();
+                break;
+
+            default:
+                System.out.println("Invalid input.");
+                this.run();
+                break;
         }
     }
 }

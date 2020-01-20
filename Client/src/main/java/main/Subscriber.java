@@ -37,18 +37,25 @@ public class Subscriber extends Thread {
                 break;
         }
         this.subscriptions = topics;
+
+        for (String topic : subscriptions) {
+            socket.subscribe(topic);
+        }
+    }
+
+    public void addSubscription(String topic) {
+        subscriptions.add(topic);
+        socket.subscribe(topic);
     }
 
     public void run() {
 
         System.out.println("Subscriber running");
-        for (String topic : subscriptions) {
-            socket.subscribe(topic);
-        }
 
         while (true) {
             byte[] b = socket.recv();
             System.out.println("Recebi: " + new String(b));
         }
+
     }
 }
