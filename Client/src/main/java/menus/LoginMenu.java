@@ -48,9 +48,11 @@ public class LoginMenu extends Menu {
                 if (Client.user instanceof Importer) {
                     Menu menu = new IMainMenu();
                     Client.subscriber.start();
+                    Client.listener.start();
                     menu.run();
                 } else {
                     Menu menu = new MMainMenu();
+                    Client.listener.start();
                     menu.run();
                 }
                 break;
