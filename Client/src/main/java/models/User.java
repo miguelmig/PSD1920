@@ -41,6 +41,4 @@ public class User {
     public void setArea(String area) {
         this.area = area;
     }
-
-
 }

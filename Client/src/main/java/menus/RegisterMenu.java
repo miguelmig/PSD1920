@@ -1,6 +1,7 @@
 package menus;
 
 import main.Client;
+import main.Listener;
 import models.Importer;
 import protos.authentication.AuthenticationReply;
 import protos.message.Message;
@@ -49,6 +50,8 @@ public class RegisterMenu extends Menu {
 
                 if (Client.user instanceof Importer) {
                     Menu menu = new IMainMenu();
+                    Client.subscriber.start();
+                    Client.listener.start();
                     menu.run();
                 } else {
                     Menu menu = new MMainMenu();

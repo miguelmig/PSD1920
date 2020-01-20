@@ -22,6 +22,7 @@ public class Client {
 
     public static Publisher publisher;
     public static Subscriber subscriber;
+    public static Listener listener;
 
     private static CodedInputStream cis;
     private static CodedOutputStream cos;
@@ -64,6 +65,7 @@ public class Client {
                 user = new Importer();
                 user.setArea(area);
                 subscriber = new Subscriber(area, topics);
+                listener = new Listener(cis);
                 break;
 
             case "manufacturer":
