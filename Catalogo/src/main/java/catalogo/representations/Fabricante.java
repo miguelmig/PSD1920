@@ -8,8 +8,10 @@ import java.util.List;
 
 public class Fabricante {
     @NotNull
+    @JsonProperty
     private String nome;
 
+    @JsonProperty
     private List<Artigo> artigos;
 
     @JsonCreator
